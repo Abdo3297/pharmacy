@@ -1,0 +1,69 @@
+body {
+
+    background-color: #2a7d81;
+    font-family: 'Roboto Slab';
+}
+
+
+.body {
+    background-color: white;
+    width: 500px;
+    height: 400px;
+    margin: auto;
+    position: relative;
+    top: 110px;
+    border-radius: 6px;
+    box-shadow: 2px 2px 12px #00000024;
+}
+
+.logo {
+    display: flex;
+    padding: 16px 0 0 15px;
+    align-items: stretch;
+}
+
+.logo img {
+    width: 50px;
+    height: 50px;
+}
+
+.username {
+    position: relative;
+    top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.UserName {
+    font-weight: bold;
+    font-size: 21px;
+    margin-bottom: 4px;
+    color: #2a7d81;
+}
+
+.code {
+    width: 189px;
+    height: 27px;
+    color: green;
+    text-align: center;
+    padding-top: 8px;
+    border-radius: 5px;
+    background-color: #cdf7cd;
+}
+
+.text1 {
+    font-size: 13px;
+    margin-bottom: -5px;
+    margin: 22px 0 -2px 0
+}
+
+.text2 {
+    font-size: 14px;
+}
+
+.note {
+    font-size: 15PX;
+    color: #f13737;
+}
