@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Notifications\NewUserNotification;
+use Filament\Notifications\Events\DatabaseNotificationsSent;
 use Ichtrojan\Otp\Otp;
 use App\Mail\sendOTPMail;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ use App\Http\Requests\Api\loginPhoneRequest;
 use App\Http\Requests\Api\resetPasswordRequest;
 use App\Http\Requests\Api\updateProfileRequest;
 use App\Http\Requests\Api\changePasswordRequest;
+
 // use Filament\Notifications\Notification;
 
 class AuthenticationController extends Controller
@@ -38,7 +40,7 @@ class AuthenticationController extends Controller
             ->iconColor('primary')
             ->title('New User In Your Pharmacy')
             ->body('Name : ' . $user->name . ' & Email : ' . $user->email)
-            ->sendToDatabase(User::where("is_admin", true)->first());
+            ->broadcast(User::where("is_admin", true)->first());
         return ResponseHelper::finalResponse(
             'new user created successfully , check your email',
             UserResource::make($user),
@@ -248,7 +250,7 @@ class AuthenticationController extends Controller
             ->iconColor('danger')
             ->title('User Leaved Your Pharmacy')
             ->body('Name : ' . $user->name . ' & Email : ' . $user->email . ' & Phone : ' . $user->phone)
-            ->sendToDatabase(User::where("is_admin", true)->first());
+            ->broadcast(User::where("is_admin", true)->first());
         return ResponseHelper::finalResponse(
             'account deleted successfully',
             null,
