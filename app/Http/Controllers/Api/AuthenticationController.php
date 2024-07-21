@@ -34,13 +34,15 @@ class AuthenticationController extends Controller
     {
         $data = $request->validated();
         $user = User::create($data);
+        $admin = User::where("is_admin", true)->first();
         \Illuminate\Support\Facades\Notification::send($user, new NewUserNotification($user));
         \Filament\Notifications\Notification::make()
-            ->icon('heroicon-o-user-plus')
+            ->icon('fas-user-plus')
             ->iconColor('primary')
             ->title('New User In Your Pharmacy')
             ->body('Name : ' . $user->name . ' & Email : ' . $user->email)
-            ->broadcast(User::where("is_admin", true)->first());
+            ->sendToDatabase($admin);
+        event(new DatabaseNotificationsSent($admin));
         return ResponseHelper::finalResponse(
             'new user created successfully , check your email',
             UserResource::make($user),
@@ -243,14 +245,16 @@ class AuthenticationController extends Controller
     public function deleteProfile()
     {
         $user = User::find(auth()->user()->id);
+        $admin = User::where("is_admin", true)->first();
         $user->tokens()->delete();
         $user->delete();
         \Filament\Notifications\Notification::make()
-            ->icon('heroicon-o-user-minus')
+            ->icon('fas-user-minus')
             ->iconColor('danger')
             ->title('User Leaved Your Pharmacy')
             ->body('Name : ' . $user->name . ' & Email : ' . $user->email . ' & Phone : ' . $user->phone)
-            ->broadcast(User::where("is_admin", true)->first());
+            ->sendToDatabase($admin);
+        event(new DatabaseNotificationsSent($admin));
         return ResponseHelper::finalResponse(
             'account deleted successfully',
             null,

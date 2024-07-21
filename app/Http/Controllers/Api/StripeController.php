@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
+use Filament\Notifications\Events\DatabaseNotificationsSent;
 
 class StripeController extends Controller
 {
@@ -69,9 +70,14 @@ class StripeController extends Controller
                     // send Notification to admin
                     $product->refresh();
                     if ($product->stock <= $product->alert) {
+                        $admin = User::where("is_admin", true)->first();
                         \Filament\Notifications\Notification::make()
-                            ->title('The product ' . $product->name . ' is near to finish.')
-                            ->sendToDatabase(User::where('is_admin', true)->first());
+                            ->icon('fas-clock')
+                            ->iconColor('warning')
+                            ->title('Product is near to finish.')
+                            ->body('Name : ' . $product->name)
+                            ->sendToDatabase($admin);
+                        event(new DatabaseNotificationsSent($admin));
                     }
                     // send Notification to admin
                 }
