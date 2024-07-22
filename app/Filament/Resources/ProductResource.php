@@ -97,7 +97,7 @@ class ProductResource extends Resource
                                 ->relationship('categories', 'name')
                                 ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
                                 ->multiple()
-                                ->required()
+                                // ->required()
                                 ->preload()
                                 ->searchable()
                                 ->hintAction(
@@ -118,7 +118,7 @@ class ProductResource extends Resource
                         ->schema([
                             Select::make('sideEffects')
                                 ->label('Side Effects')
-                                ->required()
+                                // ->required()
                                 ->multiple()
                                 ->preload()
                                 ->searchable()
@@ -139,7 +139,7 @@ class ProductResource extends Resource
                         ->schema([
                             Select::make('indications')
                                 ->label('Indications')
-                                ->required()
+                                // ->required()
                                 ->multiple()
                                 ->preload()
                                 ->searchable()
