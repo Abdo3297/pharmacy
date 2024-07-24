@@ -12,16 +12,13 @@ use Illuminate\Notifications\Messages\MailMessage;
 class ContactUsNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    protected $user;
-    protected $data;
+    public $data;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(User $user, $data)
+    public function __construct(public User $user, $data)
     {
-        $this->user = $user;
         $this->data = $data;
     }
 
@@ -49,17 +46,5 @@ class ContactUsNotification extends Notification implements ShouldQueue
                 'complaintMessage' => $this->data['message'],
                 'logoUrl' => $logoUrl,
             ]);
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
-    {
-        return [
-            //
-        ];
     }
 }

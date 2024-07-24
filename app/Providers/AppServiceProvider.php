@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Chat;
+use App\Models\User;
+use App\Models\Order;
 use App\Models\Product;
 use Filament\Pages\Page;
+use App\Observers\ChatObserver;
+use App\Observers\UserObserver;
+use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;
 use Illuminate\Support\ServiceProvider;
 use Filament\Notifications\Notification;
@@ -17,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // make telescope local only
+        /* make telescope local only */
         if ($this->app->environment('local')) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
@@ -29,7 +35,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /* Observers */
+        User::observe(UserObserver::class);
         Product::observe(ProductObserver::class);
+        Order::observe(OrderObserver::class);
+        Chat::observe(ChatObserver::class);
+        
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch
                 ->locales(['ar', 'en'])

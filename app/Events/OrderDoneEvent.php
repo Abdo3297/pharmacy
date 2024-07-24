@@ -2,17 +2,16 @@
 
 namespace App\Events;
 
-use App\Models\User;
-use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
-class NewProductAddEvent implements ShouldBroadcast
+class OrderDoneEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,9 +19,9 @@ class NewProductAddEvent implements ShouldBroadcast
      * Create a new event instance.
      */
     public $message;
-    public function __construct(public Product $product)
+    public function __construct(public Order $order)
     {
-        $this->message = 'New Product Added Called: ' . $this->product->name;
+        $this->message = 'Order Done , ID : ' . $this->order->payment_id . ' , Total Amount : ' . $this->order->total_amount;
     }
 
     /**

@@ -67,26 +67,6 @@ class StripeController extends Controller
                 $order->update($data);
                 foreach ($order->products as $product) {
                     $product->decrement('stock', $product->pivot->quantity);
-                    $product->refresh();
-                    $admin = User::where("is_admin", true)->first();
-                    /* send notification that order done */
-                    \Filament\Notifications\Notification::make()
-                        ->icon('fas-cart-shopping')
-                        ->iconColor('success')
-                        ->title('New Order Done')
-                        ->body('ID of order : ' . $response['id'])
-                        ->sendToDatabase($admin);
-                    event(new DatabaseNotificationsSent($admin));
-                    /* send notification that stock decrease */
-                    if ($product->stock <= $product->alert) {
-                        \Filament\Notifications\Notification::make()
-                            ->icon('fas-clock')
-                            ->iconColor('warning')
-                            ->title('Product is near to finish.')
-                            ->body('Name : ' . $product->name)
-                            ->sendToDatabase($admin);
-                        event(new DatabaseNotificationsSent($admin));
-                    }
                 }
                 return ResponseHelper::finalResponse(
                     'Payment Done',

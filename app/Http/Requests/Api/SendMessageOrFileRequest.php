@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
 
@@ -33,8 +34,10 @@ class SendMessageOrFileRequest extends customRequest
 
     protected function prepareForValidation()
     {
+        $receiver = User::where('is_admin',true)->first();
         $this->merge([
             'sender_id' => auth()->user()->id,
+            'receiver_id' => $receiver->id,
         ]);
     }
     public function withValidator(Validator $validator)

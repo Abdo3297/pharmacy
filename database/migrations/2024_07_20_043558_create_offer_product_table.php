@@ -20,6 +20,7 @@ return new class extends Migration
                 ->cascadeOnUpdate();
             $table
                 ->foreignId('product_id')
+                ->unique()
                 ->constrained('products')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();

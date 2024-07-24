@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Chat extends Model implements HasMedia
 {
@@ -26,11 +27,11 @@ class Chat extends Model implements HasMedia
         'message',
     ];
     ## relationships ##
-    public function sender()
+    public function sender(): BelongsTo
     {
         return $this->belongsTo(User::class, 'sender_id');
     }
-    public function receiver()
+    public function receiver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'receiver_id');
     }

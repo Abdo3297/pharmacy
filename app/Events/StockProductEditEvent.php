@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use App\Models\Product;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -12,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NewProductAddEvent implements ShouldBroadcast
+class StockProductEditEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -22,7 +21,7 @@ class NewProductAddEvent implements ShouldBroadcast
     public $message;
     public function __construct(public Product $product)
     {
-        $this->message = 'New Product Added Called: ' . $this->product->name;
+        $this->message = 'Stock Of Product ' . $this->product->name . ' Edited';
     }
 
     /**

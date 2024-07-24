@@ -4,19 +4,20 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Carbon\Carbon;
+use Filament\Panel;
+use App\Models\Chat;
 use App\Models\Order;
 use App\Models\Product;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
 
 class User extends Authenticatable implements HasMedia, FilamentUser
 {
@@ -60,6 +61,10 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Chat::class);
     }
     ## scopes ##
     ## accessors and mutators ##

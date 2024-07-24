@@ -13,15 +13,11 @@ use Illuminate\Notifications\Messages\MailMessage;
 class NewUserNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    protected $user;
-
     /**
      * Create a new notification instance.
      */
-    public function __construct(User $user)
+    public function __construct(public User $user)
     {
-        $this->user = $user;
     }
 
     /**
@@ -54,17 +50,5 @@ class NewUserNotification extends Notification implements ShouldQueue
                 'valid' => $otpValidity,
                 'logoUrl' => $logoUrl,
             ]);
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
-    {
-        return [
-            //
-        ];
     }
 }

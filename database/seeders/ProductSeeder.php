@@ -69,9 +69,9 @@ class ProductSeeder extends Seeder
             // Attach random indications
             $indications = Indication::inRandomOrder()->take(rand(1, 5))->pluck('id');
             $product->indications()->sync($indications);
-            // Attach random offers
-            $indications = Offer::inRandomOrder()->take(rand(1, 5))->pluck('id');
-            $product->offers()->sync($indications);
+            // Attach random offer
+            $offer = Offer::inRandomOrder()->first();
+            $product->offers()->sync([$offer->id]);
         }
     }
 }

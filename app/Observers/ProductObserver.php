@@ -2,11 +2,14 @@
 
 namespace App\Observers;
 
-use App\Events\NewProductAddEvent;
-use App\Models\Product;
 use App\Models\User;
-use App\Notifications\NewProductAddNotification;
+use App\Models\Product;
+use App\Events\NewProductAddEvent;
+use App\Events\StockProductEditEvent;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewProductAddNotification;
+use App\Notifications\ProducStockEditAddNotification;
+use Filament\Notifications\Events\DatabaseNotificationsSent;
 
 class ProductObserver
 {
@@ -15,6 +18,7 @@ class ProductObserver
      */
     public function created(Product $product): void
     {
+        /* send notification to all user that new product added */
         $users = User::where('is_admin', false)->get();
         foreach ($users as $user) {
             Notification::send($user, new NewProductAddNotification($product));
@@ -27,7 +31,25 @@ class ProductObserver
      */
     public function updated(Product $product): void
     {
-        //
+        /* send notification to admin that stock decrease */
+        $admin = User::where("is_admin", true)->first();
+        if ($product->stock <= $product->alert) {
+            \Filament\Notifications\Notification::make()
+                ->icon('fas-clock')
+                ->iconColor('warning')
+                ->title('Product is near to finish.')
+                ->body('Name : ' . $product->name)
+                ->sendToDatabase($admin);
+            event(new DatabaseNotificationsSent($admin));
+        }
+        /* send notification to all user that stock product edited */
+        if ($product->stock > $product->alert) {
+            $users = User::where('is_admin', false)->get();
+            foreach ($users as $user) {
+                Notification::send($user, new ProducStockEditAddNotification($product));
+                event(new StockProductEditEvent($product));
+            }
+        }
     }
 
     /**
