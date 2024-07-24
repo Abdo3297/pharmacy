@@ -67,10 +67,18 @@ class StripeController extends Controller
                 $order->update($data);
                 foreach ($order->products as $product) {
                     $product->decrement('stock', $product->pivot->quantity);
-                    // send Notification to admin
                     $product->refresh();
+                    $admin = User::where("is_admin", true)->first();
+                    /* send notification that order done */
+                    \Filament\Notifications\Notification::make()
+                        ->icon('fas-cart-shopping')
+                        ->iconColor('success')
+                        ->title('New Order Done')
+                        ->body('ID of order : ' . $response['id'])
+                        ->sendToDatabase($admin);
+                    event(new DatabaseNotificationsSent($admin));
+                    /* send notification that stock decrease */
                     if ($product->stock <= $product->alert) {
-                        $admin = User::where("is_admin", true)->first();
                         \Filament\Notifications\Notification::make()
                             ->icon('fas-clock')
                             ->iconColor('warning')
@@ -79,7 +87,6 @@ class StripeController extends Controller
                             ->sendToDatabase($admin);
                         event(new DatabaseNotificationsSent($admin));
                     }
-                    // send Notification to admin
                 }
                 return ResponseHelper::finalResponse(
                     'Payment Done',

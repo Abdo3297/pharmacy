@@ -4,12 +4,12 @@ namespace App\Notifications;
 
 use App\Models\Product;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class NewProductNotification extends Notification implements ShouldQueue
+class NewProductAddNotification extends Notification implements ShouldQueue
 {
-
     use Queueable;
 
     /**
@@ -30,10 +30,16 @@ class NewProductNotification extends Notification implements ShouldQueue
         return ['database'];
     }
 
+    /**
+     * Get the array representation of the notification.
+     *
+     * @return array<string, mixed>
+     */
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'New Product Added called ' . $this->product->name,
+            'id' => $this->id,
+            'message' => 'New Product Added Called : ' . $this->product->name,
         ];
     }
 }

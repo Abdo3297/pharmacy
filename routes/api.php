@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FavouriteController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\AuthenticationController;
 
 ############################################################################################
@@ -56,7 +57,7 @@ Route::middleware(['appLang'])
         Route::get('/getProductList', 'index');
         Route::get('/getProductDetails/{id}', 'show');
     });
-Route::middleware(['appLang','auth:sanctum'])
+Route::middleware(['appLang', 'auth:sanctum'])
     ->controller(ProductController::class)
     ->group(function () {
         Route::post('/suggestsForYou', 'suggestsForYou');
@@ -166,3 +167,12 @@ Route::middleware(['auth:sanctum', 'appLang'])
     });
 ############################################################################################
 ############################################################################################
+/* Notification Module */
+Route::middleware(['auth:sanctum'])
+    ->controller(NotificationController::class)
+    ->group(function () {
+        Route::post('/markAllNotificationsAsRead', 'markAllNotificationsAsRead');
+        Route::post('/markNotificationAsRead/{id}', 'markNotificationAsRead');
+        Route::post('/clearAllNotifications', 'clearAllNotifications');
+        Route::post('/clearNotification/{id}', 'clearNotification');
+    });

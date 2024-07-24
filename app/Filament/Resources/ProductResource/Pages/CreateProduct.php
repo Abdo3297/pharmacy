@@ -2,14 +2,10 @@
 
 namespace App\Filament\Resources\ProductResource\Pages;
 
-use App\Events\NewProductEvent;
-use App\Models\User;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\ProductResource;
-use App\Notifications\NewProductNotification;
-use Illuminate\Support\Facades\Notification as FacadeNoti;
 
 class CreateProduct extends CreateRecord
 {
@@ -32,12 +28,5 @@ class CreateProduct extends CreateRecord
             ->title('Product created')
             ->body('The Product has been created successfully.');
     }
-    protected function afterCreate(): void
-    {
-        $users = User::where('is_admin',false)->get();
-        foreach($users as $user){
-            FacadeNoti::send($user,new NewProductNotification($this->record));
-            event(new NewProductEvent($user));
-        }
-    }
+    
 }
