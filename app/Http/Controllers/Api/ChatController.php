@@ -6,6 +6,9 @@ use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
+use App\Events\SendMessageEvent;
+use App\Events\DeleteMessageEvent;
+use App\Events\UpdateMessageEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\ChatResource;
 use App\Http\Requests\Api\SendMessageOrFileRequest;
@@ -81,7 +84,9 @@ class ChatController extends Controller
             });
         }
         $chat->load('media');
-        $chat->broadcastChannel();
+        event(new SendMessageEvent($chat->message, $chat->getMedia('chat')->map(function ($media) {
+            return $media->getUrl();
+        })->toArray()));
         return ResponseHelper::finalResponse(
             'message sent successfully',
             ChatResource::make($chat),
@@ -106,6 +111,7 @@ class ChatController extends Controller
             return ResponseHelper::finalResponse('You can\'t update in file', null, true, Response::HTTP_OK);
         }
         $chat->update($data);
+        event(new UpdateMessageEvent($chat->id, $chat->message));
         return ResponseHelper::finalResponse(
             'Message updated successfully',
             ChatResource::make($chat),
@@ -136,6 +142,7 @@ class ChatController extends Controller
         })->find($id);
         if ($chat) {
             $chat->delete();
+            event(new DeleteMessageEvent($chat->id));
             return ResponseHelper::finalResponse(
                 'data deleted successfully',
                 null,

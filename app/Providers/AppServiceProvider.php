@@ -36,10 +36,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         /* Observers */
-        User::observe(UserObserver::class);
         Product::observe(ProductObserver::class);
         Order::observe(OrderObserver::class);
-        Chat::observe(ChatObserver::class);
         
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch

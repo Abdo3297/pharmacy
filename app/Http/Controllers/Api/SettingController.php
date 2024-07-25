@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Models\Pharmacy;
-use App\Jobs\contactUsJob;
 use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\App;

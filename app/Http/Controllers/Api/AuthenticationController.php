@@ -6,27 +6,21 @@ use App\Models\User;
 use App\Notifications\NewUserNotification;
 use Filament\Notifications\Events\DatabaseNotificationsSent;
 use Ichtrojan\Otp\Otp;
-use App\Mail\sendOTPMail;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use App\Jobs\newUserRegisterTokenJob;
 use App\Http\Resources\Api\UserResource;
 use App\Http\Requests\Api\checkOTPRequest;
 use App\Http\Requests\Api\registerRequest;
 use App\Http\Requests\Api\resendOTPRequest;
 use App\Http\Requests\Api\loginEmailRequest;
 use App\Http\Requests\Api\loginPhoneRequest;
-// use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\Api\resetPasswordRequest;
 use App\Http\Requests\Api\updateProfileRequest;
 use App\Http\Requests\Api\changePasswordRequest;
-
-// use Filament\Notifications\Notification;
 
 class AuthenticationController extends Controller
 {
@@ -34,6 +28,17 @@ class AuthenticationController extends Controller
     {
         $data = $request->validated();
         $user = User::create($data);
+        /* send OTP mail notification to user */
+        \Illuminate\Support\Facades\Notification::send($user, new NewUserNotification($user));
+        /* send notification to admin that new user come */
+        $admin = User::where("is_admin", true)->first();
+        \Filament\Notifications\Notification::make()
+            ->icon('fas-user-plus')
+            ->iconColor('primary')
+            ->title('New User In Your Pharmacy')
+            ->body('Name : ' . $user->name . ' & Email : ' . $user->email)
+            ->sendToDatabase($admin);
+        event(new DatabaseNotificationsSent($admin));
         return ResponseHelper::finalResponse(
             'new user created successfully , check your email',
             UserResource::make($user),
@@ -238,6 +243,15 @@ class AuthenticationController extends Controller
         $user = User::find(auth()->user()->id);
         $user->tokens()->delete();
         $user->delete();
+        /* send notification to admin that user leave */
+        $admin = User::where("is_admin", true)->first();
+        \Filament\Notifications\Notification::make()
+            ->icon('fas-user-minus')
+            ->iconColor('danger')
+            ->title('User Leaved Your Pharmacy')
+            ->body('Name : ' . $user->name . ' & Email : ' . $user->email . ' & Phone : ' . $user->phone)
+            ->sendToDatabase($admin);
+        event(new DatabaseNotificationsSent($admin));
         return ResponseHelper::finalResponse(
             'account deleted successfully',
             null,
