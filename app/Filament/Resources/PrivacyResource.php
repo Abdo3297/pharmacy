@@ -26,7 +26,6 @@ class PrivacyResource extends Resource
     protected static ?string $model = Privacy::class;
 
     protected static ?string $navigationIcon = 'fas-lock';
-    protected static ?string $navigationGroup = 'Settings';
     protected static ?int $navigationSort = 11;
 
     public static function form(Form $form): Form

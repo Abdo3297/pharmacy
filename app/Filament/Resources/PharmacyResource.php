@@ -27,7 +27,6 @@ class PharmacyResource extends Resource
     protected static ?string $model = Pharmacy::class;
 
     protected static ?string $navigationIcon = 'fas-truck-medical';
-    protected static ?string $navigationGroup = 'Settings';
     protected static ?int $navigationSort = 8;
 
     public static function form(Form $form): Form

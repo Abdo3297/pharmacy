@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use ZipArchive;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -10,15 +11,21 @@ use App\Events\SendMessageEvent;
 use App\Events\DeleteMessageEvent;
 use App\Events\UpdateMessageEvent;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Api\ChatResource;
+use JaOcero\FilaChat\Models\FilaChatMessage;
+use App\Http\Requests\Api\SendMessageRequest;
+use JaOcero\FilaChat\Events\FilaChatMessageEvent;
+use JaOcero\FilaChat\Models\FilaChatConversation;
 use App\Http\Requests\Api\SendMessageOrFileRequest;
 use App\Http\Requests\Api\UpdateMessageOrFileRequest;
+use JaOcero\FilaChat\Events\FilaChatMessageReadEvent;
 
 class ChatController extends Controller
 {
     public function loadChat()
     {
-        $user = User::whereId(auth()->user()->id)->first();
+        $user = auth()->user();
         if ($user->is_admin) {
             return ResponseHelper::finalResponse(
                 "You can't chat with yourself",
@@ -27,18 +34,26 @@ class ChatController extends Controller
                 Response::HTTP_OK
             );
         }
-        $chats = Chat::with('media')
-            ->where(function ($query) use ($user) {
-                $query->where(function ($q) use ($user) {
-                    $q->where('sender_id', $user->id)->whereHas('receiver', function ($q) {
-                        $q->where('is_admin', true);
-                    });
-                })->orWhere(function ($q) use ($user) {
-                    $q->where('receiver_id', $user->id)->whereHas('sender', function ($q) {
-                        $q->where('is_admin', true);
-                    });
-                });
-            })
+        $receiver = User::where('is_admin', 1)->first();
+        $conversation = FilaChatConversation::where(function ($query) use ($user, $receiver) {
+            $query->where(function ($q) use ($user, $receiver) {
+                $q->where('senderable_id', $user->id)
+                    ->where('receiverable_id', $receiver->id);
+            })->orWhere(function ($q) use ($user, $receiver) {
+                $q->where('senderable_id', $receiver->id)
+                    ->where('receiverable_id', $user->id);
+            });
+        })->first();
+        if (!$conversation) {
+            return ResponseHelper::finalResponse(
+                'No conversation found',
+                null,
+                true,
+                Response::HTTP_OK
+            );
+        }
+        $chats = FilaChatMessage::
+            where('filachat_conversation_id', $conversation->id)
             ->orderBy('created_at', 'asc')
             ->get();
         return ResponseHelper::finalResponse(
@@ -48,110 +63,148 @@ class ChatController extends Controller
             Response::HTTP_OK
         );
     }
-    public function sendMessageOrFiles(SendMessageOrFileRequest $request)
+    public function sendMessage(SendMessageRequest $request)
     {
-        $data = $request->validated();
-        if ($data['sender_id'] == $data['receiver_id']) {
-            return ResponseHelper::finalResponse(
-                'Sender ID must not be the same as Receiver ID.',
-                null,
-                true,
-                Response::HTTP_OK
-            );
-        }
-        $senderIsAdmin = User::where('id', $data['sender_id'])->value('is_admin');
-        $receiverIsAdmin = User::where('id', $data['receiver_id'])->value('is_admin');
-        if (!$senderIsAdmin && !$receiverIsAdmin) {
-            return ResponseHelper::finalResponse(
-                'Either Sender or Receiver must be an admin.',
-                null,
-                true,
-                Response::HTTP_OK
-            );
-        }
-        if ($senderIsAdmin && $receiverIsAdmin) {
-            return ResponseHelper::finalResponse(
-                'Both Sender and Receiver cannot be admins.',
-                null,
-                true,
-                Response::HTTP_OK
-            );
-        }
-        $chat = Chat::create($data);
-        if ($request->hasFile('file')) {
-            $chat->addMultipleMediaFromRequest(['file'])->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('chat');
-            });
-        }
-        $chat->load('media');
-        event(new SendMessageEvent($chat->message, $chat->getMedia('chat')->map(function ($media) {
-            return $media->getUrl();
-        })->toArray()));
+        $sender = auth()->user();
+        $receiver = User::where('is_admin', 1)->first();
+
+        $filachat_conversation = FilaChatConversation::where(function ($query) use ($sender, $receiver) {
+            $query->where('senderable_id', $sender->id)
+                ->orWhere('senderable_id', $receiver->id);
+        })->where(function ($query) use ($sender, $receiver) {
+            $query->where('receiverable_id', $sender->id)
+                ->orWhere('receiverable_id', $receiver->id);
+        })->first();
+
+        $newMessage = FilaChatMessage::query()->create([
+            'filachat_conversation_id' => $filachat_conversation->id,
+            'message' => $request->message ?? null,
+            'attachments' => count($request->storedAttachments) > 0 ? $request->storedAttachments : null,
+            'original_attachment_file_names' => count($request->originalAttachmentFileNames) > 0 ? $request->originalAttachmentFileNames : null,
+            'senderable_id' => $sender->id,
+            'senderable_type' => $sender::class,
+            'receiverable_id' => $receiver->id,
+            'receiverable_type' => $receiver::class,
+        ]);
+
+        broadcast(
+            new FilaChatMessageEvent(
+                $filachat_conversation->id,
+                $newMessage->id,
+                $receiver->id,
+                $sender->id,
+            )
+        );
+
         return ResponseHelper::finalResponse(
-            'message sent successfully',
-            ChatResource::make($chat),
+            'message created successfully',
+            ChatResource::make($newMessage),
             true,
             Response::HTTP_CREATED
         );
     }
-    public function updateMessage(UpdateMessageOrFileRequest $request, $id)
+    public function downloadFile($id)
     {
-        $data = $request->validated();
-        $user = auth()->user();
-        if ($user->is_admin) {
-            return ResponseHelper::finalResponse('Not allowed', null, false, Response::HTTP_FORBIDDEN);
-        }
-        $chat = Chat::where('id', $id)
-            ->where('sender_id', $user->id)
-            ->first();
-        if (!$chat) {
-            return ResponseHelper::finalResponse('Chat not found or you are not authorized to edit this message.', null, true, Response::HTTP_OK);
-        }
-        if ($chat->message == NULL) {
-            return ResponseHelper::finalResponse('You can\'t update in file', null, true, Response::HTTP_OK);
-        }
-        $chat->update($data);
-        event(new UpdateMessageEvent($chat->id, $chat->message));
-        return ResponseHelper::finalResponse(
-            'Message updated successfully',
-            ChatResource::make($chat),
-            true,
-            Response::HTTP_OK
-        );
-    }
-    public function deleteMessageOrFiles($id)
-    {
-        $user = auth()->user();
-        if ($user->is_admin) {
+        $message = FilaChatMessage::find($id);
+        if (!$message) {
             return ResponseHelper::finalResponse(
-                'not allowed',
+                'Message not found',
                 null,
-                false,
+                true,
+                Response::HTTP_NOT_FOUND
+            );
+        }
+        $storedAttachments = $message->attachments;
+        $originalAttachmentFileNames = $message->original_attachment_file_names;
+        if ($message->attachments == Null) {
+            return ResponseHelper::finalResponse(
+                'No Files For This Message',
+                null,
+                true,
+                Response::HTTP_NOT_FOUND
+            );
+        }
+        $userId = auth()->user()->id;
+        if ($message->senderable_id !== $userId && $message->receiverable_id !== $userId) {
+            return ResponseHelper::finalResponse(
+                'Not authorized to download this file',
+                null,
+                true,
                 Response::HTTP_FORBIDDEN
             );
         }
-        $chat = Chat::where(function ($query) use ($user) {
-            $query->where('sender_id', $user->id)
-                ->orWhere('receiver_id', $user->id);
-        })->where(function ($query) {
-            $query->whereHas('sender', function ($query) {
-                $query->where('is_admin', true);
-            })->orWhereHas('receiver', function ($query) {
-                $query->where('is_admin', true);
-            });
-        })->find($id);
-        if ($chat) {
-            $chat->delete();
-            event(new DeleteMessageEvent($chat->id));
+        if (count($storedAttachments) > 1) {
+            $archive = new ZipArchive();
+            $archiveFileName = 'files' . '.zip';
+            $archiveFilePath = storage_path('app/public/' . $archiveFileName);
+
+            if ($archive->open($archiveFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+                return ResponseHelper::finalResponse(
+                    'Could not create archive file',
+                    null,
+                    true,
+                    Response::HTTP_INTERNAL_SERVER_ERROR
+                );
+            }
+            foreach ($storedAttachments as $attachmentPath) {
+                if (Storage::disk(config('filachat.disk'))->exists($attachmentPath)) {
+                    $originalFileName = $originalAttachmentFileNames[$attachmentPath];
+                    $archive->addFile(Storage::disk(config('filachat.disk'))->path($attachmentPath), $originalFileName);
+                }
+            }
+            $archive->close();
+            return response()->download($archiveFilePath)->deleteFileAfterSend(true);
+        } elseif (count($storedAttachments) === 1) {
+            $requestedFilePath = $storedAttachments[0];
+            $requestedFileName = $originalAttachmentFileNames[$requestedFilePath];
+            if (Storage::disk(config('filachat.disk'))->exists($requestedFilePath)) {
+                return Storage::disk(config('filachat.disk'))->download($requestedFilePath, $requestedFileName);
+            }
             return ResponseHelper::finalResponse(
-                'data deleted successfully',
+                'File Not Found',
                 null,
                 true,
-                Response::HTTP_OK
+                Response::HTTP_NOT_FOUND
             );
         }
+    }
+    public function markAsRead()
+    {
+        $receiver = auth()->user();
+        $filachat_conversation = FilaChatConversation::where(function ($query) use ($receiver) {
+            $query->where('senderable_id', $receiver->id)
+                ->orWhere('receiverable_id', $receiver->id);
+        })->first();
+        if (!$filachat_conversation) {
+            return ResponseHelper::finalResponse(
+                'Not authorized',
+                null,
+                true,
+                Response::HTTP_FORBIDDEN
+            );
+        }
+        $messages = FilaChatMessage::
+            where('filachat_conversation_id', $filachat_conversation->id)
+            ->whereNull('last_read_at')
+            ->get();
+        if ($messages->isEmpty()) {
+            return ResponseHelper::finalResponse(
+                'No unread messages found',
+                null,
+                true,
+                Response::HTTP_NOT_FOUND
+            );
+        }
+        foreach ($messages as $message) {
+            if ($message->receiverable_id === auth()->user()->id) {
+                $message->update([
+                    'last_read_at' => now(),
+                ]);
+            }
+        }
+        broadcast(new FilaChatMessageReadEvent($filachat_conversation->id));
         return ResponseHelper::finalResponse(
-            'data not found',
+            'All unread messages marked as read successfully',
             null,
             true,
             Response::HTTP_OK

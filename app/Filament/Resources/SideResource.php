@@ -36,7 +36,6 @@ class SideResource extends Resource
     protected static ?string $model = Side::class;
     protected static ?string $navigationLabel = 'Side Effects';
     protected static ?string $navigationIcon = 'fas-person-circle-exclamation';
-    protected static ?string $navigationGroup = 'Store';
     protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form

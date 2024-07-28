@@ -161,9 +161,9 @@ Route::middleware(['auth:sanctum', 'appLang'])
     ->controller(ChatController::class)
     ->group(function () {
         Route::get('/loadChat', 'loadChat');
-        Route::post('/sendMessageOrFiles', 'sendMessageOrFiles');
-        Route::post('/updateMessage/{id}', 'updateMessage');
-        Route::post('/deleteMessageOrFiles/{id}', 'deleteMessageOrFiles');
+        Route::post('/sendMessage', 'sendMessage');
+        Route::post('/downloadFile/{messageId}', 'downloadFile');
+        Route::post('/markAsRead', 'markAsRead');
     });
 ############################################################################################
 ############################################################################################

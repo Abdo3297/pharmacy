@@ -26,8 +26,6 @@ class TermResource extends Resource
     protected static ?string $model = Term::class;
 
     protected static ?string $navigationIcon = 'fas-gear';
-
-    protected static ?string $navigationGroup = 'Settings';
     protected static ?int $navigationSort = 12;
 
 

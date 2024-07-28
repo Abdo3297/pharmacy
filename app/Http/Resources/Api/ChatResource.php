@@ -15,11 +15,13 @@ class ChatResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id"=> $this->id,
-            "sender_id"=> $this->sender_id,
-            "receiver_id"=> $this->receiver_id,
-            "message"=> $this->message,
-            'chatFiles' => MediaResource::collection($this->whenLoaded('media')),
+            'id' => $this->id,
+            'filachat_conversation_id' => $this->filachat_conversation_id,
+            'message' => $this->message,
+            'attachments' => $this->attachments,
+            'original_attachment_file_names' => $this->original_attachment_file_names,
+            'senderable_id' => $this->senderable_id,
+            'receiverable_id' => $this->receiverable_id,
         ];
     }
 }

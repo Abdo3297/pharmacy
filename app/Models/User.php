@@ -11,6 +11,7 @@ use App\Models\Product;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Notifications\Notifiable;
+use JaOcero\FilaChat\Traits\HasFilaChat;
 use Filament\Models\Contracts\FilamentUser;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class User extends Authenticatable implements HasMedia, FilamentUser
 {
     ## traits ##
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, HasFilaChat;
 
     ## properties ##
     protected $table = 'users';
@@ -61,10 +62,6 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
-    }
-    public function messages(): HasMany
-    {
-        return $this->hasMany(Chat::class);
     }
     ## scopes ##
     ## accessors and mutators ##

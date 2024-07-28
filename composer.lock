@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "423b6c1994c28eca277ba304b77b596c",
+    "content-hash": "831e6781037bf6e1dc073db78e5e5ab2",
     "packages": [
         {
             "name": "alperenersoy/filament-export",
@@ -3113,6 +3113,82 @@
                 "source": "https://github.com/ichtrojan/laravel-otp/tree/v2.0.0"
             },
             "time": "2023-12-24T22:16:55+00:00"
+        },
+        {
+            "name": "jaocero/filachat",
+            "version": "v0.2.0-alpha.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/199ocero/filachat.git",
+                "reference": "23c0801d834de2ed64d82f8f8a00b930143ab98a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/199ocero/filachat/zipball/23c0801d834de2ed64d82f8f8a00b930143ab98a",
+                "reference": "23c0801d834de2ed64d82f8f8a00b930143ab98a",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "laravel/prompts": "^0.1.24",
+                "livewire/livewire": "^3.5",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JaOcero\\FilaChat\\FilaChatServiceProvider"
+                    ],
+                    "aliases": {
+                        "FilaChat": "JaOcero\\FilaChat\\Facades\\FilaChat"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JaOcero\\FilaChat\\": "src/",
+                    "JaOcero\\FilaChat\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jay-Are Ocero",
+                    "email": "199ocero@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "FilaChat is a plugin for integrating real-time customer support chat into your application. Provides tools for both customer and agent chat interfaces, with features for managing and maintaining chat conversations.",
+            "homepage": "https://github.com/jaocero/filachat",
+            "keywords": [
+                "filachat",
+                "jaocero",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/jaocero/filachat/issues",
+                "source": "https://github.com/jaocero/filachat"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/jaocero",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-07-21T01:57:23+00:00"
         },
         {
             "name": "jeffgreco13/filament-breezy",
@@ -13502,7 +13578,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "alperenersoy/filament-export": 10
+        "alperenersoy/filament-export": 10,
+        "jaocero/filachat": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,

@@ -25,7 +25,6 @@ class FAQResource extends Resource
     use Translatable;
     protected static ?string $model = FAQ::class;
     protected static ?string $navigationLabel = 'Faqs';
-    protected static ?string $navigationGroup = 'Settings';
     protected static ?string $navigationIcon = 'fas-person-circle-question';
     protected static ?int $navigationSort = 10;
 

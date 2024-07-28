@@ -10,6 +10,7 @@ use Filament\PanelProvider;
 use App\Filament\Pages\Dashboard;
 use Filament\View\PanelsRenderHook;
 use App\Filament\Widgets\UsersChart;
+use JaOcero\FilaChat\FilaChatPlugin;
 use App\Filament\Widgets\OrdersChart;
 use App\Filament\Widgets\RevenuChart;
 use App\Filament\Widgets\StatsWidget;
@@ -75,23 +76,13 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->navigationGroups([
-                NavigationGroup::make()
-                    ->label('Customers')->collapsed(),
-                NavigationGroup::make()
-                    ->label('Store')->collapsed(),
-                NavigationGroup::make()
-                    ->label('Offers')->collapsed(),
-                NavigationGroup::make()
-                    ->label('Orders')->collapsed(),
-                NavigationGroup::make()
-                    ->label('Settings')->collapsed(),
-            ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugins(
                 [
                     BreezyCore::make()->myProfile(),
                     SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'ar']),
-                    FilamentApexChartsPlugin::make()
+                    FilamentApexChartsPlugin::make(),
+                    FilaChatPlugin::make()
                 ]
             );
     }

@@ -39,7 +39,6 @@ class OfferResource extends Resource
     protected static ?string $model = Offer::class;
 
     protected static ?string $navigationIcon = 'fas-percent';
-    protected static ?string $navigationGroup = 'Offers';
     protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form

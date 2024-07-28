@@ -37,7 +37,6 @@ class IndicationResource extends Resource
     protected static ?string $model = Indication::class;
 
     protected static ?string $navigationIcon = 'fas-person-circle-check';
-    protected static ?string $navigationGroup = 'Store';
     protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form

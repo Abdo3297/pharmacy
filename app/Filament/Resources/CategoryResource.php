@@ -39,7 +39,6 @@ class CategoryResource extends Resource
     use Translatable;
     protected static ?string $model = Category::class;
     protected static ?string $navigationIcon = 'fas-layer-group';
-    protected static ?string $navigationGroup = 'Store';
     protected static ?int $navigationSort = 2;
     public static function form(Form $form): Form
     {
