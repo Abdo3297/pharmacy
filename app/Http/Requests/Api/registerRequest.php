@@ -46,7 +46,7 @@ class registerRequest extends customRequest
         $validated = parent::validated($key, $default);
         return array_merge($validated, [
             'is_admin' => false,
-            'phone' => \libphonenumber\PhoneNumberUtil::getInstance()->getCountryCodeForRegion($this->phone_country) . $this->phone,
+            // 'phone' => \libphonenumber\PhoneNumberUtil::getInstance()->getCountryCodeForRegion($this->phone_country) . $this->phone,
         ]);
     }
 }

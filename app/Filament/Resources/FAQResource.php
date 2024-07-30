@@ -2,28 +2,30 @@
 
 namespace App\Filament\Resources;
 
-use App\Models\FAQ;
-use Filament\Forms;
-use Filament\Tables;
+use App\Models\Faq;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Wizard;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Wizard\Step;
-use App\Filament\Resources\FAQResource\Pages;
-use Filament\Resources\Concerns\Translatable;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\FAQResource\RelationManagers;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Resources\Concerns\Translatable;
+use Filament\Tables\Actions\DeleteBulkAction;
+use App\Filament\Resources\FaqResource\Pages\EditFaq;
+use App\Filament\Resources\FaqResource\Pages\ViewFaq;
+use App\Filament\Resources\FaqResource\Pages\ListFaqs;
+use App\Filament\Resources\FaqResource\Pages\CreateFaq;
 
-class FAQResource extends Resource
+class FaqResource extends Resource
 {
     use Translatable;
-    protected static ?string $model = FAQ::class;
+    protected static ?string $model = Faq::class;
     protected static ?string $navigationLabel = 'Faqs';
     protected static ?string $navigationIcon = 'fas-person-circle-question';
     protected static ?int $navigationSort = 10;
@@ -55,13 +57,10 @@ class FAQResource extends Resource
                 TextColumn::make('answer')
                     ->searchable(),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
@@ -70,26 +69,18 @@ class FAQResource extends Resource
                     ),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFAQS::route('/'),
-            'create' => Pages\CreateFAQ::route('/create'),
-            'view' => Pages\ViewFAQ::route('/{record}'),
-            'edit' => Pages\EditFAQ::route('/{record}/edit'),
+            'index' => ListFaqs::route('/'),
+            'create' => CreateFaq::route('/create'),
+            'view' => ViewFaq::route('/{record}'),
+            'edit' => EditFaq::route('/{record}/edit'),
         ];
     }
 }

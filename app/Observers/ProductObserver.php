@@ -22,8 +22,8 @@ class ProductObserver
         $users = User::where('is_admin', false)->get();
         foreach ($users as $user) {
             Notification::send($user, new NewProductAddNotification($product));
-            event(new NewProductAddEvent($product));
         }
+        event(new NewProductAddEvent($product));
     }
 
     /**
@@ -47,8 +47,8 @@ class ProductObserver
             $users = User::where('is_admin', false)->get();
             foreach ($users as $user) {
                 Notification::send($user, new ProducStockEditAddNotification($product));
-                event(new StockProductEditEvent($product));
             }
+            event(new StockProductEditEvent($product));
         }
     }
 

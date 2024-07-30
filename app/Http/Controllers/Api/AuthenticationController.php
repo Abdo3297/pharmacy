@@ -36,7 +36,7 @@ class AuthenticationController extends Controller
             ->icon('fas-user-plus')
             ->iconColor('primary')
             ->title('New User In Your Pharmacy')
-            ->body('Name : ' . $user->name . ' & Email : ' . $user->email)
+            ->body('Email : ' . $user->email)
             ->sendToDatabase($admin);
         event(new DatabaseNotificationsSent($admin));
         return ResponseHelper::finalResponse(
@@ -249,7 +249,7 @@ class AuthenticationController extends Controller
             ->icon('fas-user-minus')
             ->iconColor('danger')
             ->title('User Leaved Your Pharmacy')
-            ->body('Name : ' . $user->name . ' & Email : ' . $user->email . ' & Phone : ' . $user->phone)
+            ->body('Email : ' . $user->email . ' & Phone : ' . $user->phone)
             ->sendToDatabase($admin);
         event(new DatabaseNotificationsSent($admin));
         return ResponseHelper::finalResponse(

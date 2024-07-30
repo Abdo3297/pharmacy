@@ -18,10 +18,8 @@ class OrderDoneEvent implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public $message;
     public function __construct(public Order $order)
     {
-        $this->message = 'Order Done , ID : ' . $this->order->payment_id . ' , Total Amount : ' . $this->order->total_amount;
     }
 
     /**
@@ -31,13 +29,15 @@ class OrderDoneEvent implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-
         return [
-            new PrivateChannel('app-notifications'),
+            new Channel('app-notifications'),
         ];
     }
-    public function broadcastAs(): string
+    public function broadcastWith()
     {
-        return 'app-notifications.send';
+        return [
+            'id' => $this->order->id,
+            'message' => 'Order Done , ID : ' . $this->order->payment_id . ' , Total Amount : ' . $this->order->total_amount,
+        ];
     }
 }

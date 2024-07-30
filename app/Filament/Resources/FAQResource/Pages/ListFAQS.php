@@ -1,26 +1,23 @@
 <?php
 
-namespace App\Filament\Resources\FAQResource\Pages;
+namespace App\Filament\Resources\FaqResource\Pages;
 
-use App\Filament\Resources\FAQResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
+use Filament\Actions\LocaleSwitcher;
+use App\Filament\Resources\FaqResource;
 use Filament\Resources\Pages\ListRecords;
 
-class ListFAQS extends ListRecords
+class ListFaqs extends ListRecords
 {
     use ListRecords\Concerns\Translatable;
 
-    protected static string $resource = FAQResource::class;
+    protected static string $resource = FaqResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
-            Actions\LocaleSwitcher::make(),
+            CreateAction::make(),
+            LocaleSwitcher::make(),
         ];
-    }
-    public function getTitle(): string
-    {
-        return 'Faqs';
     }
 }

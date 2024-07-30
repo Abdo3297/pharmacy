@@ -31,15 +31,15 @@ class OrderObserver
                 ->icon('fas-cart-shopping')
                 ->iconColor('success')
                 ->title('New Order Done')
-                ->body('ID of order : ' . $order->payment_id)
+                ->body('ID : ' . $order->payment_id)
                 ->sendToDatabase($admin);
             event(new DatabaseNotificationsSent($admin));
             /* send notification to user that order done */
             $users = User::where('is_admin', false)->get();
             foreach ($users as $user) {
                 Notification::send($user, new OrderDoneNotification($order));
-                event(new OrderDoneEvent($order));
             }
+            event(new OrderDoneEvent($order));
         }
     }
 

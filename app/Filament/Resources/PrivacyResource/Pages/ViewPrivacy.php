@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\PrivacyResource\Pages;
 
-use App\Filament\Resources\PrivacyResource;
-use Filament\Actions;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\ViewRecord;
+use App\Filament\Resources\PrivacyResource;
 
 class ViewPrivacy extends ViewRecord
 {
@@ -13,9 +15,9 @@ class ViewPrivacy extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make(),
-            Actions\DeleteAction::make(),
-            Actions\LocaleSwitcher::make(),
+            EditAction::make(),
+            DeleteAction::make(),
+            LocaleSwitcher::make(),
         ];
     }
 }

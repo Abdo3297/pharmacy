@@ -2,23 +2,25 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use App\Models\Term;
-use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Forms\Components\Wizard\Step;
+use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Resources\Concerns\Translatable;
-use App\Filament\Resources\TermResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\TermResource\RelationManagers;
+use Filament\Tables\Actions\DeleteBulkAction;
+use App\Filament\Resources\TermResource\Pages\EditTerm;
+use App\Filament\Resources\TermResource\Pages\ViewTerm;
+use App\Filament\Resources\TermResource\Pages\ListTerms;
+use App\Filament\Resources\TermResource\Pages\CreateTerm;
 
 class TermResource extends Resource
 {
@@ -60,9 +62,9 @@ class TermResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
@@ -71,26 +73,19 @@ class TermResource extends Resource
                     ),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTerms::route('/'),
-            'create' => Pages\CreateTerm::route('/create'),
-            'view' => Pages\ViewTerm::route('/{record}'),
-            'edit' => Pages\EditTerm::route('/{record}/edit'),
+            'index' => ListTerms::route('/'),
+            'create' => CreateTerm::route('/create'),
+            'view' => ViewTerm::route('/{record}'),
+            'edit' => EditTerm::route('/{record}/edit'),
         ];
     }
 }

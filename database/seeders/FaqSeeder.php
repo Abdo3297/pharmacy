@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\FAQ;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Faq;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class FaqSeeder extends Seeder
 {
@@ -38,7 +38,7 @@ class FaqSeeder extends Seeder
         }
         if (!empty($data)) {
             foreach ($data as $item) {
-                FAQ::create($item);
+                Faq::create($item);
             }
         }
     }

@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\TermResource\Pages;
 
-use Filament\Actions;
+use Filament\Actions\LocaleSwitcher;
 use App\Filament\Resources\TermResource;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
@@ -14,7 +14,7 @@ class CreateTerm extends CreateRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\LocaleSwitcher::make(),
+            LocaleSwitcher::make(),
         ];
     }
     protected function getRedirectUrl(): string

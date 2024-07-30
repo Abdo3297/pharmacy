@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources\TermResource\Pages;
 
-use Filament\Actions;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\LocaleSwitcher;
 use App\Filament\Resources\TermResource;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
@@ -15,8 +16,8 @@ class EditTerm extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
-            Actions\LocaleSwitcher::make(),
+            DeleteAction::make(),
+            LocaleSwitcher::make(),
         ];
     }
     protected function getRedirectUrl(): string

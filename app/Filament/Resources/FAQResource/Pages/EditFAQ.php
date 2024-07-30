@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Filament\Resources\FAQResource\Pages;
+namespace App\Filament\Resources\FaqResource\Pages;
 
-use Filament\Actions;
-use App\Filament\Resources\FAQResource;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\LocaleSwitcher;
+use App\Filament\Resources\FaqResource;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
-class EditFAQ extends EditRecord
+class EditFaq extends EditRecord
 {
     use EditRecord\Concerns\Translatable;
 
-    protected static string $resource = FAQResource::class;
+    protected static string $resource = FaqResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
-            Actions\LocaleSwitcher::make(),
+            ViewAction::make(),
+            DeleteAction::make(),
+            LocaleSwitcher::make(),
         ];
     }
     protected function getRedirectUrl(): string
@@ -31,9 +33,5 @@ class EditFAQ extends EditRecord
             ->success()
             ->title('FAQ edited')
             ->body('The FAQ has been edited successfully.');
-    }
-    public function getTitle(): string
-    {
-        return 'Faqs';
     }
 }

@@ -19,10 +19,8 @@ class NewProductAddEvent implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public $message;
     public function __construct(public Product $product)
     {
-        $this->message = 'New Product Added Called: ' . $this->product->name;
     }
 
     /**
@@ -32,13 +30,16 @@ class NewProductAddEvent implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-
         return [
-            new PrivateChannel('app-notifications'),
+            new Channel('app-notifications'),
         ];
     }
-    public function broadcastAs(): string
+    public function broadcastWith()
     {
-        return 'app-notifications.send';
+        return [
+            'product_id' => $this->product->id,
+            'product_name' => $this->product->name,
+            'message' => 'A new product has been added: ' . $this->product->name,
+        ];
     }
 }

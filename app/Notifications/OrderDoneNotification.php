@@ -37,7 +37,7 @@ class OrderDoneNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'id' => $this->id,
+            'id' => $this->order->id,
             'message' => 'Order Done , ID : ' . $this->order->payment_id . ' , Total Amount : ' . $this->order->total_amount,
         ];
     }

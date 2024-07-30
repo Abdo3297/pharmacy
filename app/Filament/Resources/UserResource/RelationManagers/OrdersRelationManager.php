@@ -2,21 +2,16 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Components\ToggleButtons;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
 
 class OrdersRelationManager extends RelationManager
@@ -51,15 +46,8 @@ class OrdersRelationManager extends RelationManager
                 TextColumn::make('payment_type'),
                 IconColumn::make('payment_status')->boolean(),
             ])
-            ->filters([
-                //
-            ])
-            ->headerActions([
-            ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-            ])
-            ->bulkActions([
+                ViewAction::make(),
             ]);
     }
 }

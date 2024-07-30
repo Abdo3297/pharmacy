@@ -1,26 +1,24 @@
 <?php
 
-namespace App\Filament\Resources\FAQResource\Pages;
+namespace App\Filament\Resources\FaqResource\Pages;
 
-use App\Filament\Resources\FAQResource;
-use Filament\Actions;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\LocaleSwitcher;
+use App\Filament\Resources\FaqResource;
 use Filament\Resources\Pages\ViewRecord;
 
-class ViewFAQ extends ViewRecord
+class ViewFaq extends ViewRecord
 {
     use ViewRecord\Concerns\Translatable;
 
-    protected static string $resource = FAQResource::class;
+    protected static string $resource = FaqResource::class;
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make(),
-            Actions\DeleteAction::make(),
-            Actions\LocaleSwitcher::make(),
+            EditAction::make(),
+            DeleteAction::make(),
+            LocaleSwitcher::make(),
         ];
-    }
-    public function getTitle(): string
-    {
-        return 'Faqs';
     }
 }

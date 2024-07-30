@@ -2,9 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use App\Models\User;
-use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -15,9 +13,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Wizard\Step;
-use App\Filament\Resources\UserResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\UserResource\Pages\ViewUser;
+use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Filament\Resources\UserResource\Widgets\UserOrdersFavs;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
 use App\Filament\Resources\UserResource\RelationManagers\OrdersRelationManager;
@@ -34,7 +31,7 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Wizard::make([
-                    Step::make('User Details')
+                    Step::make('User Information')
                         ->schema([
                             Section::make()
                                 ->schema([
@@ -59,15 +56,11 @@ class UserResource extends Resource
                     ->searchable(),
                 TextColumn::make('phone')
                     ->searchable(),
-                TextColumn::make('gender')
-                    ->searchable(),
+                TextColumn::make('gender'),
             ])
             ->modifyQueryUsing(function (Builder $query) {
                 return $query->where('is_admin', false);
             })
-            ->filters([
-                //
-            ])
             ->headerActions([
                 FilamentExportHeaderAction::make('export')
                     ->fileName('User Sheet')
@@ -76,9 +69,7 @@ class UserResource extends Resource
                     ->disableAdditionalColumns()
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-            ])
-            ->bulkActions([
+                ViewAction::make(),
             ]);
     }
 
@@ -98,8 +89,8 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'view' => Pages\ViewUser::route('/{record}'),
+            'index' => ListUsers::route('/'),
+            'view' => ViewUser::route('/{record}'),
         ];
     }
 }

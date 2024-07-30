@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources\PrivacyResource\Pages;
 
-use Filament\Actions;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\LocaleSwitcher;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use App\Filament\Resources\PrivacyResource;
@@ -15,8 +16,8 @@ class EditPrivacy extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
-            Actions\LocaleSwitcher::make(),
+            DeleteAction::make(),
+            LocaleSwitcher::make(),
         ];
     }
     protected function getRedirectUrl(): string

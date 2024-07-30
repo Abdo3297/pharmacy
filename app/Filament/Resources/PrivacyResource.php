@@ -2,23 +2,25 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
 use App\Models\Privacy;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Forms\Components\Wizard\Step;
+use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Resources\Concerns\Translatable;
-use App\Filament\Resources\PrivacyResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\PrivacyResource\RelationManagers;
+use Filament\Tables\Actions\DeleteBulkAction;
+use App\Filament\Resources\PrivacyResource\Pages\EditPrivacy;
+use App\Filament\Resources\PrivacyResource\Pages\ViewPrivacy;
+use App\Filament\Resources\PrivacyResource\Pages\CreatePrivacy;
+use App\Filament\Resources\PrivacyResource\Pages\ListPrivacies;
 
 class PrivacyResource extends Resource
 {
@@ -39,7 +41,6 @@ class PrivacyResource extends Resource
                                 ->required()
                                 ->string(),
                         ]),
-                    
                 ])->columnSpanFull(),
             ]);
     }
@@ -51,13 +52,10 @@ class PrivacyResource extends Resource
                 TextColumn::make('content')
                     ->searchable(),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
@@ -66,26 +64,19 @@ class PrivacyResource extends Resource
                     ),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPrivacies::route('/'),
-            'create' => Pages\CreatePrivacy::route('/create'),
-            'view' => Pages\ViewPrivacy::route('/{record}'),
-            'edit' => Pages\EditPrivacy::route('/{record}/edit'),
+            'index' => ListPrivacies::route('/'),
+            'create' => CreatePrivacy::route('/create'),
+            'view' => ViewPrivacy::route('/{record}'),
+            'edit' => EditPrivacy::route('/{record}/edit'),
         ];
     }
 }

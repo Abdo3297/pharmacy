@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\TermResource\Pages;
 
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\LocaleSwitcher;
 use App\Filament\Resources\TermResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewTerm extends ViewRecord
@@ -13,9 +15,9 @@ class ViewTerm extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\LocaleSwitcher::make(),
-            Actions\EditAction::make(),
-            Actions\DeleteAction::make(),
+            LocaleSwitcher::make(),
+            EditAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

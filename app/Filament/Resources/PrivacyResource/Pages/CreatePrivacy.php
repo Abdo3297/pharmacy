@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\PrivacyResource\Pages;
 
-use Filament\Actions;
+use Filament\Actions\LocaleSwitcher;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\PrivacyResource;
@@ -14,7 +14,7 @@ class CreatePrivacy extends CreateRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\LocaleSwitcher::make(),
+            LocaleSwitcher::make(),
         ];
     }
     protected function getRedirectUrl(): string

@@ -2,18 +2,16 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
-use Filament\Tables;
 use Filament\Forms\Form;
-use App\Enums\DiscounType;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -33,43 +31,14 @@ class FavouritesRelationManager extends RelationManager
                         ->schema([
                             Section::make()
                                 ->schema([
-                                    Textarea::make('description')
-                                        ->required()
-                                        ->string()
-                                        ->rules(['required', 'string']),
-                                    SpatieMediaLibraryFileUpload::make('image')
-                                        ->required()
-                                        ->image()
-                                        ->rules(['image'])
-                                        ->collection('productImages'),
-                                    TextInput::make('name')
-                                        ->required()
-                                        ->string()
-                                        ->rules(['required', 'string']),
-                                    TextInput::make('barcode')
-                                        ->required()
-                                        ->string()
-                                        ->rules(['required', 'string', 'size:10']),
-                                    TextInput::make('stock')
-                                        ->required()
-                                        ->integer()
-                                        ->rules(['required', 'integer']),
-                                    TextInput::make('alert')
-                                        ->required()
-                                        ->integer()
-                                        ->lt('stock')
-                                        ->rules(['required', 'integer']),
-                                    TextInput::make('unit_price')
-                                        ->required()
-                                        ->numeric()
-                                        ->minValue(0)
-                                        ->prefix('$')
-                                        ->rules(['required', 'numeric', 'min:0']),
-                                    TextInput::make('no_units')
-                                        ->required()
-                                        ->integer()
-                                        ->minValue(1)
-                                        ->rules(['required', 'integer', 'min:1']),
+                                    Textarea::make('description'),
+                                    SpatieMediaLibraryFileUpload::make('image')->collection('productImages'),
+                                    TextInput::make('name'),
+                                    TextInput::make('barcode'),
+                                    TextInput::make('stock'),
+                                    TextInput::make('alert'),
+                                    TextInput::make('unit_price')->prefix('$'),
+                                    TextInput::make('no_units'),
                                 ]),
                         ]),
                     Step::make('Categories Details')
@@ -113,7 +82,6 @@ class FavouritesRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('description'),
-
                 SpatieMediaLibraryImageColumn::make('image')
                     ->collection('productImages')
                     ->width(100)
@@ -125,7 +93,7 @@ class FavouritesRelationManager extends RelationManager
                 TextColumn::make('no_units'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                ViewAction::make(),
             ]);
     }
 }

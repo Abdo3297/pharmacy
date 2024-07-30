@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\PrivacyResource\Pages;
 
-use App\Filament\Resources\PrivacyResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
+use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\PrivacyResource;
 
 class ListPrivacies extends ListRecords
 {
@@ -15,8 +16,8 @@ class ListPrivacies extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
-            Actions\LocaleSwitcher::make(),
+            CreateAction::make(),
+            LocaleSwitcher::make(),
         ];
     }
 }

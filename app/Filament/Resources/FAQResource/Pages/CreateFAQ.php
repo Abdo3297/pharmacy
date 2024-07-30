@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Filament\Resources\FAQResource\Pages;
+namespace App\Filament\Resources\FaqResource\Pages;
 
-use Filament\Actions;
-use App\Filament\Resources\FAQResource;
+use Filament\Actions\LocaleSwitcher;
+use App\Filament\Resources\FaqResource;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateFAQ extends CreateRecord
+class CreateFaq extends CreateRecord
 {
     use CreateRecord\Concerns\Translatable;
-    protected static string $resource = FAQResource::class;
+    protected static string $resource = FaqResource::class;
     protected function getHeaderActions(): array
     {
         return [
-            Actions\LocaleSwitcher::make(),
+            LocaleSwitcher::make(),
         ];
     }
     protected function getRedirectUrl(): string
@@ -27,9 +27,5 @@ class CreateFAQ extends CreateRecord
             ->success()
             ->title('FAQ created')
             ->body('The FAQ has been created successfully.');
-    }
-    public function getTitle(): string
-    {
-        return 'Faqs';
     }
 }

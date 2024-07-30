@@ -19,6 +19,7 @@ class OrderResource extends JsonResource
             'user' => UserResource::make($this->whenLoaded('user')),
             'totalAmount' => $this->total_amount,
             'paymentId'=> $this->payment_id,
+            'paymentStatus'=> (bool) $this->payment_status,
             'paymentType'=> $this->payment_type,
             'createdAt'=> $this->created_at,
             'updatedAt'=> $this->updated_at,

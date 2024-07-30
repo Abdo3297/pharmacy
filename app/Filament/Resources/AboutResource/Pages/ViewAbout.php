@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\AboutResource\Pages;
 
-use App\Filament\Resources\AboutResource;
-use Filament\Actions;
+use Filament\Actions\EditAction;
+use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\ViewRecord;
+use App\Filament\Resources\AboutResource;
 
 class ViewAbout extends ViewRecord
 {
@@ -14,8 +15,8 @@ class ViewAbout extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make(),
-            Actions\LocaleSwitcher::make(),
+            EditAction::make(),
+            LocaleSwitcher::make(),
         ];
     }
 }

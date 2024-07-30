@@ -9,6 +9,8 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Wizard;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,6 +21,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use App\Filament\Resources\PharmacyResource\RelationManagers;
+use App\Filament\Resources\PharmacyResource\Pages\EditPharmacy;
+use App\Filament\Resources\PharmacyResource\Pages\ViewPharmacy;
+use App\Filament\Resources\PharmacyResource\Pages\ListPharmacies;
 
 
 class PharmacyResource extends Resource
@@ -74,31 +79,17 @@ class PharmacyResource extends Resource
                     ->width(50)
                     ->height(50),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([]),
+                ViewAction::make(),
+                EditAction::make(),
             ]);
     }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPharmacies::route('/'),
-            'view' => Pages\ViewPharmacy::route('/{record}'),
-            'edit' => Pages\EditPharmacy::route('/{record}/edit'),
+            'index' => ListPharmacies::route('/'),
+            'view' => ViewPharmacy::route('/{record}'),
+            'edit' => EditPharmacy::route('/{record}/edit'),
         ];
     }
 }

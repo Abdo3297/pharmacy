@@ -37,7 +37,8 @@ class ProducStockEditAddNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'id' => $this->id,
+            'product_id' => $this->product->id,
+            'product_name' => $this->product->name,
             'message' => 'Stock Of Product ' . $this->product->name . ' Edited',
         ];
     }

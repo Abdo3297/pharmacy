@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\AboutResource\Pages;
 
+use Filament\Actions\LocaleSwitcher;
 use App\Filament\Resources\AboutResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
 class ListAbouts extends ListRecords
@@ -15,7 +15,7 @@ class ListAbouts extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\LocaleSwitcher::make(),
+            LocaleSwitcher::make(),
         ];
     }
 }

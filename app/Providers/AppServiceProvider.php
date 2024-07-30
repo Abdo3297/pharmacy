@@ -2,13 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Chat;
-use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
 use Filament\Pages\Page;
-use App\Observers\ChatObserver;
-use App\Observers\UserObserver;
 use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;
 use Illuminate\Support\ServiceProvider;
@@ -38,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         /* Observers */
         Product::observe(ProductObserver::class);
         Order::observe(OrderObserver::class);
-        
+
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch
                 ->locales(['ar', 'en'])

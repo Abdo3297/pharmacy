@@ -76,6 +76,15 @@ class ChatController extends Controller
                 ->orWhere('receiverable_id', $receiver->id);
         })->first();
 
+        if (!$filachat_conversation) {
+            $filachat_conversation = FilaChatConversation::create([
+                'senderable_id' => $sender->id,
+                'senderable_type' => $sender::class,
+                'receiverable_id' => $receiver->id,
+                'receiverable_type' => $receiver::class,
+            ]);
+        }
+
         $newMessage = FilaChatMessage::query()->create([
             'filachat_conversation_id' => $filachat_conversation->id,
             'message' => $request->message ?? null,

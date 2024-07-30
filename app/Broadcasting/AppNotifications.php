@@ -19,6 +19,6 @@ class AppNotifications
      */
     public function join(User $user): array|bool
     {
-        return !$user->is_admin;
+        return true;
     }
 }
