@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\UserResource\Widgets;
 
-use Illuminate\Database\Eloquent\Model;
-use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Database\Eloquent\Model;
 
 class UserOrdersFavs extends BaseWidget
 {
@@ -12,7 +12,9 @@ class UserOrdersFavs extends BaseWidget
     {
         return 2;
     }
+
     public ?Model $record = null;
+
     protected function getStats(): array
     {
         return [

@@ -16,6 +16,7 @@ class AboutResource extends JsonResource
     public function toArray(Request $request): array
     {
         $pharmacy = Pharmacy::find(1);
+
         return [
             'aboutId' => $this->id,
             'aboutContent' => $this->content,

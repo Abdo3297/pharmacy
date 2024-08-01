@@ -2,20 +2,22 @@
 
 namespace App\Filament\Resources\CategoryResource\Pages;
 
-use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\CategoryResource;
+use Filament\Actions\CreateAction;
+use Filament\Actions\LocaleSwitcher;
+use Filament\Resources\Pages\ListRecords;
 
 class ListCategories extends ListRecords
 {
     use ListRecords\Concerns\Translatable;
+
     protected static string $resource = CategoryResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
-            Actions\LocaleSwitcher::make(),
+            CreateAction::make(),
+            LocaleSwitcher::make(),
         ];
     }
 }

@@ -5,8 +5,6 @@ namespace App\Events;
 use App\Models\Order;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -18,9 +16,7 @@ class OrderDoneEvent implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(public Order $order)
-    {
-    }
+    public function __construct(public Order $order) {}
 
     /**
      * Get the channels the event should broadcast on.
@@ -33,11 +29,12 @@ class OrderDoneEvent implements ShouldBroadcast
             new Channel('app-notifications'),
         ];
     }
+
     public function broadcastWith()
     {
         return [
             'id' => $this->order->id,
-            'message' => 'Order Done , ID : ' . $this->order->payment_id . ' , Total Amount : ' . $this->order->total_amount,
+            'message' => 'Order Done , ID : '.$this->order->payment_id.' , Total Amount : '.$this->order->total_amount,
         ];
     }
 }

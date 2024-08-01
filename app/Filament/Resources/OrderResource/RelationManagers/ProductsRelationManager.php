@@ -2,23 +2,22 @@
 
 namespace App\Filament\Resources\OrderResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\Concerns\Translatable;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Actions\LocaleSwitcher;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class ProductsRelationManager extends RelationManager
 {
     use Translatable;
+
     protected static string $relationship = 'products';
 
     public function form(Form $form): Form
@@ -36,7 +35,7 @@ class ProductsRelationManager extends RelationManager
                                     TextInput::make('total_price')->prefix('USD'),
                                 ]),
                         ]),
-                ])->columnSpanFull()
+                ])->columnSpanFull(),
             ]);
     }
 
@@ -50,16 +49,11 @@ class ProductsRelationManager extends RelationManager
                 TextColumn::make('unit_price')->money('USD'),
                 TextColumn::make('total_price')->money('USD'),
             ])
-            ->filters([
-                //
-            ])
             ->headerActions([
+                LocaleSwitcher::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-            ])
-            ->bulkActions([
-
+                ViewAction::make(),
             ]);
     }
 }

@@ -2,32 +2,34 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\PrivacyResource\Pages\CreatePrivacy;
+use App\Filament\Resources\PrivacyResource\Pages\EditPrivacy;
+use App\Filament\Resources\PrivacyResource\Pages\ListPrivacies;
+use App\Filament\Resources\PrivacyResource\Pages\ViewPrivacy;
 use App\Models\Privacy;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Filament\Resources\Concerns\Translatable;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Forms\Components\Wizard\Step;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Resources\Concerns\Translatable;
-use Filament\Tables\Actions\DeleteBulkAction;
-use App\Filament\Resources\PrivacyResource\Pages\EditPrivacy;
-use App\Filament\Resources\PrivacyResource\Pages\ViewPrivacy;
-use App\Filament\Resources\PrivacyResource\Pages\CreatePrivacy;
-use App\Filament\Resources\PrivacyResource\Pages\ListPrivacies;
+use Filament\Tables\Table;
 
 class PrivacyResource extends Resource
 {
     use Translatable;
+
     protected static ?string $model = Privacy::class;
 
     protected static ?string $navigationIcon = 'fas-lock';
+
     protected static ?int $navigationSort = 11;
 
     public static function form(Form $form): Form

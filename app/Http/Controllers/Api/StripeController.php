@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ResponseHelper;
+use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Helpers\ResponseHelper;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 
 class StripeController extends Controller
@@ -31,7 +31,7 @@ class StripeController extends Controller
                         'price_data' => [
                             'currency' => 'usd',
                             'product_data' => [
-                                'name' => 'Order'
+                                'name' => 'Order',
                             ],
                             'unit_amount' => ($order->total_amount) * 100,
                         ],
@@ -39,15 +39,17 @@ class StripeController extends Controller
                     ],
                 ],
                 'mode' => 'payment',
-                'success_url' => route('stripe.success') . '?session_id={CHECKOUT_SESSION_ID}',
+                'success_url' => route('stripe.success').'?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('stripe.cancel'),
             ]);
             if (isset($response->id) && $response->id != '') {
                 return redirect($response->url);
             }
         }
+
         return redirect()->route('stripe.cancel');
     }
+
     public function success(Request $request)
     {
         $id = Session::get('stripe_order_id');
@@ -66,6 +68,7 @@ class StripeController extends Controller
                 foreach ($order->products as $product) {
                     $product->decrement('stock', $product->pivot->quantity);
                 }
+
                 return ResponseHelper::finalResponse(
                     'Payment Done',
                     $data,
@@ -74,8 +77,10 @@ class StripeController extends Controller
                 );
             }
         }
+
         return redirect()->route('stripe.cancel');
     }
+
     public function cancel()
     {
         return ResponseHelper::finalResponse(

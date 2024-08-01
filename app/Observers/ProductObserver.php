@@ -2,14 +2,14 @@
 
 namespace App\Observers;
 
-use App\Models\User;
-use App\Models\Product;
 use App\Events\NewProductAddEvent;
 use App\Events\StockProductEditEvent;
-use Illuminate\Support\Facades\Notification;
+use App\Models\Product;
+use App\Models\User;
 use App\Notifications\NewProductAddNotification;
 use App\Notifications\ProducStockEditAddNotification;
 use Filament\Notifications\Events\DatabaseNotificationsSent;
+use Illuminate\Support\Facades\Notification;
 
 class ProductObserver
 {
@@ -32,13 +32,13 @@ class ProductObserver
     public function updated(Product $product): void
     {
         /* send notification to admin that stock decrease */
-        $admin = User::where("is_admin", true)->first();
+        $admin = User::where('is_admin', true)->first();
         if ($product->stock <= $product->alert) {
             \Filament\Notifications\Notification::make()
                 ->icon('fas-clock')
                 ->iconColor('warning')
                 ->title('Product is near to finish.')
-                ->body('Name : ' . $product->name)
+                ->body('Name : '.$product->name)
                 ->sendToDatabase($admin);
             event(new DatabaseNotificationsSent($admin));
         }

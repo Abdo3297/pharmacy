@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\AboutResource\Pages;
 
+use App\Filament\Resources\AboutResource;
 use Filament\Actions\LocaleSwitcher;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
-use App\Filament\Resources\AboutResource;
 
 class EditAbout extends EditRecord
 {
@@ -19,10 +19,12 @@ class EditAbout extends EditRecord
             LocaleSwitcher::make(),
         ];
     }
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
     }
+
     protected function getSavedNotification(): ?Notification
     {
         return Notification::make()

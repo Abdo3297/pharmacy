@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Privacy;
-use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\API\PrivacyResource;
+use App\Models\Privacy;
+use Illuminate\Http\Response;
 
 class PrivacyController extends Controller
 {
@@ -21,6 +21,7 @@ class PrivacyController extends Controller
                 Response::HTTP_OK
             );
         }
+
         return ResponseHelper::finalResponse(
             'data not found',
             null,

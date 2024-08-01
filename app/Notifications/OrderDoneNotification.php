@@ -5,7 +5,6 @@ namespace App\Notifications;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class OrderDoneNotification extends Notification implements ShouldQueue
@@ -29,6 +28,7 @@ class OrderDoneNotification extends Notification implements ShouldQueue
     {
         return ['database'];
     }
+
     /**
      * Get the array representation of the notification.
      *
@@ -38,7 +38,7 @@ class OrderDoneNotification extends Notification implements ShouldQueue
     {
         return [
             'id' => $this->order->id,
-            'message' => 'Order Done , ID : ' . $this->order->payment_id . ' , Total Amount : ' . $this->order->total_amount,
+            'message' => 'Order Done , ID : '.$this->order->payment_id.' , Total Amount : '.$this->order->total_amount,
         ];
     }
 }

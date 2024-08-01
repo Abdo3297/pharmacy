@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ResponseHelper;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Response;
-use App\Helpers\ResponseHelper;
-use LaravelDaily\Invoices\Invoice;
-use App\Http\Controllers\Controller;
-use LaravelDaily\Invoices\Classes\Party;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
+use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Invoice;
 
 class InvoiceController extends Controller
 {
@@ -26,9 +26,9 @@ class InvoiceController extends Controller
                 $query->where('payment_status', true)->where('id', $orderId)->with([
                     'products' => function ($query) {
                         $query->with('offers');
-                    }
+                    },
                 ]);
-            }
+            },
         ])->first();
         if ($user->orders->isEmpty()) {
             return ResponseHelper::finalResponse(
@@ -73,6 +73,7 @@ class InvoiceController extends Controller
             ->currencySymbol('$')
             ->logo(public_path('vendor/invoices/logo.png'))
             ->addItems($items);
+
         return $invoice->download();
     }
 }

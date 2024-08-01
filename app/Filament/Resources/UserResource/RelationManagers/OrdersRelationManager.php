@@ -2,17 +2,17 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Components\ToggleButtons;
-use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Table;
 
 class OrdersRelationManager extends RelationManager
 {
@@ -30,10 +30,10 @@ class OrdersRelationManager extends RelationManager
                                     TextInput::make('total_amount')->prefix('$'),
                                     TextInput::make('payment_type'),
                                     TextInput::make('payment_id'),
-                                    ToggleButtons::make('payment_status')->boolean()->inline()
+                                    ToggleButtons::make('payment_status')->boolean()->inline(),
                                 ])->columns(2),
                         ]),
-                ])->columnSpanFull()
+                ])->columnSpanFull(),
             ]);
     }
 

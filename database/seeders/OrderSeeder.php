@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class OrderSeeder extends Seeder
 {
@@ -37,7 +36,7 @@ class OrderSeeder extends Seeder
                 $data = [];
             }
         }
-        if (!empty($data)) {
+        if (! empty($data)) {
             Order::insert($data);
             $orders = Order::whereIn('id', Order::latest('id')->take(count($data))->pluck('id'))->get();
             foreach ($orders as $order) {
@@ -45,6 +44,7 @@ class OrderSeeder extends Seeder
             }
         }
     }
+
     protected function addOrderItems(Order $order): void
     {
         $numberOfItems = rand(1, 5);

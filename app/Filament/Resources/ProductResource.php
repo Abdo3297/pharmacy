@@ -2,46 +2,49 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use App\Models\Side;
-use Filament\Tables;
-use App\Models\Offer;
-use App\Models\Product;
-use App\Models\Category;
-use Filament\Forms\Form;
-use App\Enums\DiscounType;
-use App\Models\Indication;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Resources\Concerns\Translatable;
-use App\Filament\Resources\ProductResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use App\Filament\Resources\ProductResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
-use App\Filament\Resources\ProductResource\RelationManagers\OfferRelationManager;
+use App\Enums\DiscounType;
+use App\Filament\Resources\ProductResource\Pages\CreateProduct;
+use App\Filament\Resources\ProductResource\Pages\EditProduct;
+use App\Filament\Resources\ProductResource\Pages\ListProducts;
+use App\Filament\Resources\ProductResource\Pages\ViewProduct;
 use App\Filament\Resources\ProductResource\RelationManagers\CategoriesRelationManager;
 use App\Filament\Resources\ProductResource\RelationManagers\IndicationsRelationManager;
+use App\Filament\Resources\ProductResource\RelationManagers\OfferRelationManager;
 use App\Filament\Resources\ProductResource\RelationManagers\SideEffectsRelationManager;
+use App\Models\Category;
+use App\Models\Indication;
+use App\Models\Product;
+use App\Models\Side;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Filament\Resources\Concerns\Translatable;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class ProductResource extends Resource
 {
     use Translatable;
+
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'fas-p';
+
     protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
@@ -94,14 +97,14 @@ class ProductResource extends Resource
                             Select::make('categories')
                                 ->label('Categories')
                                 ->relationship('categories', 'name')
-                                ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
+                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
                                 ->multiple()
-                                // ->required()
+                                ->required()
                                 ->preload()
                                 ->searchable()
                                 ->hintAction(
-                                    fn(Select $component) => Action::make('select all')
-                                        ->action(fn() => $component->state(Category::pluck('id')->toArray()))
+                                    fn (Select $component) => Action::make('select all')
+                                        ->action(fn () => $component->state(Category::pluck('id')->toArray()))
                                 )
                                 ->createOptionForm([
                                     TextInput::make('name')
@@ -117,15 +120,14 @@ class ProductResource extends Resource
                         ->schema([
                             Select::make('sideEffects')
                                 ->label('Side Effects')
-                                // ->required()
                                 ->multiple()
                                 ->preload()
                                 ->searchable()
                                 ->relationship('sideEffects', 'name')
-                                ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
+                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
                                 ->hintAction(
-                                    fn(Select $component) => Action::make('select all')
-                                        ->action(fn() => $component->state(Side::pluck('id')->toArray()))
+                                    fn (Select $component) => Action::make('select all')
+                                        ->action(fn () => $component->state(Side::pluck('id')->toArray()))
                                 )
                                 ->createOptionForm([
                                     TextInput::make('name')
@@ -138,15 +140,14 @@ class ProductResource extends Resource
                         ->schema([
                             Select::make('indications')
                                 ->label('Indications')
-                                // ->required()
                                 ->multiple()
                                 ->preload()
                                 ->searchable()
                                 ->relationship('indications', 'name')
-                                ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
+                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
                                 ->hintAction(
-                                    fn(Select $component) => Action::make('select all')
-                                        ->action(fn() => $component->state(Indication::pluck('id')->toArray()))
+                                    fn (Select $component) => Action::make('select all')
+                                        ->action(fn () => $component->state(Indication::pluck('id')->toArray()))
                                 )
                                 ->createOptionForm([
                                     TextInput::make('name')
@@ -162,31 +163,23 @@ class ProductResource extends Resource
                                 ->preload()
                                 ->searchable()
                                 ->relationship('offers', 'name')
-                                ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
+                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
                                 ->createOptionForm([
-                                    Section::make('Offer Name')
-                                        ->schema([
-                                            TextInput::make('name')
-                                                ->required()
-                                                ->string(),
-                                        ])->collapsible(),
-                                    Section::make('Offer Discount Details')
-                                        ->schema([
-                                            Select::make('discount_type')
-                                                ->required()
-                                                ->options(DiscounType::class),
-                                            TextInput::make('discount_value')
-                                                ->required()
-                                                ->rules(['numeric', 'max:100']),
-                                        ])->collapsible(),
-                                    Section::make('Offer Date Details')
-                                        ->schema([
-                                            DateTimePicker::make('start_date')->required(),
-                                            DateTimePicker::make('end_date')->required()->after('start_date'),
-                                        ])->collapsible(),
+                                    TextInput::make('name')
+                                        ->required()
+                                        ->string(),
+                                    Select::make('discount_type')
+                                        ->required()
+                                        ->options(DiscounType::class),
+                                    TextInput::make('discount_value')
+                                        ->required()
+                                        ->rules(['numeric', 'max:100']),
+                                    DateTimePicker::make('start_date')->required(),
+                                    DateTimePicker::make('end_date')->required()->after('start_date'),
+
                                 ]),
                         ]),
-                ])->columnSpanFull()
+                ])->columnSpanFull(),
             ]);
     }
 
@@ -212,20 +205,17 @@ class ProductResource extends Resource
                     ->sortable(),
                 TextColumn::make('no_units'),
             ])
-            ->filters([
-                //
-            ])
             ->headerActions([
                 FilamentExportHeaderAction::make('export')
                     ->fileName('Product Sheet')
                     ->defaultFormat('csv')
                     ->disableXlsx()
-                    ->disableAdditionalColumns()
+                    ->disableAdditionalColumns(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()->successNotification(
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make()->successNotification(
                     Notification::make()
                         ->success()
                         ->title('Product deleted')
@@ -233,8 +223,8 @@ class ProductResource extends Resource
                 ),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -252,10 +242,10 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'view' => Pages\ViewProduct::route('/{record}'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => ListProducts::route('/'),
+            'create' => CreateProduct::route('/create'),
+            'view' => ViewProduct::route('/{record}'),
+            'edit' => EditProduct::route('/{record}/edit'),
         ];
     }
 }

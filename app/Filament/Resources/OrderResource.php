@@ -2,33 +2,30 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
+use App\Filament\Resources\OrderResource\Pages\ListOrders;
+use App\Filament\Resources\OrderResource\Pages\ViewOrder;
+use App\Filament\Resources\OrderResource\RelationManagers\ProductsRelationManager;
 use App\Models\Order;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Components\ToggleButtons;
-use App\Filament\Resources\OrderResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\OrderResource\RelationManagers;
-use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
-use App\Filament\Resources\OrderResource\RelationManagers\ProductsRelationManager;
+use Filament\Tables\Table;
 
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
     protected static ?string $navigationIcon = 'fas-cart-shopping';
+
     protected static ?int $navigationSort = 7;
 
     public static function form(Form $form): Form
@@ -45,10 +42,10 @@ class OrderResource extends Resource
                                     TextInput::make('total_amount')->prefix('$'),
                                     TextInput::make('payment_type'),
                                     TextInput::make('payment_id'),
-                                    ToggleButtons::make('payment_status')->boolean()->inline()
+                                    ToggleButtons::make('payment_status')->boolean()->inline(),
                                 ]),
                         ]),
-                ])->columnSpanFull()
+                ])->columnSpanFull(),
             ]);
     }
 
@@ -68,34 +65,30 @@ class OrderResource extends Resource
                 TextColumn::make('payment_type')
                     ->searchable(),
             ])
-            ->filters([
-                //
-            ])
             ->headerActions([
                 FilamentExportHeaderAction::make('export')
                     ->fileName('Orders Sheet')
                     ->defaultFormat('csv')
                     ->disableXlsx()
-                    ->disableAdditionalColumns()
+                    ->disableAdditionalColumns(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-            ])
-            ->bulkActions([]);
+                ViewAction::make(),
+            ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            ProductsRelationManager::class
+            ProductsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrders::route('/'),
-            'view' => Pages\ViewOrder::route('/{record}'),
+            'index' => ListOrders::route('/'),
+            'view' => ViewOrder::route('/{record}'),
         ];
     }
 }

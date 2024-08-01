@@ -27,6 +27,7 @@ class UserResource extends JsonResource
             'userFavourite' => ProductResource::collection($this->whenLoaded('favourites')),
         ];
     }
+
     protected function getDefaultImageUrl(): string
     {
         return $this->gender === 'female' ? url('assets/images/woman.svg') : url('assets/images/man.svg');

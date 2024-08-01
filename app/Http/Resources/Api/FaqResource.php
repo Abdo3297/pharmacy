@@ -15,9 +15,9 @@ class FaqResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'faqId'=>$this->id,
-            'faqQuestion'=>$this->question,
-            'faqAnswer'=>$this->answer,
+            'faqId' => $this->id,
+            'faqQuestion' => $this->question,
+            'faqAnswer' => $this->answer,
         ];
     }
 }

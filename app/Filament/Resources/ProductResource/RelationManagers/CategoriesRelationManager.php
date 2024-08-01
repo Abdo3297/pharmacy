@@ -2,35 +2,31 @@
 
 namespace App\Filament\Resources\ProductResource\RelationManagers;
 
-use Filament\Forms;
-use App\Models\Side;
-use Filament\Tables;
-use App\Models\Offer;
-use App\Models\Product;
-use Filament\Forms\Form;
-use App\Enums\DiscounType;
-use App\Models\Indication;
-use Filament\Tables\Table;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Wizard\Step;
+use App\Models\Category;
 use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\DateTimePicker;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\Concerns\Translatable;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Actions\AttachAction;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DetachAction;
+use Filament\Tables\Actions\DetachBulkAction;
+use Filament\Tables\Actions\LocaleSwitcher;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class CategoriesRelationManager extends RelationManager
 {
     use Translatable;
+
     protected static string $relationship = 'categories';
 
     public function form(Form $form): Form
@@ -48,142 +44,7 @@ class CategoriesRelationManager extends RelationManager
                                 ->image()
                                 ->collection('categoryImages'),
                         ]),
-                    Step::make('Products Details')
-                        ->schema([
-                            Select::make('products')
-                                ->relationship('products', 'name')
-                                ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
-                                ->preload()
-                                ->multiple()
-                                ->searchable()
-                                ->hintAction(
-                                    fn(Select $component) => Action::make('select all')
-                                        ->action(fn() => $component->state(Product::pluck('id')->toArray()))
-                                )
-                                ->createOptionForm([
-                                    Section::make('Product Details')
-                                        ->schema([
-                                            TextInput::make('name')
-                                                ->required()
-                                                ->string()
-                                                ->rules(['required', 'string']),
-                                            Textarea::make('description')
-                                                ->required()
-                                                ->string()
-                                                ->rules(['required', 'string']),
-                                            SpatieMediaLibraryFileUpload::make('image')
-                                                ->required()
-                                                ->image()
-                                                ->rules(['image'])
-                                                ->collection('productImages'),
-                                            TextInput::make('barcode')
-                                                ->required()
-                                                ->string()
-                                                ->rules(['required', 'string', 'size:10']),
-                                        ])->collapsible(),
-                                    Section::make('Product Store')
-                                        ->schema([
-                                            TextInput::make('stock')
-                                                ->required()
-                                                ->integer()
-                                                ->rules(['required', 'integer']),
-                                            TextInput::make('alert')
-                                                ->required()
-                                                ->integer()
-                                                ->lt('stock')
-                                                ->rules(['required', 'integer']),
-                                        ])->collapsible(),
-                                    Section::make('Product Price')
-                                        ->schema([
-                                            TextInput::make('unit_price')
-                                                ->required()
-                                                ->numeric()
-                                                ->minValue(0)
-                                                ->prefix('$')
-                                                ->rules(['required', 'numeric', 'min:0']),
-                                            TextInput::make('no_units')
-                                                ->required()
-                                                ->integer()
-                                                ->minValue(1)
-                                                ->rules(['required', 'integer', 'min:1']),
-                                        ])->collapsible(),
-                                    Section::make('side Effects')
-                                        ->schema([
-                                            Select::make('side Effects')
-                                                ->relationship('sideEffects', 'name')
-                                                ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
-                                                ->preload()
-                                                ->multiple()
-                                                ->required()
-                                                ->searchable()
-                                                ->hintAction(
-                                                    fn(Select $component) => Action::make('select all')
-                                                        ->action(fn() => $component->state(Side::pluck('id')->toArray()))
-                                                )
-                                                ->createOptionForm([
-                                                    TextInput::make('name')
-                                                        ->required()
-                                                        ->string()
-                                                        ->rules(['required', 'string']),
-                                                ]),
-                                        ])->collapsible(),
-                                    Section::make('Indications')
-                                        ->schema([
-                                            Select::make('Indications')
-                                                ->relationship('indications', 'name')
-                                                ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
-                                                ->preload()
-                                                ->multiple()
-                                                ->required()
-                                                ->searchable()
-                                                ->hintAction(
-                                                    fn(Select $component) => Action::make('select all')
-                                                        ->action(fn() => $component->state(Indication::pluck('id')->toArray()))
-                                                )
-                                                ->createOptionForm([
-                                                    TextInput::make('name')
-                                                        ->required()
-                                                        ->string()
-                                                        ->rules(['required', 'string']),
-                                                ]),
-                                        ])->collapsible(),
-                                    Section::make('Offers')
-                                        ->schema([
-                                            Select::make('Offers')
-                                                ->relationship('offers', 'name')
-                                                ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
-                                                ->preload()
-                                                ->searchable()
-                                                ->hintAction(
-                                                    fn(Select $component) => Action::make('select all')
-                                                        ->action(fn() => $component->state(Offer::pluck('id')->toArray()))
-                                                )
-                                                ->createOptionForm([
-                                                    Section::make('Offer Name')
-                                                        ->schema([
-                                                            TextInput::make('name')
-                                                                ->required()
-                                                                ->string(),
-                                                        ])->collapsible(),
-                                                    Section::make('Offer Discount Details')
-                                                        ->schema([
-                                                            Select::make('discount_type')
-                                                                ->required()
-                                                                ->options(DiscounType::class),
-                                                            TextInput::make('discount_value')
-                                                                ->required()
-                                                                ->rules(['numeric', 'max:100']),
-                                                        ])->collapsible(),
-                                                    Section::make('Offer Date Details')
-                                                        ->schema([
-                                                            DateTimePicker::make('start_date')->required(),
-                                                            DateTimePicker::make('end_date')->required()->after('start_date'),
-                                                        ])->collapsible(),
-                                                ]),
-                                        ])->collapsible(),
-                                ]),
-                        ]),
-                ])->columnSpanFull()
+                ])->columnSpanFull(),
             ]);
     }
 
@@ -200,16 +61,22 @@ class CategoriesRelationManager extends RelationManager
                     ->width(100)
                     ->height(100),
             ])
-            ->filters([
-                //
-            ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                AttachAction::make()
+                    ->preloadRecordSelect()
+                    ->recordSelect(function (Select $select) {
+                        return $select
+                            ->multiple()
+                            ->hintAction(
+                                fn (Select $component) => Action::make('select all')
+                                    ->action(fn () => $component->state(Category::pluck('id')->toArray()))
+                            );
+                    }),
+                LocaleSwitcher::make(),
             ])
             ->actions([
-                Tables\Actions\viewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()->successNotification(
+                ViewAction::make(),
+                DetachAction::make()->successNotification(
                     Notification::make()
                         ->success()
                         ->title('Category deleted')
@@ -217,8 +84,8 @@ class CategoriesRelationManager extends RelationManager
                 ),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DetachBulkAction::make(),
                 ]),
             ]);
     }

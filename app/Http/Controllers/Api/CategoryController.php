@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Category;
-use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\CategoryResource;
+use App\Models\Category;
+use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
@@ -21,6 +21,7 @@ class CategoryController extends Controller
                 Response::HTTP_OK
             );
         }
+
         return ResponseHelper::finalResponse(
             'data not found',
             null,
@@ -28,6 +29,7 @@ class CategoryController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function show($id)
     {
         $category = Category::with(
@@ -38,9 +40,9 @@ class CategoryController extends Controller
                         'media',
                         'sideEffects',
                         'indications',
-                        'offers'
+                        'offers',
                     ]);
-                }
+                },
             ]
         )->find($id);
         if ($category) {
@@ -51,6 +53,7 @@ class CategoryController extends Controller
                 Response::HTTP_OK
             );
         }
+
         return ResponseHelper::finalResponse(
             'data not found',
             null,

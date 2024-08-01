@@ -2,23 +2,22 @@
 
 namespace App\Notifications;
 
+use App\Models\Pharmacy;
 use App\Models\User;
 use Ichtrojan\Otp\Otp;
-use App\Models\Pharmacy;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class NewUserNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct(public User $user)
-    {
-    }
+    public function __construct(public User $user) {}
 
     /**
      * Get the notification's delivery channels.
@@ -43,6 +42,7 @@ class NewUserNotification extends Notification implements ShouldQueue
         )->token;
         $otpValidity = config('pharmacy.otp.VALID');
         $logoUrl = Pharmacy::find(1)->getFirstMediaUrl('pharmacyLogo');
+
         return (new MailMessage)
             ->view('emails.sendOTP', [
                 'name' => $this->user->name,

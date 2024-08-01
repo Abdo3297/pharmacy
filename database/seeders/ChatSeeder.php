@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ChatSeeder extends Seeder
 {
@@ -36,7 +35,7 @@ class ChatSeeder extends Seeder
                 $data = [];
             }
         }
-        if (!empty($data)) {
+        if (! empty($data)) {
             foreach ($data as $item) {
                 Chat::create($item);
                 $chats = Chat::take($chunkSize)->get();

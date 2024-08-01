@@ -27,9 +27,9 @@ class updateProfileRequest extends customRequest
             'name' => ['sometimes', 'string'],
             'phone' => ['sometimes', (new Phone), Rule::unique('users')->ignore(auth()->user()->id)],
             'phone_country' => ['required_with:phone'],
-            'gender' => ['sometimes', 'string', 'in:' . implode(',', array_map(fn ($case) => $case->value, UserGender::cases()))],
+            'gender' => ['sometimes', 'string', 'in:'.implode(',', array_map(fn ($case) => $case->value, UserGender::cases()))],
             'birth' => ['sometimes', 'date'],
-            'image' => ['sometimes', 'image', 'mimes:png,jpg,jpeg,webp,svg']
+            'image' => ['sometimes', 'image', 'mimes:png,jpg,jpeg,webp,svg'],
         ];
     }
 }

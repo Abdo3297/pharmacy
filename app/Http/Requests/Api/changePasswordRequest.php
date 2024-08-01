@@ -4,7 +4,6 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Validation\Rules\Password;
 
-
 class changePasswordRequest extends customRequest
 {
     /**
@@ -30,7 +29,7 @@ class changePasswordRequest extends customRequest
                 Password::min(8)
                     ->mixedCase()
                     ->numbers()
-                    ->symbols()
+                    ->symbols(),
             ],
         ];
     }

@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\PharmacyResource\Pages;
 
+use App\Filament\Resources\PharmacyResource;
 use Filament\Actions\EditAction;
 use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\ViewRecord;
-use App\Filament\Resources\PharmacyResource;
 
 class ViewPharmacy extends ViewRecord
 {

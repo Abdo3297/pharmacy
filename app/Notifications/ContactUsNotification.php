@@ -2,16 +2,17 @@
 
 namespace App\Notifications;
 
-use App\Models\User;
 use App\Models\Pharmacy;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class ContactUsNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
     public $data;
 
     /**
@@ -38,6 +39,7 @@ class ContactUsNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         $logoUrl = Pharmacy::find(1)->getFirstMediaUrl('pharmacyLogo');
+
         return (new MailMessage)
             ->view('emails.contactUs', [
                 'name' => $this->user->name,

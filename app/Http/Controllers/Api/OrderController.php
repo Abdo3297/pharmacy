@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ResponseHelper;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\storeOrderRequest;
+use App\Http\Requests\Api\updateOrderRequest;
+use App\Http\Resources\Api\OrderResource;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Response;
-use App\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\OrderResource;
-use App\Http\Requests\Api\storeOrderRequest;
-use App\Http\Requests\Api\updateOrderRequest;
 
 class OrderController extends Controller
 {
@@ -28,6 +28,7 @@ class OrderController extends Controller
                 Response::HTTP_OK
             );
         }
+
         return ResponseHelper::finalResponse(
             'data not found',
             null,
@@ -50,6 +51,7 @@ class OrderController extends Controller
                 Response::HTTP_OK
             );
         }
+
         return ResponseHelper::finalResponse(
             'data not found',
             null,
@@ -72,8 +74,9 @@ class OrderController extends Controller
             $items = [];
             foreach ($data['items'] as $item) {
                 $product = Product::find($item['product_id']);
-                if (!$product) {
+                if (! $product) {
                     DB::rollBack();
+
                     return ResponseHelper::finalResponse(
                         'product not found',
                         null,
@@ -83,6 +86,7 @@ class OrderController extends Controller
                 }
                 if ($product->stock < $item['quantity']) {
                     DB::rollBack();
+
                     return ResponseHelper::finalResponse(
                         'this amount unavailable',
                         null,
@@ -112,16 +116,18 @@ class OrderController extends Controller
             $totalAmount = collect($items)->sum('total_price');
             $order->update(['total_amount' => $totalAmount]);
             DB::commit();
+
             return ResponseHelper::finalResponse(
                 'order created successfully',
                 [
-                    'totalAmount' => $totalAmount
+                    'totalAmount' => $totalAmount,
                 ],
                 true,
                 Response::HTTP_CREATED
             );
         } catch (\Exception $e) {
             DB::rollBack();
+
             return ResponseHelper::finalResponse(
                 'Order creation failed',
                 $e->getMessage(),
@@ -140,8 +146,9 @@ class OrderController extends Controller
         DB::beginTransaction();
         try {
             $order = Order::find($id);
-            if (!$order) {
+            if (! $order) {
                 DB::rollBack();
+
                 return ResponseHelper::finalResponse(
                     'this order not found',
                     null,
@@ -151,6 +158,7 @@ class OrderController extends Controller
             }
             if ($order->user_id != auth()->user()->id) {
                 DB::rollBack();
+
                 return ResponseHelper::finalResponse(
                     'You Are Not Allowed',
                     null,
@@ -163,6 +171,7 @@ class OrderController extends Controller
                 $product = Product::find($item['product_id']);
                 if ($product->stock < $item['quantity']) {
                     DB::rollBack();
+
                     return ResponseHelper::finalResponse(
                         'this amount unavailable',
                         null,
@@ -170,8 +179,9 @@ class OrderController extends Controller
                         Response::HTTP_OK
                     );
                 }
-                if (!$product) {
+                if (! $product) {
                     DB::rollBack();
+
                     return ResponseHelper::finalResponse(
                         'product not found',
                         null,
@@ -200,10 +210,11 @@ class OrderController extends Controller
             $totalAmount = collect($items)->sum('total_price');
             $order->update(['total_amount' => $totalAmount]);
             DB::commit();
+
             return ResponseHelper::finalResponse(
                 'Order updated successfully',
                 [
-                    'totalAmount' => $totalAmount
+                    'totalAmount' => $totalAmount,
                 ],
                 true,
                 Response::HTTP_OK
@@ -226,7 +237,7 @@ class OrderController extends Controller
     public function destroy($id)
     {
         $order = Order::find($id);
-        if (!$order) {
+        if (! $order) {
             return ResponseHelper::finalResponse(
                 'data not found',
                 null,
@@ -243,6 +254,7 @@ class OrderController extends Controller
             );
         }
         $order->delete();
+
         return ResponseHelper::finalResponse(
             'data deleted successfully',
             null,

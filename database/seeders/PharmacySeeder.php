@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Pharmacy;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PharmacySeeder extends Seeder
@@ -18,7 +17,7 @@ class PharmacySeeder extends Seeder
             $data = [
                 'name' => [
                     'en' => fake()->name(),
-                    'ar' => fake('ar_JO')->name()
+                    'ar' => fake('ar_JO')->name(),
                 ],
                 'created_at' => now(),
                 'updated_at' => now(),

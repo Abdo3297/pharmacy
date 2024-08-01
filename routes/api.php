@@ -1,22 +1,22 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\FaqController;
-use App\Http\Controllers\Api\ChatController;
-use App\Http\Controllers\Api\TermController;
 use App\Http\Controllers\Api\AboutController;
-use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\Api\FaqController;
+use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\InvoiceController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PrivacyController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SettingController;
-use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\FavouriteController;
-use App\Http\Controllers\Api\NotificationController;
-use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\TermController;
+use Illuminate\Support\Facades\Route;
 
-############################################################################################
-############################################################################################
+//###########################################################################################
+//###########################################################################################
 /* Authentication Module */
 
 Route::middleware(['appLang'])
@@ -39,8 +39,8 @@ Route::middleware(['auth:sanctum', 'appLang'])
         Route::post('/changePassword', 'changePassword');
         Route::post('/deleteProfile', 'deleteProfile');
     });
-############################################################################################
-############################################################################################
+//###########################################################################################
+//###########################################################################################
 /* Category Module */
 Route::middleware(['appLang'])
     ->controller(CategoryController::class)
@@ -48,8 +48,8 @@ Route::middleware(['appLang'])
         Route::get('/getCategoryList', 'index');
         Route::get('/getCategoryDetails/{id}', 'show');
     });
-############################################################################################
-############################################################################################
+//###########################################################################################
+//###########################################################################################
 /* Product Module */
 Route::middleware(['appLang'])
     ->controller(ProductController::class)
@@ -62,8 +62,8 @@ Route::middleware(['appLang', 'auth:sanctum'])
     ->group(function () {
         Route::post('/suggestsForYou', 'suggestsForYou');
     });
-############################################################################################
-############################################################################################
+//###########################################################################################
+//###########################################################################################
 /* Favourite Module */
 Route::middleware(['auth:sanctum', 'appLang'])
     ->controller(FavouriteController::class)
@@ -71,12 +71,12 @@ Route::middleware(['auth:sanctum', 'appLang'])
         Route::get('/displayFavouriteProduct', 'displayFavouriteProduct');
         Route::post('/toggleFavourite', 'toggleFavourite');
     });
-############################################################################################
-############################################################################################
+//###########################################################################################
+//###########################################################################################
 /* Settings Module */
 Route::prefix('/settings')->group(function () {
-    ###################################################################
-    ###################################################################
+    //##################################################################
+    //##################################################################
     /* Onboarding Part */
     Route::controller(SettingController::class)->group(function () {
         Route::get('/getOnboarding', 'getOnboarding');
@@ -85,57 +85,57 @@ Route::prefix('/settings')->group(function () {
     Route::controller(SettingController::class)->group(function () {
         Route::get('/getpharmacyCarousel', 'getpharmacyCarousel');
     });
-    ###################################################################
-    ###################################################################
+    //##################################################################
+    //##################################################################
     /* Language Part */
     Route::controller(SettingController::class)->group(function () {
         Route::get('/getAvailableLanguage', 'getAvailableLanguage');
         Route::post('/changeLanguage', 'changeLanguage');
     });
-    ###################################################################
-    ###################################################################
+    //##################################################################
+    //##################################################################
     /* Contact Part */
     Route::middleware(['auth:sanctum', 'appLang'])
         ->controller(SettingController::class)->group(function () {
             Route::post('/contactUs', 'contactUs');
         });
-    ###################################################################
-    ###################################################################
+    //##################################################################
+    //##################################################################
     /* About Part */
     Route::middleware(['appLang'])
         ->controller(AboutController::class)
         ->group(function () {
             Route::get('/getAboutList', 'index');
         });
-    ###################################################################
-    ###################################################################
+    //##################################################################
+    //##################################################################
     /* Privacy Part */
     Route::middleware(['appLang'])
         ->controller(PrivacyController::class)
         ->group(function () {
             Route::get('/getPrivacyList', 'index');
         });
-    ###################################################################
-    ###################################################################
-    /* FAQ Part */
+    //##################################################################
+    //##################################################################
+    /* Faq Part */
     Route::middleware(['appLang'])
         ->controller(FaqController::class)
         ->group(function () {
             Route::get('/getFaqList', 'index');
         });
-    ###################################################################
-    ###################################################################
+    //##################################################################
+    //##################################################################
     /* Term Part */
     Route::middleware(['appLang'])
         ->controller(TermController::class)
         ->group(function () {
             Route::get('/getTermList', 'index');
         });
-    ###################################################################
-    ###################################################################
+    //##################################################################
+    //##################################################################
 });
-############################################################################################
-############################################################################################
+//###########################################################################################
+//###########################################################################################
 /* Order Module */
 Route::middleware(['auth:sanctum', 'appLang'])
     ->controller(OrderController::class)
@@ -146,16 +146,16 @@ Route::middleware(['auth:sanctum', 'appLang'])
         Route::post('/updateOrder/{id}', 'update');
         Route::post('/deleteOrder/{id}', 'destroy');
     });
-############################################################################################
-############################################################################################
+//###########################################################################################
+//###########################################################################################
 /* Invoice Module */
 Route::middleware(['auth:sanctum', 'appLang'])
     ->controller(InvoiceController::class)
     ->group(function () {
         Route::get('/downloadInvoice/{orderId}', 'index');
     });
-############################################################################################
-############################################################################################
+//###########################################################################################
+//###########################################################################################
 /* Chat Module */
 Route::middleware(['auth:sanctum', 'appLang'])
     ->controller(ChatController::class)
@@ -165,8 +165,8 @@ Route::middleware(['auth:sanctum', 'appLang'])
         Route::post('/downloadFile/{messageId}', 'downloadFile');
         Route::post('/markAsRead', 'markAsRead');
     });
-############################################################################################
-############################################################################################
+//###########################################################################################
+//###########################################################################################
 /* Notification Module */
 Route::middleware(['auth:sanctum'])
     ->controller(NotificationController::class)

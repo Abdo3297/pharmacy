@@ -19,6 +19,7 @@ class appLangMiddleware
         if ($locale && in_array($locale, config('app.available_locales'))) {
             app()->setLocale($locale);
         }
+
         return $next($request);
     }
 }

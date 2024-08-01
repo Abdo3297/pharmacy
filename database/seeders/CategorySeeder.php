@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class CategorySeeder extends Seeder
 {
@@ -20,7 +19,7 @@ class CategorySeeder extends Seeder
             $data[] = [
                 'name' => [
                     'en' => fake()->name(),
-                    'ar' => fake('ar_JO')->name()
+                    'ar' => fake('ar_JO')->name(),
                 ],
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -36,7 +35,7 @@ class CategorySeeder extends Seeder
                 $data = [];
             }
         }
-        if (!empty($data)) {
+        if (! empty($data)) {
             foreach ($data as $item) {
                 Category::create($item);
                 $categories = Category::take($chunkSize)->get();

@@ -2,28 +2,30 @@
 
 namespace App\Filament\Resources;
 
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
+use App\Filament\Resources\UserResource\Pages\ListUsers;
+use App\Filament\Resources\UserResource\Pages\ViewUser;
+use App\Filament\Resources\UserResource\RelationManagers\FavouritesRelationManager;
+use App\Filament\Resources\UserResource\RelationManagers\OrdersRelationManager;
+use App\Filament\Resources\UserResource\Widgets\UserOrdersFavs;
 use App\Models\User;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Wizard\Step;
-use App\Filament\Resources\UserResource\Pages\ViewUser;
-use App\Filament\Resources\UserResource\Pages\ListUsers;
-use App\Filament\Resources\UserResource\Widgets\UserOrdersFavs;
-use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
-use App\Filament\Resources\UserResource\RelationManagers\OrdersRelationManager;
-use App\Filament\Resources\UserResource\RelationManagers\FavouritesRelationManager;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+
     protected static ?string $navigationIcon = 'fas-users';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -41,7 +43,7 @@ class UserResource extends Resource
                                     TextInput::make('gender'),
                                 ])->columns(2),
                         ]),
-                ])->columnSpanFull()
+                ])->columnSpanFull(),
             ]);
     }
 
@@ -66,7 +68,7 @@ class UserResource extends Resource
                     ->fileName('User Sheet')
                     ->defaultFormat('csv')
                     ->disableXlsx()
-                    ->disableAdditionalColumns()
+                    ->disableAdditionalColumns(),
             ])
             ->actions([
                 ViewAction::make(),
@@ -77,15 +79,17 @@ class UserResource extends Resource
     {
         return [
             OrdersRelationManager::class,
-            FavouritesRelationManager::class
+            FavouritesRelationManager::class,
         ];
     }
+
     public static function getWidgets(): array
     {
         return [
             UserOrdersFavs::class,
         ];
     }
+
     public static function getPages(): array
     {
         return [

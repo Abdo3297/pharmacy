@@ -23,7 +23,7 @@ return new class extends Migration
                 ->constrained('products')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->unique(['category_id','product_id']);
+            $table->unique(['category_id', 'product_id']);
             $table->timestamps();
         });
     }

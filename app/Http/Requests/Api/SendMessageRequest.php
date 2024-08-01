@@ -2,13 +2,15 @@
 
 namespace App\Http\Requests\Api;
 
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Str;
 
 class SendMessageRequest extends customRequest
 {
     public $storedAttachments = [];
+
     public $originalAttachmentFileNames = [];
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -30,18 +32,20 @@ class SendMessageRequest extends customRequest
             'attachments.*' => ['file'],
         ];
     }
+
     /**
      * Ensure either message or attachments (or both) are present.
      */
     protected function withValidator(Validator $validator)
     {
         $validator->after(function ($validator) {
-            if (!$this->filled('message') && !$this->hasFile('attachments')) {
+            if (! $this->filled('message') && ! $this->hasFile('attachments')) {
                 $validator->errors()->add('message', 'Either message or attachments must be provided.');
                 $validator->errors()->add('attachments', 'Either message or attachments must be provided.');
             }
         });
     }
+
     /**
      * Handle the attachment processing and store them.
      */
@@ -54,7 +58,7 @@ class SendMessageRequest extends customRequest
 
         foreach ($attachments as $attachment) {
             // Generate a random file name
-            $randomFileName = Str::random(26) . '.' . $attachment->getClientOriginalExtension();
+            $randomFileName = Str::random(26).'.'.$attachment->getClientOriginalExtension();
             // Store the file in the 'attachments' directory on the specified disk
             $path = $attachment->storeAs('attachments', $randomFileName, config('filachat.disk'));
             // Add the stored file path to the storedAttachments array

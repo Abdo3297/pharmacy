@@ -2,26 +2,32 @@
 
 namespace App\Filament\Resources\OfferResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
+use App\Models\Product;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Wizard\Step;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\Concerns\Translatable;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Actions\AttachAction;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DetachAction;
+use Filament\Tables\Actions\DetachBulkAction;
+use Filament\Tables\Actions\LocaleSwitcher;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class ProductsRelationManager extends RelationManager
 {
     use Translatable;
+
     protected static string $relationship = 'products';
 
     public function form(Form $form): Form
@@ -31,19 +37,9 @@ class ProductsRelationManager extends RelationManager
                 Wizard::make([
                     Step::make('Product Details')
                         ->schema([
-                            Textarea::make('description')
-                                ->required()
-                                ->string()
-                                ->rules(['required', 'string']),
-                            SpatieMediaLibraryFileUpload::make('image')
-                                ->required()
-                                ->image()
-                                ->rules(['image'])
-                                ->collection('productImages'),
-                            TextInput::make('name')
-                                ->required()
-                                ->string()
-                                ->rules(['required', 'string']),
+                            Textarea::make('description'),
+                            SpatieMediaLibraryFileUpload::make('image')->collection('productImages'),
+                            TextInput::make('name'),
                             TextInput::make('barcode')
                                 ->required()
                                 ->string()
@@ -69,31 +65,7 @@ class ProductsRelationManager extends RelationManager
                                 ->minValue(1)
                                 ->rules(['required', 'integer', 'min:1']),
                         ])->columns(2),
-                    Step::make('Categories Details')
-                        ->schema([
-                            Select::make('categories')
-                                ->label('Categories')
-                                ->relationship('categories', 'name')
-                                ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
-                                ->multiple()
-                        ])->columns(1),
-                    Step::make('Side Effects Details')
-                        ->schema([
-                            Select::make('sideEffects')
-                                ->label('Side Effects')
-                                ->relationship('sideEffects', 'name')
-                                ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
-                                ->multiple()
-                        ])->columns(1),
-                    Step::make('Indications Details')
-                        ->schema([
-                            Select::make('indications')
-                                ->label('Indications')
-                                ->relationship('indications', 'name')
-                                ->getOptionLabelFromRecordUsing(fn($record) => $record->name)
-                                ->multiple()
-                        ])->columns(1),
-                ])->columnSpanFull()
+                ])->columnSpanFull(),
             ]);
     }
 
@@ -114,15 +86,32 @@ class ProductsRelationManager extends RelationManager
                 TextColumn::make('unit_price')->money('USD'),
                 TextColumn::make('no_units'),
             ])
-            ->filters([
-                //
-            ])
             ->headerActions([
+                AttachAction::make()
+                    ->preloadRecordSelect()
+                    ->recordSelect(function (Select $select) {
+                        return $select
+                            ->multiple()
+                            ->hintAction(
+                                fn (Select $component) => Action::make('select all')
+                                    ->action(fn () => $component->state(Product::pluck('id')->toArray()))
+                            );
+                    }),
+                LocaleSwitcher::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                ViewAction::make(),
+                DetachAction::make()->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Product deleted')
+                        ->body('The product has been deleted successfully.'),
+                ),
             ])
             ->bulkActions([
+                BulkActionGroup::make([
+                    DetachBulkAction::make(),
+                ]),
             ]);
     }
 }

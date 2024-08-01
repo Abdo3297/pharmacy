@@ -24,14 +24,14 @@ class resetPasswordRequest extends customRequest
     {
         return [
             'email' => ['required', 'email', Rule::exists('users', 'email')],
-            'otp' => ['required', 'min:' . config('pharmacy.otp.LENGTH')],
+            'otp' => ['required', 'min:'.config('pharmacy.otp.LENGTH')],
             'password' => [
                 'required',
                 'confirmed',
                 Password::min(8)
                     ->mixedCase()
                     ->numbers()
-                    ->symbols()
+                    ->symbols(),
             ],
         ];
     }

@@ -194,5 +194,5 @@ return [
     | see supported timezones here: https://www.php.net/manual/en/timezones.php
     |
     */
-    'timezone' => "Africa/Cairo",
+    'timezone' => 'Africa/Cairo',
 ];

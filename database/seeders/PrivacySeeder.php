@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Privacy;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PrivacySeeder extends Seeder
@@ -20,7 +19,7 @@ class PrivacySeeder extends Seeder
             $data[] = [
                 'content' => [
                     'en' => fake()->name(),
-                    'ar' => fake('ar_JO')->name()
+                    'ar' => fake('ar_JO')->name(),
                 ],
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -32,7 +31,7 @@ class PrivacySeeder extends Seeder
                 $data = [];
             }
         }
-        if (!empty($data)) {
+        if (! empty($data)) {
             foreach ($data as $item) {
                 Privacy::create($item);
             }

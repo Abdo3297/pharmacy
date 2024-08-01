@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\PrivacyResource\Pages;
 
+use App\Filament\Resources\PrivacyResource;
 use Filament\Actions\CreateAction;
 use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\ListRecords;
-use App\Filament\Resources\PrivacyResource;
 
 class ListPrivacies extends ListRecords
 {

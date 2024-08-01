@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Term;
-use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\TermResource;
+use App\Models\Term;
+use Illuminate\Http\Response;
 
 class TermController extends Controller
 {
@@ -18,9 +18,10 @@ class TermController extends Controller
                 'data fetched successfully',
                 TermResource::collection($terms),
                 true,
-                    Response::HTTP_OK
+                Response::HTTP_OK
             );
         }
+
         return ResponseHelper::finalResponse(
             'data not found',
             null,

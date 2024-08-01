@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\About;
-use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\AboutResource;
+use App\Models\About;
+use Illuminate\Http\Response;
 
 class AboutController extends Controller
 {
@@ -21,6 +21,7 @@ class AboutController extends Controller
                 Response::HTTP_OK
             );
         }
+
         return ResponseHelper::finalResponse(
             'data not found',
             null,

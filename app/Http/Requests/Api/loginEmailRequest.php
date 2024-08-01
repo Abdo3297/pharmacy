@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Api;
 
-
 class loginEmailRequest extends customRequest
 {
     /**
@@ -22,7 +21,7 @@ class loginEmailRequest extends customRequest
     {
         return [
             'email' => ['required', 'email'],
-            'password' => ['required','string'],
+            'password' => ['required', 'string'],
         ];
     }
 }

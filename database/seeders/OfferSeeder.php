@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Offer;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class OfferSeeder extends Seeder
@@ -20,12 +19,12 @@ class OfferSeeder extends Seeder
             $data[] = [
                 'name' => [
                     'en' => fake()->name(),
-                    'ar' => fake('ar_JO')->name()
+                    'ar' => fake('ar_JO')->name(),
                 ],
-                'discount_type'=> 'percentage',
-                'discount_value'=> fake()->randomDigit(),
-                'start_date'=> now(),
-                'end_date'=> now()->addDays(4),
+                'discount_type' => 'percentage',
+                'discount_value' => fake()->randomDigit(),
+                'start_date' => now(),
+                'end_date' => now()->addDays(4),
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -36,7 +35,7 @@ class OfferSeeder extends Seeder
                 $data = [];
             }
         }
-        if (!empty($data)) {
+        if (! empty($data)) {
             foreach ($data as $item) {
                 Offer::create($item);
             }

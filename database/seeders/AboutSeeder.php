@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\About;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AboutSeeder extends Seeder
@@ -20,7 +19,7 @@ class AboutSeeder extends Seeder
             $data[] = [
                 'content' => [
                     'en' => fake()->name(),
-                    'ar' => fake('ar_JO')->name()
+                    'ar' => fake('ar_JO')->name(),
                 ],
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -32,7 +31,7 @@ class AboutSeeder extends Seeder
                 $data = [];
             }
         }
-        if (!empty($data)) {
+        if (! empty($data)) {
             foreach ($data as $item) {
                 About::create($item);
             }

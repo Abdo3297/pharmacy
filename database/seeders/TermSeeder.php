@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Term;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class TermSeeder extends Seeder
@@ -20,11 +19,11 @@ class TermSeeder extends Seeder
             $data[] = [
                 'key' => [
                     'en' => fake()->name(),
-                    'ar' => fake('ar_JO')->realText()
+                    'ar' => fake('ar_JO')->realText(),
                 ],
                 'value' => [
                     'en' => fake()->name(),
-                    'ar' => fake('ar_JO')->realText()
+                    'ar' => fake('ar_JO')->realText(),
                 ],
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -36,7 +35,7 @@ class TermSeeder extends Seeder
                 $data = [];
             }
         }
-        if (!empty($data)) {
+        if (! empty($data)) {
             foreach ($data as $item) {
                 Term::create($item);
             }

@@ -2,34 +2,41 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
 class Faq extends Model
 {
-    ## traits ##
+    //# traits ##
     use HasFactory,HasTranslations;
-    ## properties ##
+
+    //# properties ##
     protected $table = 'faqs';
+
     protected $primaryKey = 'id';
+
     protected $perPage = 10;
+
     public $timestamps = true;
+
     public $incrementing = true;
+
     protected $fillable = [
         'question',
-        'answer'
+        'answer',
     ];
+
     public $translatable = [
         'question',
-        'answer'
+        'answer',
     ];
-    ## relationships ##
-    ## scopes ##
-    ## accessors and mutators ##
-    ## search ##
-    ## filter ##
-    ## sort ##
-    ## spatie media library ##
-    ## local scope ##
+    //# relationships ##
+    //# scopes ##
+    //# accessors and mutators ##
+    //# search ##
+    //# filter ##
+    //# sort ##
+    //# spatie media library ##
+    //# local scope ##
 }

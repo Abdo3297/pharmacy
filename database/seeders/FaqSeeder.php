@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Faq;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class FaqSeeder extends Seeder
 {
@@ -20,23 +19,23 @@ class FaqSeeder extends Seeder
             $data[] = [
                 'question' => [
                     'en' => fake()->realText(),
-                    'ar' => fake('ar_JO')->realText()
+                    'ar' => fake('ar_JO')->realText(),
                 ],
                 'answer' => [
                     'en' => fake()->realText(),
-                    'ar' => fake('ar_JO')->realText()
+                    'ar' => fake('ar_JO')->realText(),
                 ],
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
             if (count($data) === $chunkSize) {
                 foreach ($data as $item) {
-                    FAQ::create($item);
+                    Faq::create($item);
                 }
                 $data = [];
             }
         }
-        if (!empty($data)) {
+        if (! empty($data)) {
             foreach ($data as $item) {
                 Faq::create($item);
             }

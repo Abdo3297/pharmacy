@@ -2,34 +2,35 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\TermResource\Pages\CreateTerm;
+use App\Filament\Resources\TermResource\Pages\EditTerm;
+use App\Filament\Resources\TermResource\Pages\ListTerms;
+use App\Filament\Resources\TermResource\Pages\ViewTerm;
 use App\Models\Term;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Filament\Resources\Concerns\Translatable;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Forms\Components\Wizard\Step;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Resources\Concerns\Translatable;
-use Filament\Tables\Actions\DeleteBulkAction;
-use App\Filament\Resources\TermResource\Pages\EditTerm;
-use App\Filament\Resources\TermResource\Pages\ViewTerm;
-use App\Filament\Resources\TermResource\Pages\ListTerms;
-use App\Filament\Resources\TermResource\Pages\CreateTerm;
+use Filament\Tables\Table;
 
 class TermResource extends Resource
 {
     use Translatable;
+
     protected static ?string $model = Term::class;
 
     protected static ?string $navigationIcon = 'fas-gear';
-    protected static ?int $navigationSort = 12;
 
+    protected static ?int $navigationSort = 12;
 
     public static function form(Form $form): Form
     {

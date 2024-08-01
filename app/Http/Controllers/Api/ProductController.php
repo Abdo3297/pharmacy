@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
-use App\Models\Product;
-use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\ProductResource;
+use App\Models\Product;
+use App\Models\User;
+use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
@@ -20,7 +20,7 @@ class ProductController extends Controller
             'categories' => function ($query) {
                 $query->select(['categories.id', 'categories.name']);
             },
-            'offers'
+            'offers',
         ])
             ->searchByQueryString()
             ->sortByQueryString()
@@ -29,6 +29,7 @@ class ProductController extends Controller
         if ($products) {
             return ResponseHelper::finalResponse('get products successfully', ProductResource::collection($products), true, Response::HTTP_OK);
         }
+
         return ResponseHelper::finalResponse(
             'data not found',
             null,
@@ -36,6 +37,7 @@ class ProductController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function show($id)
     {
         $product = Product::with([
@@ -45,7 +47,7 @@ class ProductController extends Controller
             'categories' => function ($query) {
                 $query->select(['categories.id', 'categories.name']);
             },
-            'offers'
+            'offers',
         ])->find($id);
         if ($product) {
             return ResponseHelper::finalResponse(
@@ -55,6 +57,7 @@ class ProductController extends Controller
                 Response::HTTP_OK
             );
         }
+
         return ResponseHelper::finalResponse(
             'data not found',
             null,
@@ -62,11 +65,13 @@ class ProductController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function suggestsForYou()
     {
         $user = User::find(auth()->user()->id);
         if ($user->favourites->isEmpty()) {
             $randomProducts = Product::inRandomOrder()->take(10)->with(['media', 'offers', 'sideEffects', 'indications'])->get();
+
             return ResponseHelper::finalResponse('get data successfully', ProductResource::collection($randomProducts), true, Response::HTTP_OK);
         }
         $productIds = $user->favourites->flatMap(function ($favourite) {
@@ -75,6 +80,7 @@ class ProductController extends Controller
             });
         })->pluck('id')->unique();
         $products = Product::whereIn('id', $productIds)->with(['media', 'offers', 'sideEffects', 'indications'])->paginate();
+
         return ResponseHelper::finalResponse('get data successfully', ProductResource::collection($products), true, Response::HTTP_OK);
     }
 }

@@ -23,7 +23,7 @@ class changeLanguageRequest extends customRequest
             'lang' => [
                 'required',
                 'string',
-                'in:' . implode(',', config('app.available_locales'))
+                'in:'.implode(',', config('app.available_locales')),
             ],
         ];
     }

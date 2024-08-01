@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ResponseHelper;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\changePasswordRequest;
+use App\Http\Requests\Api\checkOTPRequest;
+use App\Http\Requests\Api\loginEmailRequest;
+use App\Http\Requests\Api\loginPhoneRequest;
+use App\Http\Requests\Api\registerRequest;
+use App\Http\Requests\Api\resendOTPRequest;
+use App\Http\Requests\Api\resetPasswordRequest;
+use App\Http\Requests\Api\updateProfileRequest;
+use App\Http\Resources\Api\UserResource;
 use App\Models\User;
 use App\Notifications\NewUserNotification;
 use Filament\Notifications\Events\DatabaseNotificationsSent;
 use Ichtrojan\Otp\Otp;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Resources\Api\UserResource;
-use App\Http\Requests\Api\checkOTPRequest;
-use App\Http\Requests\Api\registerRequest;
-use App\Http\Requests\Api\resendOTPRequest;
-use App\Http\Requests\Api\loginEmailRequest;
-use App\Http\Requests\Api\loginPhoneRequest;
-use App\Http\Requests\Api\resetPasswordRequest;
-use App\Http\Requests\Api\updateProfileRequest;
-use App\Http\Requests\Api\changePasswordRequest;
 
 class AuthenticationController extends Controller
 {
@@ -31,14 +31,15 @@ class AuthenticationController extends Controller
         /* send OTP mail notification to user */
         \Illuminate\Support\Facades\Notification::send($user, new NewUserNotification($user));
         /* send notification to admin that new user come */
-        $admin = User::where("is_admin", true)->first();
+        $admin = User::where('is_admin', true)->first();
         \Filament\Notifications\Notification::make()
             ->icon('fas-user-plus')
             ->iconColor('primary')
             ->title('New User In Your Pharmacy')
-            ->body('Email : ' . $user->email)
+            ->body('Email : '.$user->email)
             ->sendToDatabase($admin);
         event(new DatabaseNotificationsSent($admin));
+
         return ResponseHelper::finalResponse(
             'new user created successfully , check your email',
             UserResource::make($user),
@@ -46,12 +47,13 @@ class AuthenticationController extends Controller
             Response::HTTP_CREATED
         );
     }
+
     public function checkRegisterOTP(checkOTPRequest $request)
     {
         $data = $request->validated();
         $user = User::whereEmail($data['email'])->first();
         $otp = (new Otp)->validate($data['email'], $data['otp']);
-        if (!$otp->status) {
+        if (! $otp->status) {
             return ResponseHelper::finalResponse(
                 'OTP Not Valid',
                 null,
@@ -64,9 +66,10 @@ class AuthenticationController extends Controller
             ->where('token', $data['otp'])
             ->update(['valid' => 1]);
         User::whereEmail($data['email'])->update([
-            'email_verified_at' => now()
+            'email_verified_at' => now(),
         ]);
         $token = $user->createToken('app')->plainTextToken;
+
         return ResponseHelper::finalResponse(
             'OTP Valid and Email Verified',
             [
@@ -76,11 +79,13 @@ class AuthenticationController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function sendOTP(resendOTPRequest $request)
     {
         $data = $request->validated();
         $user = User::whereEmail($data['email'])->first();
         \Illuminate\Support\Facades\Notification::send($user, new NewUserNotification($user));
+
         return ResponseHelper::finalResponse(
             'OTP Resend Successfully',
             null,
@@ -88,11 +93,12 @@ class AuthenticationController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function checkOTP(checkOTPRequest $request)
     {
         $data = $request->validated();
         $otp = (new Otp)->validate($data['email'], $data['otp']);
-        if (!$otp->status) {
+        if (! $otp->status) {
             return ResponseHelper::finalResponse(
                 'OTP Not Valid',
                 null,
@@ -104,6 +110,7 @@ class AuthenticationController extends Controller
             ->where('identifier', $data['email'])
             ->where('token', $data['otp'])
             ->update(['valid' => 1]);
+
         return ResponseHelper::finalResponse(
             'OTP Valid',
             null,
@@ -111,12 +118,13 @@ class AuthenticationController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function resetPassword(resetPasswordRequest $request)
     {
         $data = $request->validated();
         $user = User::whereEmail($data['email'])->first();
         $otp = (new Otp)->validate($user->email, $data['otp']);
-        if (!$otp->status) {
+        if (! $otp->status) {
             return ResponseHelper::finalResponse(
                 'OTP Not Valid',
                 null,
@@ -125,9 +133,10 @@ class AuthenticationController extends Controller
             );
         }
         $user->update([
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['password']),
         ]);
         $user->tokens()->delete();
+
         return ResponseHelper::finalResponse(
             'password reset successfully',
             null,
@@ -135,6 +144,7 @@ class AuthenticationController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function loginEmail(loginEmailRequest $request)
     {
         $data = $request->validated();
@@ -142,6 +152,7 @@ class AuthenticationController extends Controller
             $user = User::find(auth()->user()->id);
             $token = $user->createToken('auth_token')->plainTextToken;
             $user->token = $token;
+
             return ResponseHelper::finalResponse(
                 'user logged in successfully',
                 UserResource::make($user),
@@ -149,6 +160,7 @@ class AuthenticationController extends Controller
                 Response::HTTP_OK
             );
         }
+
         return ResponseHelper::finalResponse(
             'user credentials doesn\'t exists',
             null,
@@ -164,6 +176,7 @@ class AuthenticationController extends Controller
             $user = User::find(auth()->user()->id);
             $token = $user->createToken('auth_token')->plainTextToken;
             $user->token = $token;
+
             return ResponseHelper::finalResponse(
                 'user logged in successfully',
                 UserResource::make($user),
@@ -171,6 +184,7 @@ class AuthenticationController extends Controller
                 Response::HTTP_OK
             );
         }
+
         return ResponseHelper::finalResponse(
             'user credentials doesn\'t exists',
             null,
@@ -182,6 +196,7 @@ class AuthenticationController extends Controller
     public function logoutFromCurrentDevices(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
+
         return ResponseHelper::finalResponse(
             'user logged out From Current Device successfully',
             null,
@@ -189,9 +204,11 @@ class AuthenticationController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function logoutFromAllDevices(Request $request)
     {
         $request->user()->tokens()->delete();
+
         return ResponseHelper::finalResponse(
             'user logged out From All Devices successfully',
             null,
@@ -199,6 +216,7 @@ class AuthenticationController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function updateProfile(updateProfileRequest $request)
     {
         $data = $request->validated();
@@ -208,6 +226,7 @@ class AuthenticationController extends Controller
             $user->clearMediaCollection('userProfile');
             $user->addMediaFromRequest('image')->toMediaCollection('userProfile');
         }
+
         return ResponseHelper::finalResponse(
             'profile updated successfully',
             UserResource::make($user),
@@ -215,11 +234,12 @@ class AuthenticationController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function changePassword(changePasswordRequest $request)
     {
         $data = $request->validated();
         $user = User::find(auth()->user()->id);
-        if (!Hash::check($data['current_password'], $user->password)) {
+        if (! Hash::check($data['current_password'], $user->password)) {
             return ResponseHelper::finalResponse(
                 'not valid password',
                 null,
@@ -230,6 +250,7 @@ class AuthenticationController extends Controller
         $user->update([
             'password' => Hash::make($data['new_password']),
         ]);
+
         return ResponseHelper::finalResponse(
             'password change successfully',
             null,
@@ -244,14 +265,15 @@ class AuthenticationController extends Controller
         $user->tokens()->delete();
         $user->delete();
         /* send notification to admin that user leave */
-        $admin = User::where("is_admin", true)->first();
+        $admin = User::where('is_admin', true)->first();
         \Filament\Notifications\Notification::make()
             ->icon('fas-user-minus')
             ->iconColor('danger')
             ->title('User Leaved Your Pharmacy')
-            ->body('Email : ' . $user->email . ' & Phone : ' . $user->phone)
+            ->body('Email : '.$user->email.' & Phone : '.$user->phone)
             ->sendToDatabase($admin);
         event(new DatabaseNotificationsSent($admin));
+
         return ResponseHelper::finalResponse(
             'account deleted successfully',
             null,

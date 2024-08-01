@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Product;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
@@ -49,7 +48,7 @@ class UserSeeder extends Seeder
                 $data = [];
             }
         }
-        if (!empty($data)) {
+        if (! empty($data)) {
             User::insert($data);
             $users = User::take($chunkSize)->get();
             foreach ($users as $user) {
@@ -58,6 +57,7 @@ class UserSeeder extends Seeder
             }
         }
     }
+
     protected function addFavourites(User $user): void
     {
         $favourites = Product::inRandomOrder()->take(rand(1, 5))->pluck('id');

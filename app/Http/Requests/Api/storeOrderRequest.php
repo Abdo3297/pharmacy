@@ -28,6 +28,7 @@ class storeOrderRequest extends customRequest
             'items.*.quantity' => ['required', 'integer', 'min:1'],
         ];
     }
+
     protected function prepareForValidation()
     {
         $this->merge([

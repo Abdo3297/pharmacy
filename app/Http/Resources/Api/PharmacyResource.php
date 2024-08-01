@@ -8,7 +8,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class PharmacyResource extends JsonResource
 {
     protected $includeName;
+
     protected $includeLogo;
+
     protected $includeCarousel;
 
     public function __construct($resource, $includeName = true, $includeLogo = true, $includeCarousel = true)
@@ -18,6 +20,7 @@ class PharmacyResource extends JsonResource
         $this->includeLogo = $includeLogo;
         $this->includeCarousel = $includeCarousel;
     }
+
     /**
      * Transform the resource into an array.
      *
@@ -37,6 +40,7 @@ class PharmacyResource extends JsonResource
                 return $media->getUrl();
             })->toArray();
         }
+
         return $data;
     }
 }

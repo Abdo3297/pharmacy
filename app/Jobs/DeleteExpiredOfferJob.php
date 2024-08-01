@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Models\Offer;
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Carbon\Carbon;
-use App\Models\Offer;
 
 class DeleteExpiredOfferJob implements ShouldQueue
 {

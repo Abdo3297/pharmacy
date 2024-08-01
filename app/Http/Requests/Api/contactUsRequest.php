@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Api;
 
-
 class contactUsRequest extends customRequest
 {
     /**
@@ -21,7 +20,7 @@ class contactUsRequest extends customRequest
     public function rules(): array
     {
         return [
-            'message' => ['required','string'],
+            'message' => ['required', 'string'],
         ];
     }
 }

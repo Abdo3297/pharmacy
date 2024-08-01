@@ -2,36 +2,31 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
+use App\Filament\Resources\PharmacyResource\Pages\EditPharmacy;
+use App\Filament\Resources\PharmacyResource\Pages\ListPharmacies;
+use App\Filament\Resources\PharmacyResource\Pages\ViewPharmacy;
 use App\Models\Pharmacy;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Form;
+use Filament\Resources\Concerns\Translatable;
+use Filament\Resources\Resource;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Wizard\Step;
-use Filament\Resources\Concerns\Translatable;
-use App\Filament\Resources\PharmacyResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use App\Filament\Resources\PharmacyResource\RelationManagers;
-use App\Filament\Resources\PharmacyResource\Pages\EditPharmacy;
-use App\Filament\Resources\PharmacyResource\Pages\ViewPharmacy;
-use App\Filament\Resources\PharmacyResource\Pages\ListPharmacies;
-
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class PharmacyResource extends Resource
 {
     use Translatable;
+
     protected static ?string $model = Pharmacy::class;
 
     protected static ?string $navigationIcon = 'fas-truck-medical';
+
     protected static ?int $navigationSort = 8;
 
     public static function form(Form $form): Form
@@ -84,6 +79,7 @@ class PharmacyResource extends Resource
                 EditAction::make(),
             ]);
     }
+
     public static function getPages(): array
     {
         return [

@@ -2,29 +2,32 @@
 
 namespace App\Filament\Resources\CategoryResource\Pages;
 
-use Filament\Actions;
+use App\Filament\Resources\CategoryResource;
+use App\Filament\Resources\CategoryResource\Widgets\CategoryProductNumber;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\LocaleSwitcher;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
-use App\Filament\Resources\CategoryResource;
-use App\Filament\Widgets\ProductNumberInCategory;
-use App\Filament\Resources\CategoryResource\Widgets\CategoryProductNumber;
 
 class EditCategory extends EditRecord
 {
     use EditRecord\Concerns\Translatable;
+
     protected static string $resource = CategoryResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\LocaleSwitcher::make(),
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
+            LocaleSwitcher::make(),
         ];
     }
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
     }
+
     protected function getSavedNotification(): ?Notification
     {
         return Notification::make()
@@ -32,6 +35,7 @@ class EditCategory extends EditRecord
             ->title('Category edited')
             ->body('The Category has been edited successfully.');
     }
+
     protected function getHeaderWidgets(): array
     {
         return [

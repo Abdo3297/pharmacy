@@ -15,8 +15,8 @@ class IndicationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'IndicationId'=>$this->id,
-            'IndicationName'=>$this->name,
+            'IndicationId' => $this->id,
+            'IndicationName' => $this->name,
         ];
     }
 }

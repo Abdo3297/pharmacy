@@ -2,12 +2,12 @@
 
 namespace App\Observers;
 
-use App\Models\User;
-use App\Models\Order;
 use App\Events\OrderDoneEvent;
+use App\Models\Order;
+use App\Models\User;
 use App\Notifications\OrderDoneNotification;
-use Illuminate\Support\Facades\Notification;
 use Filament\Notifications\Events\DatabaseNotificationsSent;
+use Illuminate\Support\Facades\Notification;
 
 class OrderObserver
 {
@@ -26,12 +26,12 @@ class OrderObserver
     {
         if ($order->payment_status) {
             /* send notification to admin that order done */
-            $admin = User::where("is_admin", true)->first();
+            $admin = User::where('is_admin', true)->first();
             \Filament\Notifications\Notification::make()
                 ->icon('fas-cart-shopping')
                 ->iconColor('success')
                 ->title('New Order Done')
-                ->body('ID : ' . $order->payment_id)
+                ->body('ID : '.$order->payment_id)
                 ->sendToDatabase($admin);
             event(new DatabaseNotificationsSent($admin));
             /* send notification to user that order done */

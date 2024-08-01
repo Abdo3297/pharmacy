@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\PharmacyResource\Pages;
 
+use App\Filament\Resources\PharmacyResource;
 use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\ListRecords;
-use App\Filament\Resources\PharmacyResource;
 
 class ListPharmacies extends ListRecords
 {

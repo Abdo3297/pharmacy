@@ -2,20 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Side;
-use App\Models\Offer;
-use App\Models\Product;
 use App\Models\Category;
 use App\Models\Indication;
+use App\Models\Offer;
+use App\Models\Product;
+use App\Models\Side;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ProductSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-
     public function run(): void
     {
         $chunkSize = config('pharmacy.seeder.chunkSize');
@@ -31,11 +29,11 @@ class ProductSeeder extends Seeder
                 'alert' => fake()->randomDigitNotNull(),
                 'name' => [
                     'en' => fake()->name(),
-                    'ar' => fake('ar_JO')->name()
+                    'ar' => fake('ar_JO')->name(),
                 ],
                 'description' => [
                     'en' => fake()->realText(),
-                    'ar' => fake('ar_JO')->realText()
+                    'ar' => fake('ar_JO')->realText(),
                 ],
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -47,7 +45,7 @@ class ProductSeeder extends Seeder
             }
         }
 
-        if (!empty($data)) {
+        if (! empty($data)) {
             $this->createProducts($data, $chunkSize);
         }
     }

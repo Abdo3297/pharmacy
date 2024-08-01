@@ -3,19 +3,24 @@
 namespace App\Filament\Widgets;
 
 use App\Models\User;
-use Flowframe\Trend\Trend;
-use Illuminate\Support\Carbon;
-use Flowframe\Trend\TrendValue;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
+use Flowframe\Trend\Trend;
+use Flowframe\Trend\TrendValue;
+use Illuminate\Support\Carbon;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class UsersChart extends ApexChartWidget
 {
     use InteractsWithPageFilters;
+
     protected static ?string $chartId = 'usersChart';
+
     protected static ?string $heading = 'Total Customres Per Month';
+
     protected static ?int $sort = 3;
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
+
     protected function getOptions(): array
     {
         $start = $this->filters['startDate'] ?? null;
@@ -27,6 +32,7 @@ class UsersChart extends ApexChartWidget
             )
             ->perMonth()
             ->count();
+
         return [
             'chart' => [
                 'type' => 'line',
@@ -39,11 +45,11 @@ class UsersChart extends ApexChartWidget
             'series' => [
                 [
                     'name' => 'Users Joined',
-                    'data' => $data->map(fn(TrendValue $value) => $value->aggregate),
+                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
             'xaxis' => [
-                'categories' => $data->map(fn(TrendValue $value) => $value->date),
+                'categories' => $data->map(fn (TrendValue $value) => $value->date),
                 'labels' => [
                     'style' => [
                         'fontFamily' => 'inherit',

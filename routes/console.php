@@ -9,7 +9,7 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-Schedule::job(new DeleteExpiredOfferJob())->everyMinute();
+Schedule::job(new DeleteExpiredOfferJob)->everyMinute();
 // clean data
 Schedule::command('otp:clean')->daily();
 Schedule::command('telescope:prune')->daily();

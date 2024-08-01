@@ -15,9 +15,9 @@ class TermResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'termId'=>$this->id,
-            'termKey'=>$this->key,
-            'termValue'=>$this->value,
+            'termId' => $this->id,
+            'termKey' => $this->key,
+            'termValue' => $this->value,
         ];
     }
 }

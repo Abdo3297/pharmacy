@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\FaqResource\Pages;
 
+use App\Filament\Resources\FaqResource;
 use Filament\Actions\CreateAction;
 use Filament\Actions\LocaleSwitcher;
-use App\Filament\Resources\FaqResource;
 use Filament\Resources\Pages\ListRecords;
 
 class ListFaqs extends ListRecords

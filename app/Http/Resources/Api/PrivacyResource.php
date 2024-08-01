@@ -15,8 +15,8 @@ class PrivacyResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'privacyId'=>$this->id,
-            'privacyContent'=>$this->content,
+            'privacyId' => $this->id,
+            'privacyContent' => $this->content,
         ];
     }
 }

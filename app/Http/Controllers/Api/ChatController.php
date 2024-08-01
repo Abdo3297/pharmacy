@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
-use ZipArchive;
-use App\Models\Chat;
+use App\Helpers\ResponseHelper;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\SendMessageRequest;
+use App\Http\Resources\Api\ChatResource;
 use App\Models\User;
 use Illuminate\Http\Response;
-use App\Helpers\ResponseHelper;
-use App\Events\SendMessageEvent;
-use App\Events\DeleteMessageEvent;
-use App\Events\UpdateMessageEvent;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Resources\Api\ChatResource;
-use JaOcero\FilaChat\Models\FilaChatMessage;
-use App\Http\Requests\Api\SendMessageRequest;
 use JaOcero\FilaChat\Events\FilaChatMessageEvent;
-use JaOcero\FilaChat\Models\FilaChatConversation;
-use App\Http\Requests\Api\SendMessageOrFileRequest;
-use App\Http\Requests\Api\UpdateMessageOrFileRequest;
 use JaOcero\FilaChat\Events\FilaChatMessageReadEvent;
+use JaOcero\FilaChat\Models\FilaChatConversation;
+use JaOcero\FilaChat\Models\FilaChatMessage;
+use ZipArchive;
 
 class ChatController extends Controller
 {
@@ -44,7 +38,7 @@ class ChatController extends Controller
                     ->where('receiverable_id', $user->id);
             });
         })->first();
-        if (!$conversation) {
+        if (! $conversation) {
             return ResponseHelper::finalResponse(
                 'No conversation found',
                 null,
@@ -52,10 +46,10 @@ class ChatController extends Controller
                 Response::HTTP_OK
             );
         }
-        $chats = FilaChatMessage::
-            where('filachat_conversation_id', $conversation->id)
+        $chats = FilaChatMessage::where('filachat_conversation_id', $conversation->id)
             ->orderBy('created_at', 'asc')
             ->get();
+
         return ResponseHelper::finalResponse(
             'Data fetched successfully',
             ChatResource::collection($chats),
@@ -63,6 +57,7 @@ class ChatController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function sendMessage(SendMessageRequest $request)
     {
         $sender = auth()->user();
@@ -76,7 +71,7 @@ class ChatController extends Controller
                 ->orWhere('receiverable_id', $receiver->id);
         })->first();
 
-        if (!$filachat_conversation) {
+        if (! $filachat_conversation) {
             $filachat_conversation = FilaChatConversation::create([
                 'senderable_id' => $sender->id,
                 'senderable_type' => $sender::class,
@@ -112,10 +107,11 @@ class ChatController extends Controller
             Response::HTTP_CREATED
         );
     }
+
     public function downloadFile($id)
     {
         $message = FilaChatMessage::find($id);
-        if (!$message) {
+        if (! $message) {
             return ResponseHelper::finalResponse(
                 'Message not found',
                 null,
@@ -125,7 +121,7 @@ class ChatController extends Controller
         }
         $storedAttachments = $message->attachments;
         $originalAttachmentFileNames = $message->original_attachment_file_names;
-        if ($message->attachments == Null) {
+        if ($message->attachments == null) {
             return ResponseHelper::finalResponse(
                 'No Files For This Message',
                 null,
@@ -143,9 +139,9 @@ class ChatController extends Controller
             );
         }
         if (count($storedAttachments) > 1) {
-            $archive = new ZipArchive();
-            $archiveFileName = 'files' . '.zip';
-            $archiveFilePath = storage_path('app/public/' . $archiveFileName);
+            $archive = new ZipArchive;
+            $archiveFileName = 'files'.'.zip';
+            $archiveFilePath = storage_path('app/public/'.$archiveFileName);
 
             if ($archive->open($archiveFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
                 return ResponseHelper::finalResponse(
@@ -162,6 +158,7 @@ class ChatController extends Controller
                 }
             }
             $archive->close();
+
             return response()->download($archiveFilePath)->deleteFileAfterSend(true);
         } elseif (count($storedAttachments) === 1) {
             $requestedFilePath = $storedAttachments[0];
@@ -169,6 +166,7 @@ class ChatController extends Controller
             if (Storage::disk(config('filachat.disk'))->exists($requestedFilePath)) {
                 return Storage::disk(config('filachat.disk'))->download($requestedFilePath, $requestedFileName);
             }
+
             return ResponseHelper::finalResponse(
                 'File Not Found',
                 null,
@@ -177,6 +175,7 @@ class ChatController extends Controller
             );
         }
     }
+
     public function markAsRead()
     {
         $receiver = auth()->user();
@@ -184,7 +183,7 @@ class ChatController extends Controller
             $query->where('senderable_id', $receiver->id)
                 ->orWhere('receiverable_id', $receiver->id);
         })->first();
-        if (!$filachat_conversation) {
+        if (! $filachat_conversation) {
             return ResponseHelper::finalResponse(
                 'Not authorized',
                 null,
@@ -192,8 +191,7 @@ class ChatController extends Controller
                 Response::HTTP_FORBIDDEN
             );
         }
-        $messages = FilaChatMessage::
-            where('filachat_conversation_id', $filachat_conversation->id)
+        $messages = FilaChatMessage::where('filachat_conversation_id', $filachat_conversation->id)
             ->whereNull('last_read_at')
             ->get();
         if ($messages->isEmpty()) {
@@ -212,6 +210,7 @@ class ChatController extends Controller
             }
         }
         broadcast(new FilaChatMessageReadEvent($filachat_conversation->id));
+
         return ResponseHelper::finalResponse(
             'All unread messages marked as read successfully',
             null,

@@ -15,15 +15,15 @@ class OfferResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "offerId" => $this->id,
-            "offerName" => $this->name,
-            "offerDiscountType" => $this->discount_type,
-            "offerDiscountValue" => $this->discount_value,
-            "offerStartDate" => $this->start_date,
-            "offerEndDate" => $this->end_date,
-            'createdAt'=> $this->created_at,
-            'updatedAt'=> $this->updated_at,
-            'products' => ProductResource::collection($this->whenLoaded('products'))
+            'offerId' => $this->id,
+            'offerName' => $this->name,
+            'offerDiscountType' => $this->discount_type,
+            'offerDiscountValue' => $this->discount_value,
+            'offerStartDate' => $this->start_date,
+            'offerEndDate' => $this->end_date,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
+            'products' => ProductResource::collection($this->whenLoaded('products')),
         ];
     }
 }

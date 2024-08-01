@@ -15,8 +15,8 @@ class SideResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'SideEffectId'=>$this->id,
-            'SideEffectName'=>$this->name,
+            'SideEffectId' => $this->id,
+            'SideEffectName' => $this->name,
         ];
     }
 }

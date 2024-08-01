@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\FAQ;
-use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\FaqResource;
+use App\Models\Faq;
+use Illuminate\Http\Response;
 
 class FaqController extends Controller
 {
     public function index()
     {
-        $faqs = FAQ::get();
+        $faqs = Faq::get();
         if ($faqs) {
             return ResponseHelper::finalResponse(
                 'data fetched successfully',
@@ -21,6 +21,7 @@ class FaqController extends Controller
                 Response::HTTP_OK
             );
         }
+
         return ResponseHelper::finalResponse(
             'data not found',
             null,

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
-use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
-use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
 use Filament\Notifications\Events\DatabaseNotificationsSent;
+use Illuminate\Http\Response;
+use Laravel\Socialite\Facades\Socialite;
 
 class SocialiteAuthenticationController extends Controller
 {
@@ -25,20 +25,21 @@ class SocialiteAuthenticationController extends Controller
         ], [
             'name' => $socialiteUser->getName(),
             'email' => $socialiteUser->getEmail(),
-            'email_verified_at' => now()
+            'email_verified_at' => now(),
         ]);
         if ($user->wasRecentlyCreated) {
-            $admin = User::where("is_admin", true)->first();
+            $admin = User::where('is_admin', true)->first();
             \Filament\Notifications\Notification::make()
                 ->icon('heroicon-o-user-plus')
                 ->iconColor('primary')
                 ->title('New User In Your Pharmacy')
-                ->body('Name : ' . $user->name . ' & Email : ' . $user->email)
+                ->body('Name : '.$user->name.' & Email : '.$user->email)
                 ->sendToDatabase($admin);
             event(new DatabaseNotificationsSent($admin));
         }
-        $sanctum_token = $user->createToken("app")->plainTextToken;
+        $sanctum_token = $user->createToken('app')->plainTextToken;
         $user->addMediaFromUrl($socialiteUser->getAvatar())->toMediaCollection('userProfile');
+
         return ResponseHelper::finalResponse(
             'login using socialite successfully',
             [
@@ -48,7 +49,7 @@ class SocialiteAuthenticationController extends Controller
                 'userImage' => $socialiteUser->getAvatar(),
                 'tokenType' => 'Bearer Token',
                 'tokenValue' => $sanctum_token,
-                'tokenGoogle' => $socialiteUser->token
+                'tokenGoogle' => $socialiteUser->token,
             ],
             true,
             Response::HTTP_OK

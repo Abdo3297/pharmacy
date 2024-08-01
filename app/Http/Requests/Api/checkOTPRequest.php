@@ -23,7 +23,7 @@ class checkOTPRequest extends customRequest
     {
         return [
             'email' => ['required', 'email', Rule::exists('users', 'email')],
-            'otp' => ['required', 'min:' . config('pharmacy.otp.LENGTH')]
+            'otp' => ['required', 'min:'.config('pharmacy.otp.LENGTH')],
         ];
     }
 }
