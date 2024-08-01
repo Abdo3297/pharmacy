@@ -4,15 +4,12 @@ namespace App\Filament\Resources\FaqResource\Pages;
 
 use App\Filament\Resources\FaqResource;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
 class EditFaq extends EditRecord
 {
-    use EditRecord\Concerns\Translatable;
-
     protected static string $resource = FaqResource::class;
 
     protected function getHeaderActions(): array
@@ -20,7 +17,6 @@ class EditFaq extends EditRecord
         return [
             ViewAction::make(),
             DeleteAction::make(),
-            LocaleSwitcher::make(),
         ];
     }
 

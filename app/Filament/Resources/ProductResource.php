@@ -26,7 +26,6 @@ use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -36,11 +35,10 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class ProductResource extends Resource
 {
-    use Translatable;
-
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'fas-p';
@@ -54,19 +52,24 @@ class ProductResource extends Resource
                 Wizard::make([
                     Step::make('Product Details')
                         ->schema([
-                            Textarea::make('description')
-                                ->required()
-                                ->string()
-                                ->rules(['required', 'string']),
+                            Translate::make()
+                                ->schema([
+                                    TextInput::make('name')
+                                        ->required()
+                                        ->string()
+                                        ->rules(['required', 'string']),
+                                    Textarea::make('description')
+                                        ->required()
+                                        ->string()
+                                        ->rules(['required', 'string']),
+                                ])->locales(config('app.available_locales')),
+
                             SpatieMediaLibraryFileUpload::make('image')
                                 ->required()
                                 ->image()
                                 ->rules(['image'])
                                 ->collection('productImages'),
-                            TextInput::make('name')
-                                ->required()
-                                ->string()
-                                ->rules(['required', 'string']),
+
                             TextInput::make('barcode')
                                 ->required()
                                 ->string()

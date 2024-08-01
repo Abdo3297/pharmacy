@@ -8,11 +8,8 @@ use App\Filament\Resources\TermResource\Pages\ListTerms;
 use App\Filament\Resources\TermResource\Pages\ViewTerm;
 use App\Models\Term;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -21,11 +18,10 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class TermResource extends Resource
 {
-    use Translatable;
-
     protected static ?string $model = Term::class;
 
     protected static ?string $navigationIcon = 'fas-gear';
@@ -36,18 +32,16 @@ class TermResource extends Resource
     {
         return $form
             ->schema([
-                Wizard::make([
-                    Step::make('FAQ Details')
-                        ->schema([
-                            Textarea::make('key')
-                                ->required()
-                                ->string(),
-                            Textarea::make('value')
-                                ->required()
-                                ->string(),
-                        ])->columns(2),
-                ])->columnSpanFull(),
-            ]);
+                Translate::make()
+                    ->schema([
+                        Textarea::make('key')
+                            ->required()
+                            ->string(),
+                        Textarea::make('value')
+                            ->required()
+                            ->string(),
+                    ])->locales(config('app.available_locales')),
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -58,9 +52,6 @@ class TermResource extends Resource
                     ->searchable(),
                 TextColumn::make('value')
                     ->searchable(),
-            ])
-            ->filters([
-                //
             ])
             ->actions([
                 ViewAction::make(),

@@ -7,17 +7,14 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\Concerns\Translatable;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables\Actions\LocaleSwitcher;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class ProductsRelationManager extends RelationManager
 {
-    use Translatable;
-
     protected static string $relationship = 'products';
 
     public function form(Form $form): Form
@@ -29,7 +26,10 @@ class ProductsRelationManager extends RelationManager
                         ->schema([
                             Section::make()
                                 ->schema([
-                                    TextInput::make('name'),
+                                    Translate::make()
+                                        ->schema([
+                                            TextInput::make('name'),
+                                        ])->locales(config('app.available_locales')),
                                     TextInput::make('quantity'),
                                     TextInput::make('unit_price')->prefix('USD'),
                                     TextInput::make('total_price')->prefix('USD'),
@@ -48,9 +48,6 @@ class ProductsRelationManager extends RelationManager
                 TextColumn::make('quantity'),
                 TextColumn::make('unit_price')->money('USD'),
                 TextColumn::make('total_price')->money('USD'),
-            ])
-            ->headerActions([
-                LocaleSwitcher::make(),
             ])
             ->actions([
                 ViewAction::make(),

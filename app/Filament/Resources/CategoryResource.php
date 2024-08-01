@@ -16,7 +16,6 @@ use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -26,11 +25,10 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class CategoryResource extends Resource
 {
-    use Translatable;
-
     protected static ?string $model = Category::class;
 
     protected static ?string $navigationIcon = 'fas-layer-group';
@@ -44,9 +42,12 @@ class CategoryResource extends Resource
                 Wizard::make([
                     Step::make('Category Details')
                         ->schema([
-                            TextInput::make('name')
-                                ->required()
-                                ->string(),
+                            Translate::make()
+                                ->schema([
+                                    TextInput::make('name')
+                                        ->required()
+                                        ->string(),
+                                ])->locales(config('app.available_locales')),
                             SpatieMediaLibraryFileUpload::make('image')
                                 ->required()
                                 ->image()

@@ -12,22 +12,19 @@ use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\RelationManagers\Concerns\Translatable;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DetachAction;
 use Filament\Tables\Actions\DetachBulkAction;
-use Filament\Tables\Actions\LocaleSwitcher;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class ProductsRelationManager extends RelationManager
 {
-    use Translatable;
-
     protected static string $relationship = 'products';
 
     public function form(Form $form): Form
@@ -37,19 +34,23 @@ class ProductsRelationManager extends RelationManager
                 Wizard::make([
                     Step::make('Product Details')
                         ->schema([
-                            Textarea::make('description')
-                                ->required()
-                                ->string()
-                                ->rules(['required', 'string']),
+                            Translate::make()
+                                ->schema([
+                                    TextInput::make('name')
+                                        ->required()
+                                        ->string()
+                                        ->rules(['required', 'string']),
+                                    Textarea::make('description')
+                                        ->required()
+                                        ->string()
+                                        ->rules(['required', 'string']),
+                                ])->locales(config('app.available_locales')),
                             SpatieMediaLibraryFileUpload::make('image')
                                 ->required()
                                 ->image()
                                 ->rules(['image'])
                                 ->collection('productImages'),
-                            TextInput::make('name')
-                                ->required()
-                                ->string()
-                                ->rules(['required', 'string']),
+
                             TextInput::make('barcode')
                                 ->required()
                                 ->string()
@@ -107,7 +108,6 @@ class ProductsRelationManager extends RelationManager
                                     ->action(fn () => $component->state(Product::pluck('id')->toArray()))
                             );
                     }),
-                LocaleSwitcher::make(),
             ])
             ->actions([
                 ViewAction::make(),

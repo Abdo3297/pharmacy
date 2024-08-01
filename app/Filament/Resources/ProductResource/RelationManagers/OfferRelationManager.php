@@ -9,18 +9,15 @@ use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\RelationManagers\Concerns\Translatable;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\DetachAction;
-use Filament\Tables\Actions\LocaleSwitcher;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class OfferRelationManager extends RelationManager
 {
-    use Translatable;
-
     protected static string $relationship = 'offers';
 
     public function form(Form $form): Form
@@ -30,7 +27,10 @@ class OfferRelationManager extends RelationManager
                 Wizard::make([
                     Step::make('Offer Details')
                         ->schema([
-                            TextInput::make('name'),
+                            Translate::make()
+                                ->schema([
+                                    TextInput::make('name'),
+                                ])->locales(config('app.available_locales')),
                             Select::make('discount_type'),
                             TextInput::make('discount_value'),
                             DateTimePicker::make('start_date'),
@@ -57,9 +57,6 @@ class OfferRelationManager extends RelationManager
                 TextColumn::make('end_date')
                     ->dateTime('d-m-Y H:i:s')
                     ->sortable(),
-            ])
-            ->headerActions([
-                LocaleSwitcher::make(),
             ])
             ->actions([
                 ViewAction::make(),

@@ -4,15 +4,12 @@ namespace App\Filament\Resources\OfferResource\Pages;
 
 use App\Filament\Resources\OfferResource;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
 class EditOffer extends EditRecord
 {
-    use EditRecord\Concerns\Translatable;
-
     protected static string $resource = OfferResource::class;
 
     protected function getHeaderActions(): array
@@ -20,7 +17,6 @@ class EditOffer extends EditRecord
         return [
             ViewAction::make(),
             DeleteAction::make(),
-            LocaleSwitcher::make(),
         ];
     }
 

@@ -8,11 +8,8 @@ use App\Filament\Resources\FaqResource\Pages\ListFaqs;
 use App\Filament\Resources\FaqResource\Pages\ViewFaq;
 use App\Models\Faq;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -21,11 +18,10 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class FaqResource extends Resource
 {
-    use Translatable;
-
     protected static ?string $model = Faq::class;
 
     protected static ?string $navigationLabel = 'Faqs';
@@ -38,18 +34,16 @@ class FaqResource extends Resource
     {
         return $form
             ->schema([
-                Wizard::make([
-                    Step::make('FAQ Details')
-                        ->schema([
-                            Textarea::make('question')
-                                ->required()
-                                ->string(),
-                            Textarea::make('answer')
-                                ->required()
-                                ->string(),
-                        ])->columns(2),
-                ])->columnSpanFull(),
-            ]);
+                Translate::make()
+                    ->schema([
+                        Textarea::make('question')
+                            ->required()
+                            ->string(),
+                        Textarea::make('answer')
+                            ->required()
+                            ->string(),
+                    ])->locales(config('app.available_locales')),
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table

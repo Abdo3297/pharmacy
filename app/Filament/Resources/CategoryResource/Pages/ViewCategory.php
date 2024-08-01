@@ -6,13 +6,10 @@ use App\Filament\Resources\CategoryResource;
 use App\Filament\Resources\CategoryResource\Widgets\CategoryProductNumber;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewCategory extends ViewRecord
 {
-    use ViewRecord\Concerns\Translatable;
-
     protected static string $resource = CategoryResource::class;
 
     protected function getHeaderActions(): array
@@ -20,7 +17,6 @@ class ViewCategory extends ViewRecord
         return [
             EditAction::make(),
             DeleteAction::make(),
-            LocaleSwitcher::make(),
         ];
     }
 

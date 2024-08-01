@@ -4,15 +4,12 @@ namespace App\Filament\Resources\IndicationResource\Pages;
 
 use App\Filament\Resources\IndicationResource;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
 class EditIndication extends EditRecord
 {
-    use EditRecord\Concerns\Translatable;
-
     protected static string $resource = IndicationResource::class;
 
     protected function getHeaderActions(): array
@@ -20,7 +17,6 @@ class EditIndication extends EditRecord
         return [
             ViewAction::make(),
             DeleteAction::make(),
-            LocaleSwitcher::make(),
         ];
     }
 

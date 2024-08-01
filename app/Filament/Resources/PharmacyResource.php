@@ -11,7 +11,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
@@ -21,8 +20,6 @@ use Filament\Tables\Table;
 
 class PharmacyResource extends Resource
 {
-    use Translatable;
-
     protected static ?string $model = Pharmacy::class;
 
     protected static ?string $navigationIcon = 'fas-truck-medical';

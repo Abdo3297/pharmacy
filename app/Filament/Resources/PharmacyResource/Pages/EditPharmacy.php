@@ -3,22 +3,18 @@
 namespace App\Filament\Resources\PharmacyResource\Pages;
 
 use App\Filament\Resources\PharmacyResource;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
 class EditPharmacy extends EditRecord
 {
-    use EditRecord\Concerns\Translatable;
-
     protected static string $resource = PharmacyResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
             ViewAction::make(),
-            LocaleSwitcher::make(),
         ];
     }
 

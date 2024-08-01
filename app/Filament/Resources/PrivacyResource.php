@@ -8,11 +8,8 @@ use App\Filament\Resources\PrivacyResource\Pages\ListPrivacies;
 use App\Filament\Resources\PrivacyResource\Pages\ViewPrivacy;
 use App\Models\Privacy;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -21,11 +18,10 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class PrivacyResource extends Resource
 {
-    use Translatable;
-
     protected static ?string $model = Privacy::class;
 
     protected static ?string $navigationIcon = 'fas-lock';
@@ -36,15 +32,13 @@ class PrivacyResource extends Resource
     {
         return $form
             ->schema([
-                Wizard::make([
-                    Step::make('About Content')
-                        ->schema([
-                            Textarea::make('content')
-                                ->required()
-                                ->string(),
-                        ]),
-                ])->columnSpanFull(),
-            ]);
+                Translate::make()
+                    ->schema([
+                        Textarea::make('content')
+                            ->required()
+                            ->string(),
+                    ])->locales(config('app.available_locales')),
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table

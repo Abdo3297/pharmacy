@@ -3,22 +3,12 @@
 namespace App\Filament\Resources\SideResource\Pages;
 
 use App\Filament\Resources\SideResource;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateSide extends CreateRecord
 {
-    use CreateRecord\Concerns\Translatable;
-
     protected static string $resource = SideResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            LocaleSwitcher::make(),
-        ];
-    }
 
     protected function getRedirectUrl(): string
     {

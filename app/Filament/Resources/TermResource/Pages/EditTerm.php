@@ -4,21 +4,17 @@ namespace App\Filament\Resources\TermResource\Pages;
 
 use App\Filament\Resources\TermResource;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
 class EditTerm extends EditRecord
 {
-    use EditRecord\Concerns\Translatable;
-
     protected static string $resource = TermResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
             DeleteAction::make(),
-            LocaleSwitcher::make(),
         ];
     }
 
