@@ -29,6 +29,7 @@ class IndicationsRelationManager extends RelationManager
                 Translate::make()
                     ->schema([
                         TextInput::make('name')
+                            ->label(__('filament.product_navigation.relation.indications.form.name'))
                             ->required()
                             ->string(),
                     ])->locales(config('app.available_locales')),
@@ -40,7 +41,8 @@ class IndicationsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                ->label(__('filament.product_navigation.relation.indications.table.name')),
             ])
             ->headerActions([
                 AttachAction::make()

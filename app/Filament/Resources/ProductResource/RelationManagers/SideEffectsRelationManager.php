@@ -31,6 +31,7 @@ class SideEffectsRelationManager extends RelationManager
                     ->schema([
                         TextInput::make('name')
                             ->required()
+                            ->label(__('filament.product_navigation.relation.sideffects.form.name'))
                             ->string(),
                     ])->locales(config('app.available_locales')),
             ])->columns(1);
@@ -41,7 +42,8 @@ class SideEffectsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                ->label(__('filament.product_navigation.relation.sideffects.table.name')),
             ])
             ->headerActions([
                 AttachAction::make()

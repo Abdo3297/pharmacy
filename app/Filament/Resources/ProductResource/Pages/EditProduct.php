@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class EditProduct extends EditRecord
 {
@@ -31,5 +32,9 @@ class EditProduct extends EditRecord
             ->success()
             ->title('Product edited')
             ->body('The Product has been edited successfully.');
+    }
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.product_navigation.edit');
     }
 }

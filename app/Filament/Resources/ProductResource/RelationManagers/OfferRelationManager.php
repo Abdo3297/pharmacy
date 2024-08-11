@@ -29,12 +29,17 @@ class OfferRelationManager extends RelationManager
                         ->schema([
                             Translate::make()
                                 ->schema([
-                                    TextInput::make('name'),
+                                    TextInput::make('name')
+                                    ->label(__('filament.product_navigation.relation.offers.form.name')),
                                 ])->locales(config('app.available_locales')),
-                            Select::make('discount_type'),
-                            TextInput::make('discount_value'),
-                            DateTimePicker::make('start_date'),
-                            DateTimePicker::make('end_date'),
+                            Select::make('discount_type')
+                            ->label(__('filament.product_navigation.relation.offers.form.discount_type')),
+                            TextInput::make('discount_value')
+                            ->label(__('filament.product_navigation.relation.offers.form.discount_value')),
+                            DateTimePicker::make('start_date')
+                            ->label(__('filament.product_navigation.relation.offers.form.start_date')),
+                            DateTimePicker::make('end_date')
+                            ->label(__('filament.product_navigation.relation.offers.form.end_date')),
                         ]),
                 ])->columnSpanFull(),
             ]);
@@ -46,17 +51,22 @@ class OfferRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('discount_type')
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('filament.product_navigation.relation.offers.table.name')),
+                    TextColumn::make('discount_type')
+                    ->searchable()
+                    ->label(__('filament.product_navigation.relation.offers.table.discount_type')),
                 TextColumn::make('discount_value')
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('filament.product_navigation.relation.offers.table.discount_value')),
                 TextColumn::make('start_date')
                     ->dateTime('d-m-Y H:i:s')
+                    ->label(__('filament.product_navigation.relation.offers.table.start_date'))
                     ->sortable(),
                 TextColumn::make('end_date')
                     ->dateTime('d-m-Y H:i:s')
-                    ->sortable(),
+                    ->sortable()
+                    ->label(__('filament.product_navigation.relation.offers.table.end_date')),
             ])
             ->actions([
                 ViewAction::make(),

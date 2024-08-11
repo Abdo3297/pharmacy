@@ -7,6 +7,7 @@ use App\Filament\Resources\CategoryResource\Widgets\CategoryProductNumber;
 use Filament\Actions\DeleteAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class EditCategory extends EditRecord
 {
@@ -37,5 +38,9 @@ class EditCategory extends EditRecord
         return [
             CategoryProductNumber::class,
         ];
+    }
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.category_navigation.edit');
     }
 }
