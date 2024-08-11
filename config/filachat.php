@@ -1,7 +1,5 @@
 <?php
-
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Enable Roles
@@ -159,8 +157,7 @@ return [
     |
     | This option specifies the navigation label used in the sidebar.
     */
-    'navigation_label' => app()->getLocale() == 'en' ? 'Chat' : 'الدردشة',
-
+    'navigation_label' => 'Chat',  
     /*
     |--------------------------------------------------------------------------
     | Navigation Icon
