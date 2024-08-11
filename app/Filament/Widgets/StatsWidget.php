@@ -25,16 +25,16 @@ class StatsWidget extends BaseWidget
         $end = $this->filters['endDate'] ?? null;
 
         return [
-            Stat::make('Customers', User::where('email_verified_at', '!=', null)
+            Stat::make(__('filament.main_page.card.user'), User::where('email_verified_at', '!=', null)
                 ->where('is_admin', false)
                 ->when($start, fn ($query) => $query->whereDate('created_at', '>=', $start))
                 ->when($end, fn ($query) => $query->whereDate('created_at', '<=', $end))
                 ->count()),
-            Stat::make('Orders', Order::where('payment_status', true)
+            Stat::make(__('filament.main_page.card.order'), Order::where('payment_status', true)
                 ->when($start, fn ($query) => $query->whereDate('created_at', '>=', $start))
                 ->when($end, fn ($query) => $query->whereDate('created_at', '<=', $end))
                 ->count()),
-            Stat::make('Renevu', '$ '.Order::where('payment_status', true)
+            Stat::make(__('filament.main_page.card.revenu'), '$ '.Order::where('payment_status', true)
                 ->when($start, fn ($query) => $query->whereDate('created_at', '>=', $start))
                 ->when($end, fn ($query) => $query->whereDate('created_at', '<=', $end))
                 ->sum('total_amount')),

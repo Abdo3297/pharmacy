@@ -14,9 +14,9 @@ class Dashboard extends \Filament\Pages\Dashboard
     public function filtersForm(Form $form): Form
     {
         return $form->schema([
-            Section::make('Dasbhoard Filter')->schema([
-                DatePicker::make('startDate'),
-                DatePicker::make('endDate'),
+            Section::make(__('filament.main_page.filter.info'))->schema([
+                DatePicker::make('startDate')->label(__('filament.main_page.filter.start')),
+                DatePicker::make('endDate')->label(__('filament.main_page.filter.end')),
             ])->collapsible()->columns(2),
         ]);
     }

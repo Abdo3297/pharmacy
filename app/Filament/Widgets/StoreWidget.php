@@ -19,8 +19,8 @@ class StoreWidget extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Categories', Category::count()),
-            Stat::make('Products', Product::count()),
+            Stat::make(__('filament.main_page.card.category'), Category::count()),
+            Stat::make(__('filament.main_page.card.product'), Product::count()),
         ];
     }
 }

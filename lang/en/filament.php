@@ -1,6 +1,20 @@
 <?php
 
 return [
+    'main_page' => [
+        'filter' => [
+            'info' => 'Dasbhoard Filter',
+            'start' => 'Start Date',
+            'end' => 'End Date',
+        ],
+        'card' => [
+            'category' => 'Categories',
+            'product' => 'Products',
+            'user' => 'Customers',
+            'order' => 'Orders',
+            'revenu' => 'Revenu',
+        ],
+    ],
     'user_navigation ' => [
 
         'resource' => 'Users',

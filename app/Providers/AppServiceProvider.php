@@ -4,12 +4,13 @@ namespace App\Providers;
 
 use App\Models\Order;
 use App\Models\Product;
+use Filament\Pages\Page;
 use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;
-use Filament\Notifications\Notification;
-use Filament\Pages\Page;
 use Illuminate\Support\ServiceProvider;
+use Filament\Notifications\Notification;
 use Illuminate\Validation\ValidationException;
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,5 +41,10 @@ class AppServiceProvider extends ServiceProvider
                 ->danger()
                 ->send();
         };
+
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch
+                ->locales(['ar','en']);
+        });
     }
 }

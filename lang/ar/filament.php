@@ -1,6 +1,20 @@
 <?php
 
 return [
+    'main_page' => [
+        'filter' => [
+            'info' => 'فلترة',
+            'start' => 'تاريخ البدء',
+            'end' => 'تاريخ الإنتهاء',
+        ],
+        'card' => [
+            'category' => 'أصناف',
+            'product' => 'منتجات',
+            'user' => 'عملاء',
+            'order' => 'طلبات',
+            'revenu' => 'إجمالي الدخل',
+        ],
+    ],
     'user_navigation ' => [
 
         'resource' => 'المستخدمين',
@@ -10,8 +24,8 @@ return [
         'view' => 'المستخدم',
 
         'widget' => [
-            'orders' => 'الاوردرات',
-            'favourites' => 'المفضلة',
+            'orders' => 'الطلبات',
+            'favourites' => 'المنتجات المفضلة',
         ],
 
         'table' => [
