@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,7 +19,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class User extends Authenticatable implements FilamentUser, HasMedia
 {
     //# traits ##
-    use HasApiTokens, HasFactory, HasFilaChat, InteractsWithMedia, Notifiable;
+    use HasApiTokens, HasFilaChat, InteractsWithMedia, Notifiable;
 
     //# properties ##
     protected $table = 'users';

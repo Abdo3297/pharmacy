@@ -15,7 +15,7 @@ return [
             'revenu' => 'Revenu',
         ],
     ],
-    'user_navigation ' => [
+    'user_navigation' => [
 
         'resource' => 'Users',
 

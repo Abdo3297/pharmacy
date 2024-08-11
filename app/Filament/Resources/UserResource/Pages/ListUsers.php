@@ -12,6 +12,6 @@ class ListUsers extends ListRecords
 
     public function getTitle(): string|Htmlable
     {
-        return __('filament.user_navigation .list');
+        return __('filament.user_navigation.list');
     }
 }

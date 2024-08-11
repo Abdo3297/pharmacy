@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Filters\PriceFilter;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Lacodix\LaravelModelFilter\Enums\SearchMode;
@@ -17,7 +16,7 @@ use Spatie\Translatable\HasTranslations;
 class Product extends Model implements HasMedia
 {
     //# traits ##
-    use HasFactory, HasFilters, HasTranslations, InteractsWithMedia, IsSearchable, IsSortable;
+    use HasFilters, HasTranslations, InteractsWithMedia, IsSearchable, IsSortable;
 
     //# traits ##
     protected $table = 'products';

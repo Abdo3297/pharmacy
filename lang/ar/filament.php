@@ -15,7 +15,7 @@ return [
             'revenu' => 'إجمالي الدخل',
         ],
     ],
-    'user_navigation ' => [
+    'user_navigation' => [
 
         'resource' => 'المستخدمين',
 

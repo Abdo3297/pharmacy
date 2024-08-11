@@ -4,13 +4,13 @@ namespace App\Providers;
 
 use App\Models\Order;
 use App\Models\Product;
-use Filament\Pages\Page;
 use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;
-use Illuminate\Support\ServiceProvider;
-use Filament\Notifications\Notification;
-use Illuminate\Validation\ValidationException;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\ValidationException;
 
 class AppServiceProvider extends ServiceProvider
 {

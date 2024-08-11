@@ -1,4 +1,5 @@
 <?php
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -157,7 +158,7 @@ return [
     |
     | This option specifies the navigation label used in the sidebar.
     */
-    'navigation_label' => 'Chat',  
+    'navigation_label' => 'Chat',
     /*
     |--------------------------------------------------------------------------
     | Navigation Icon

@@ -18,8 +18,8 @@ class UserOrdersFavs extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make(__('filament.user_navigation .widget.orders'), $this->record->orders()->count()),
-            Stat::make(__('filament.user_navigation .widget.favourites'), $this->record->favourites()->count()),
+            Stat::make(__('filament.user_navigation.widget.orders'), $this->record->orders()->count()),
+            Stat::make(__('filament.user_navigation.widget.favourites'), $this->record->favourites()->count()),
         ];
     }
 }

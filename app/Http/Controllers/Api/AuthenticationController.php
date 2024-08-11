@@ -13,14 +13,16 @@ use App\Http\Requests\Api\resendOTPRequest;
 use App\Http\Requests\Api\resetPasswordRequest;
 use App\Http\Requests\Api\updateProfileRequest;
 use App\Http\Resources\Api\UserResource;
+use App\Models\Otp as MyOTP;
 use App\Models\User;
 use App\Notifications\NewUserNotification;
 use Filament\Notifications\Events\DatabaseNotificationsSent;
 use Ichtrojan\Otp\Otp;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use JaOcero\FilaChat\Models\FilaChatConversation;
+use JaOcero\FilaChat\Models\FilaChatMessage;
 
 class AuthenticationController extends Controller
 {
@@ -61,11 +63,10 @@ class AuthenticationController extends Controller
                 Response::HTTP_OK
             );
         }
-        DB::table('otps')
-            ->where('identifier', $data['email'])
+        MyOTP::where('identifier', $data['email'])
             ->where('token', $data['otp'])
             ->update(['valid' => 1]);
-        User::whereEmail($data['email'])->update([
+        $user->update([
             'email_verified_at' => now(),
         ]);
         $token = $user->createToken('app')->plainTextToken;
@@ -106,8 +107,7 @@ class AuthenticationController extends Controller
                 Response::HTTP_OK
             );
         }
-        DB::table('otps')
-            ->where('identifier', $data['email'])
+        MyOTP::where('identifier', $data['email'])
             ->where('token', $data['otp'])
             ->update(['valid' => 1]);
 
@@ -262,8 +262,20 @@ class AuthenticationController extends Controller
     public function deleteProfile()
     {
         $user = User::find(auth()->user()->id);
+
+        $filachat_conversation = FilaChatConversation::where(function ($query) use ($user) {
+            $query->where('senderable_id', $user->id)
+                ->orWhere('receiverable_id', $user->id);
+        })->first();
+
+        if ($filachat_conversation) {
+            FilaChatMessage::where('filachat_conversation_id', $filachat_conversation->id)->delete();
+            $filachat_conversation->delete();
+        }
+
         $user->tokens()->delete();
         $user->delete();
+
         /* send notification to admin that user leave */
         $admin = User::where('is_admin', true)->first();
         \Filament\Notifications\Notification::make()

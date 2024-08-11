@@ -20,6 +20,6 @@ class ViewUser extends ViewRecord
 
     public function getTitle(): string|Htmlable
     {
-        return __('filament.user_navigation .view');
+        return __('filament.user_navigation.view');
     }
 }
