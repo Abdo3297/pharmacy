@@ -23,14 +23,21 @@ class OrdersRelationManager extends RelationManager
         return $form
             ->schema([
                 Wizard::make([
-                    Step::make('Order Details')
+                    Step::make(__('filament.user_navigation .relation.orders.form.info'))
                         ->schema([
                             Section::make()
                                 ->schema([
-                                    TextInput::make('total_amount')->prefix('$'),
-                                    TextInput::make('payment_type'),
-                                    TextInput::make('payment_id'),
-                                    ToggleButtons::make('payment_status')->boolean()->inline(),
+                                    TextInput::make('total_amount')
+                                        ->label(__('filament.user_navigation .relation.orders.form.total_amount'))
+                                        ->prefix('$'),
+                                    TextInput::make('payment_type')
+                                        ->label(__('filament.user_navigation .relation.orders.form.payment_type')),
+                                    TextInput::make('payment_id')
+                                        ->label(__('filament.user_navigation .relation.orders.form.payment_id')),
+                                    ToggleButtons::make('payment_status')
+                                        ->label(__('filament.user_navigation .relation.orders.form.payment_status'))
+                                        ->boolean()
+                                        ->inline(),
                                 ])->columns(2),
                         ]),
                 ])->columnSpanFull(),
@@ -41,10 +48,16 @@ class OrdersRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('total_amount')->prefix('$'),
-                TextColumn::make('payment_id'),
-                TextColumn::make('payment_type'),
-                IconColumn::make('payment_status')->boolean(),
+                TextColumn::make('total_amount')
+                    ->label(__('filament.user_navigation .relation.orders.table.total_amount'))
+                    ->prefix('$'),
+                TextColumn::make('payment_id')
+                    ->label(__('filament.user_navigation .relation.orders.table.payment_id')),
+                TextColumn::make('payment_type')
+                    ->label(__('filament.user_navigation .relation.orders.table.payment_type')),
+                IconColumn::make('payment_status')
+                    ->label(__('filament.user_navigation .relation.orders.table.payment_status'))
+                    ->boolean(),
             ])
             ->actions([
                 ViewAction::make(),

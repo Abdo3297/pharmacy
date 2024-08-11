@@ -159,7 +159,7 @@ return [
     |
     | This option specifies the navigation label used in the sidebar.
     */
-    'navigation_label' => 'Chat',
+    'navigation_label' => app()->getLocale() == 'en' ? 'Chat' : 'الدردشة',
 
     /*
     |--------------------------------------------------------------------------
