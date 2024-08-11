@@ -70,7 +70,9 @@ class UserResource extends Resource
                     ->label(__('filament.user_navigation .table.gender')),
             ])
             ->modifyQueryUsing(function (Builder $query) {
-                return $query->where('is_admin', false);
+                return $query
+                ->where('is_admin', false)
+                ->where('email_verified_at', '!=',NULL);
             })
             ->headerActions([
                 FilamentExportHeaderAction::make(__('filament.user_navigation .table.export'))
