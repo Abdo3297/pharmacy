@@ -47,7 +47,7 @@ class SocialiteAuthenticationController extends Controller
                 'userName' => $socialiteUser->getName(),
                 'userEmail' => $socialiteUser->getEmail(),
                 'userImage' => $socialiteUser->getAvatar(),
-                'tokenType' => 'Bearer Token',
+                'tokenType' => 'Bearer Tokens',
                 'tokenValue' => $sanctum_token,
                 'tokenGoogle' => $socialiteUser->token,
             ],
