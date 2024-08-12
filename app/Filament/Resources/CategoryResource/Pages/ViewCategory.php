@@ -7,6 +7,7 @@ use App\Filament\Resources\CategoryResource\Widgets\CategoryProductNumber;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ViewCategory extends ViewRecord
 {
@@ -25,5 +26,9 @@ class ViewCategory extends ViewRecord
         return [
             CategoryProductNumber::class,
         ];
+    }
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.category_navigation.view');
     }
 }

@@ -44,61 +44,73 @@ class ProductResource extends Resource
     protected static ?string $navigationIcon = 'fas-p';
 
     protected static ?int $navigationSort = 3;
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.product_navigation.resource');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Wizard::make([
-                    Step::make('Product Details')
+                    Step::make(__('filament.product_navigation.form.info'))
                         ->schema([
                             Translate::make()
                                 ->schema([
                                     TextInput::make('name')
                                         ->required()
+                                        ->label(__('filament.product_navigation.form.name'))
                                         ->string()
                                         ->rules(['required', 'string']),
                                     Textarea::make('description')
                                         ->required()
+                                        ->label(__('filament.product_navigation.form.desc'))
                                         ->string()
                                         ->rules(['required', 'string']),
                                 ])->locales(config('app.available_locales')),
 
                             SpatieMediaLibraryFileUpload::make('image')
                                 ->required()
+                                ->label(__('filament.product_navigation.form.image'))
                                 ->image()
                                 ->rules(['image'])
                                 ->collection('productImages'),
 
                             TextInput::make('barcode')
+                                ->label(__('filament.product_navigation.form.barcode'))
                                 ->required()
                                 ->string()
                                 ->rules(['required', 'string', 'size:10']),
                             TextInput::make('stock')
-                                ->required()
+                            ->required()
+                                ->label(__('filament.product_navigation.form.stock'))
                                 ->integer()
                                 ->rules(['required', 'integer']),
                             TextInput::make('alert')
                                 ->required()
+                                ->label(__('filament.product_navigation.form.alert'))
                                 ->integer()
                                 ->lt('stock')
                                 ->rules(['required', 'integer']),
                             TextInput::make('unit_price')
                                 ->required()
+                                ->label(__('filament.product_navigation.form.unit_price'))
                                 ->numeric()
                                 ->minValue(0)
                                 ->prefix('$')
                                 ->rules(['required', 'numeric', 'min:0']),
-                            TextInput::make('no_units')
+                                TextInput::make('no_units')
                                 ->required()
+                                ->label(__('filament.product_navigation.form.no_units'))
                                 ->integer()
                                 ->minValue(1)
                                 ->rules(['required', 'integer', 'min:1']),
                         ])->columns(2),
-                    Step::make('Categories Details')
+                    Step::make(__('filament.product_navigation.relation.categories.form.info'))
                         ->schema([
                             Select::make('categories')
-                                ->label('Categories')
+                                ->label(__('filament.product_navigation.relation.categories.form.name'))
                                 ->relationship('categories', 'name')
                                 ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
                                 ->multiple()
@@ -119,10 +131,10 @@ class ProductResource extends Resource
                                         ->collection('categoryImages'),
                                 ]),
                         ]),
-                    Step::make('Side Effects Details')
+                    Step::make(__('filament.product_navigation.relation.sideffects.form.info'))
                         ->schema([
                             Select::make('sideEffects')
-                                ->label('Side Effects')
+                                ->label(__('filament.product_navigation.relation.sideffects.form.name'))
                                 ->multiple()
                                 ->preload()
                                 ->searchable()
@@ -139,10 +151,10 @@ class ProductResource extends Resource
                                         ->rules(['required', 'string']),
                                 ]),
                         ]),
-                    Step::make('Indications Details')
+                    Step::make(__('filament.product_navigation.relation.indications.form.info'))
                         ->schema([
                             Select::make('indications')
-                                ->label('Indications')
+                                ->label(__('filament.product_navigation.relation.indications.form.name'))
                                 ->multiple()
                                 ->preload()
                                 ->searchable()
@@ -159,10 +171,10 @@ class ProductResource extends Resource
                                         ->rules(['required', 'string']),
                                 ]),
                         ]),
-                    Step::make('Offer Details')
+                    Step::make(__('filament.product_navigation.relation.offers.form.info'))
                         ->schema([
                             Select::make('Offer')
-                                ->label('Offer')
+                                ->label(__('filament.product_navigation.relation.offers.form.name'))
                                 ->preload()
                                 ->searchable()
                                 ->relationship('offers', 'name')
@@ -192,24 +204,32 @@ class ProductResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
+                    ->label(__('filament.product_navigation.table.name'))
                     ->sortable(),
-                TextColumn::make('description'),
+                TextColumn::make('description')
+                ->label(__('filament.product_navigation.table.desc')),
                 SpatieMediaLibraryImageColumn::make('image')
                     ->collection('productImages')
+                    ->label(__('filament.product_navigation.table.image'))
                     ->width(100)
                     ->height(100),
                 TextColumn::make('barcode')
+                ->label(__('filament.product_navigation.table.barcode'))
                     ->searchable(),
-                TextColumn::make('stock'),
-                TextColumn::make('alert'),
+                TextColumn::make('stock')
+                ->label(__('filament.product_navigation.table.stock')),
+                TextColumn::make('alert')
+                ->label(__('filament.product_navigation.table.alert')),
                 TextColumn::make('unit_price')
+                ->label(__('filament.product_navigation.table.unit_price'))
                     ->money('USD')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('no_units'),
+                TextColumn::make('no_units')
+                ->label(__('filament.product_navigation.table.no_units')),
             ])
             ->headerActions([
-                FilamentExportHeaderAction::make('export')
+                FilamentExportHeaderAction::make(__('filament.product_navigation.table.export'))
                     ->fileName('Product Sheet')
                     ->defaultFormat('csv')
                     ->disableXlsx()

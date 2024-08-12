@@ -6,6 +6,7 @@ use App\Filament\Resources\ProductResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ViewProduct extends ViewRecord
 {
@@ -17,5 +18,9 @@ class ViewProduct extends ViewRecord
             EditAction::make(),
             DeleteAction::make(),
         ];
+    }
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.product_navigation.view');
     }
 }

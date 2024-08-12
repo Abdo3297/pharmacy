@@ -13,7 +13,7 @@ class CategoryProductNumber extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('total products in this category', $this->record->products()->count()),
+            Stat::make(__('filament.category_navigation.widget.total_product_category'), $this->record->products()->count()),
         ];
     }
 }

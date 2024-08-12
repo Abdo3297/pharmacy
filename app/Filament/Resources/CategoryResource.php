@@ -34,21 +34,27 @@ class CategoryResource extends Resource
     protected static ?string $navigationIcon = 'fas-layer-group';
 
     protected static ?int $navigationSort = 2;
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.category_navigation.resource');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Wizard::make([
-                    Step::make('Category Details')
+                    Step::make(__('filament.category_navigation.form.info'))
                         ->schema([
                             Translate::make()
                                 ->schema([
                                     TextInput::make('name')
+                                        ->label(__('filament.category_navigation.form.name'))
                                         ->required()
                                         ->string(),
                                 ])->locales(config('app.available_locales')),
                             SpatieMediaLibraryFileUpload::make('image')
+                                ->label(__('filament.category_navigation.form.image'))
                                 ->required()
                                 ->image()
                                 ->collection('categoryImages'),
@@ -63,14 +69,16 @@ class CategoryResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
+                    ->label(__('filament.category_navigation.table.name'))
                     ->sortable(),
                 SpatieMediaLibraryImageColumn::make('image')
                     ->collection('categoryImages')
+                    ->label(__('filament.category_navigation.table.image'))
                     ->width(100)
                     ->height(100),
             ])
             ->headerActions([
-                FilamentExportHeaderAction::make('export')
+                FilamentExportHeaderAction::make(__('filament.category_navigation.table.export'))
                     ->fileName('Category Sheet')
                     ->defaultFormat('csv')
                     ->disableXlsx()

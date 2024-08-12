@@ -5,6 +5,7 @@ namespace App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ListCategories extends ListRecords
 {
@@ -15,5 +16,9 @@ class ListCategories extends ListRecords
         return [
             CreateAction::make(),
         ];
+    }
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.category_navigation.list');
     }
 }

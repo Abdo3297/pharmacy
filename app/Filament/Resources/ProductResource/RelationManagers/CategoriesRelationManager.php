@@ -31,18 +31,20 @@ class CategoriesRelationManager extends RelationManager
         return $form
             ->schema([
                 Wizard::make([
-                    Step::make('Category Details')
+                    Step::make(__('filament.product_navigation.relation.categories.form.info'))
                         ->schema([
                             Translate::make()
                                 ->schema([
                                     TextInput::make('name')
                                         ->required()
+                                        ->label(__('filament.product_navigation.relation.categories.form.name'))
                                         ->string(),
                                 ])->locales(config('app.available_locales')),
 
                             SpatieMediaLibraryFileUpload::make('image')
                                 ->required()
                                 ->image()
+                                ->label(__('filament.product_navigation.relation.categories.form.image'))
                                 ->collection('categoryImages'),
                         ]),
                 ])->columnSpanFull(),
@@ -56,9 +58,11 @@ class CategoriesRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
+                    ->label(__('filament.product_navigation.relation.categories.table.name'))
                     ->sortable(),
                 SpatieMediaLibraryImageColumn::make('image')
                     ->collection('categoryImages')
+                    ->label(__('filament.product_navigation.relation.categories.table.image'))
                     ->width(100)
                     ->height(100),
             ])
