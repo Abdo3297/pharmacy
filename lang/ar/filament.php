@@ -92,13 +92,13 @@ return [
         'list' => 'الفئات',
 
         'create' => 'إضافة فئة',
-        
+
         'edit' => 'تعديل الفئة',
 
         'view' => 'الفئة',
 
         'widget' => [
-            'total_product_category' => 'عدد المنتجات فى الفئة'
+            'total_product_category' => 'عدد المنتجات فى الفئة',
         ],
 
         'table' => [
@@ -156,11 +156,11 @@ return [
                 'form' => [
                     'info' => 'تفاصيل الفئة',
                     'name' => 'الفئات',
-                    'image' => 'الصورة'
+                    'image' => 'الصورة',
                 ],
                 'table' => [
                     'name' => 'الاسم',
-                    'image' => 'الصورة'
+                    'image' => 'الصورة',
                 ],
             ],
             'sideffects' => [
@@ -188,16 +188,35 @@ return [
                     'discount_type' => 'نوع الخصم',
                     'discount_value' => 'قيمة الخصم',
                     'start_date' => 'تاريخ البدء',
-                    'end_date' => 'تاريخ الإنتهاء'
+                    'end_date' => 'تاريخ الإنتهاء',
                 ],
                 'table' => [
                     'name' => 'الاسم',
                     'discount_type' => 'نوع الخصم',
                     'discount_value' => 'قيمة الخصم',
                     'start_date' => 'تاريخ البدء',
-                    'end_date' => 'تاريخ الإنتهاء'
+                    'end_date' => 'تاريخ الإنتهاء',
                 ],
             ],
+        ],
+    ],
+    'pharmacy_navigation' => [
+        'resource' => 'الصيدليات',
+        'list' => 'الصيدليات',
+        'edit' => 'تعديل معلومات هذه الصيدلية',
+        'view' => 'الصيدلية',
+        'table' => [
+            'name' => 'الإسم',
+            'logo' => 'اللوجو',
+            'carousel' => 'المعرض',
+        ],
+        'form' => [
+            'name' => 'الإسم',
+            'logo' => 'اللوجو',
+            'carousel' => 'المعرض',
+            'p_name' => 'إسم الصيدلية',
+            'p_logo' => 'لوجو الصيدلية',
+            'p_carousel' => 'معرض الصيدلية',
         ],
     ],
 ];

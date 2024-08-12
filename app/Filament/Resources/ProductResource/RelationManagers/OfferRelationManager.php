@@ -30,16 +30,16 @@ class OfferRelationManager extends RelationManager
                             Translate::make()
                                 ->schema([
                                     TextInput::make('name')
-                                    ->label(__('filament.product_navigation.relation.offers.form.name')),
+                                        ->label(__('filament.product_navigation.relation.offers.form.name')),
                                 ])->locales(config('app.available_locales')),
                             Select::make('discount_type')
-                            ->label(__('filament.product_navigation.relation.offers.form.discount_type')),
+                                ->label(__('filament.product_navigation.relation.offers.form.discount_type')),
                             TextInput::make('discount_value')
-                            ->label(__('filament.product_navigation.relation.offers.form.discount_value')),
+                                ->label(__('filament.product_navigation.relation.offers.form.discount_value')),
                             DateTimePicker::make('start_date')
-                            ->label(__('filament.product_navigation.relation.offers.form.start_date')),
+                                ->label(__('filament.product_navigation.relation.offers.form.start_date')),
                             DateTimePicker::make('end_date')
-                            ->label(__('filament.product_navigation.relation.offers.form.end_date')),
+                                ->label(__('filament.product_navigation.relation.offers.form.end_date')),
                         ]),
                 ])->columnSpanFull(),
             ]);
@@ -53,7 +53,7 @@ class OfferRelationManager extends RelationManager
                 TextColumn::make('name')
                     ->searchable()
                     ->label(__('filament.product_navigation.relation.offers.table.name')),
-                    TextColumn::make('discount_type')
+                TextColumn::make('discount_type')
                     ->searchable()
                     ->label(__('filament.product_navigation.relation.offers.table.discount_type')),
                 TextColumn::make('discount_value')

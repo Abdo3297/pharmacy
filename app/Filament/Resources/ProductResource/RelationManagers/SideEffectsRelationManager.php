@@ -43,7 +43,7 @@ class SideEffectsRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
-                ->label(__('filament.product_navigation.relation.sideffects.table.name')),
+                    ->label(__('filament.product_navigation.relation.sideffects.table.name')),
             ])
             ->headerActions([
                 AttachAction::make()

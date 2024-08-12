@@ -27,6 +27,7 @@ class ViewCategory extends ViewRecord
             CategoryProductNumber::class,
         ];
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.category_navigation.view');

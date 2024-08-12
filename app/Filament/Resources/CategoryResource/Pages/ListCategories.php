@@ -17,6 +17,7 @@ class ListCategories extends ListRecords
             CreateAction::make(),
         ];
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.category_navigation.list');

@@ -23,6 +23,7 @@ class CreateProduct extends CreateRecord
             ->title('Product created')
             ->body('The Product has been created successfully.');
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.product_navigation.create');

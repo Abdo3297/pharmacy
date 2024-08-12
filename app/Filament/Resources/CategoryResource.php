@@ -34,6 +34,7 @@ class CategoryResource extends Resource
     protected static ?string $navigationIcon = 'fas-layer-group';
 
     protected static ?int $navigationSort = 2;
+
     public static function getNavigationLabel(): string
     {
         return __('filament.category_navigation.resource');

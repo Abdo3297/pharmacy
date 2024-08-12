@@ -5,6 +5,7 @@ namespace App\Filament\Resources\PharmacyResource\Pages;
 use App\Filament\Resources\PharmacyResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ViewPharmacy extends ViewRecord
 {
@@ -15,5 +16,10 @@ class ViewPharmacy extends ViewRecord
         return [
             EditAction::make(),
         ];
+    }
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.pharmacy_navigation.view');
     }
 }

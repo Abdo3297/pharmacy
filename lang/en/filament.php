@@ -92,13 +92,13 @@ return [
         'list' => 'Categories',
 
         'create' => 'Create Category',
-        
+
         'edit' => 'Edit Category',
 
         'view' => 'Category',
 
         'widget' => [
-            'total_product_category' => 'Total Products in this Category'
+            'total_product_category' => 'Total Products in this Category',
         ],
 
         'table' => [
@@ -157,11 +157,11 @@ return [
                 'form' => [
                     'info' => 'Category Details',
                     'name' => 'Categories',
-                    'image' => 'Image'
+                    'image' => 'Image',
                 ],
                 'table' => [
                     'name' => 'Name',
-                    'image' => 'Image'
+                    'image' => 'Image',
                 ],
             ],
             'sideffects' => [
@@ -189,16 +189,35 @@ return [
                     'discount_type' => 'Discount Type',
                     'discount_value' => 'Discount Value',
                     'start_date' => 'Start Date',
-                    'end_date' => 'End Date'
+                    'end_date' => 'End Date',
                 ],
                 'table' => [
                     'name' => 'Name',
                     'discount_type' => 'Discount Type',
                     'discount_value' => 'Discount Value',
                     'start_date' => 'Start Date',
-                    'end_date' => 'End Date'
+                    'end_date' => 'End Date',
                 ],
             ],
+        ],
+    ],
+    'pharmacy_navigation' => [
+        'resource' => 'Pharmacies',
+        'list' => 'Pharmacies',
+        'edit' => 'Edit Pharmacy',
+        'view' => 'Pharmacy',
+        'table' => [
+            'name' => 'Name',
+            'logo' => 'Logo',
+            'carousel' => 'Carousel',
+        ],
+        'form' => [
+            'name' => 'Name',
+            'logo' => 'Logo',
+            'carousel' => 'Carousel',
+            'p_name' => 'Pharmacy Name',
+            'p_logo' => 'Pharmacy Logo',
+            'p_carousel' => 'Pharmacy Carousel',
         ],
     ],
 ];

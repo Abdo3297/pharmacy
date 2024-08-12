@@ -44,6 +44,7 @@ class ProductResource extends Resource
     protected static ?string $navigationIcon = 'fas-p';
 
     protected static ?int $navigationSort = 3;
+
     public static function getNavigationLabel(): string
     {
         return __('filament.product_navigation.resource');
@@ -83,7 +84,7 @@ class ProductResource extends Resource
                                 ->string()
                                 ->rules(['required', 'string', 'size:10']),
                             TextInput::make('stock')
-                            ->required()
+                                ->required()
                                 ->label(__('filament.product_navigation.form.stock'))
                                 ->integer()
                                 ->rules(['required', 'integer']),
@@ -100,7 +101,7 @@ class ProductResource extends Resource
                                 ->minValue(0)
                                 ->prefix('$')
                                 ->rules(['required', 'numeric', 'min:0']),
-                                TextInput::make('no_units')
+                            TextInput::make('no_units')
                                 ->required()
                                 ->label(__('filament.product_navigation.form.no_units'))
                                 ->integer()
@@ -207,26 +208,26 @@ class ProductResource extends Resource
                     ->label(__('filament.product_navigation.table.name'))
                     ->sortable(),
                 TextColumn::make('description')
-                ->label(__('filament.product_navigation.table.desc')),
+                    ->label(__('filament.product_navigation.table.desc')),
                 SpatieMediaLibraryImageColumn::make('image')
                     ->collection('productImages')
                     ->label(__('filament.product_navigation.table.image'))
                     ->width(100)
                     ->height(100),
                 TextColumn::make('barcode')
-                ->label(__('filament.product_navigation.table.barcode'))
+                    ->label(__('filament.product_navigation.table.barcode'))
                     ->searchable(),
                 TextColumn::make('stock')
-                ->label(__('filament.product_navigation.table.stock')),
+                    ->label(__('filament.product_navigation.table.stock')),
                 TextColumn::make('alert')
-                ->label(__('filament.product_navigation.table.alert')),
+                    ->label(__('filament.product_navigation.table.alert')),
                 TextColumn::make('unit_price')
-                ->label(__('filament.product_navigation.table.unit_price'))
+                    ->label(__('filament.product_navigation.table.unit_price'))
                     ->money('USD')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('no_units')
-                ->label(__('filament.product_navigation.table.no_units')),
+                    ->label(__('filament.product_navigation.table.no_units')),
             ])
             ->headerActions([
                 FilamentExportHeaderAction::make(__('filament.product_navigation.table.export'))

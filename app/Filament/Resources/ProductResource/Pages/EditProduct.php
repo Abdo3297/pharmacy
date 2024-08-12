@@ -33,6 +33,7 @@ class EditProduct extends EditRecord
             ->title('Product edited')
             ->body('The Product has been edited successfully.');
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.product_navigation.edit');

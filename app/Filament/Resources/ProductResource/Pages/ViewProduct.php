@@ -19,6 +19,7 @@ class ViewProduct extends ViewRecord
             DeleteAction::make(),
         ];
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.product_navigation.view');

@@ -17,6 +17,7 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class PharmacyResource extends Resource
 {
@@ -26,27 +27,38 @@ class PharmacyResource extends Resource
 
     protected static ?int $navigationSort = 8;
 
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.pharmacy_navigation.resource');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Wizard::make([
-                    Step::make('Pharmacy Name')
+                    Step::make(__('filament.pharmacy_navigation.form.p_name'))
                         ->schema([
-                            TextInput::make('name')
-                                ->required()
-                                ->string(),
+                            Translate::make()
+                                ->schema([
+                                    TextInput::make('name')
+                                        ->label(__('filament.pharmacy_navigation.form.name'))
+                                        ->required()
+                                        ->string(),
+                                ])->locales(config('app.available_locales')),
                         ]),
-                    Step::make('Pharmacy Logo')
+                    Step::make(__('filament.pharmacy_navigation.form.p_logo'))
                         ->schema([
                             SpatieMediaLibraryFileUpload::make('Logo')
+                                ->label(__('filament.pharmacy_navigation.form.logo'))
                                 ->required()
                                 ->image()
                                 ->collection('pharmacyLogo'),
                         ]),
-                    Step::make('Pharmacy Carousel')
+                    Step::make(__('filament.pharmacy_navigation.form.p_carousel'))
                         ->schema([
                             SpatieMediaLibraryFileUpload::make('Carousel')
+                                ->label(__('filament.pharmacy_navigation.form.carousel'))
                                 ->required()
                                 ->image()
                                 ->multiple()
@@ -61,12 +73,15 @@ class PharmacyResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('filament.pharmacy_navigation.table.name'))
                     ->searchable(),
                 SpatieMediaLibraryImageColumn::make('Logo')
+                    ->label(__('filament.pharmacy_navigation.table.logo'))
                     ->collection('pharmacyLogo')
                     ->width(50)
                     ->height(50),
                 SpatieMediaLibraryImageColumn::make('Carousel')
+                    ->label(__('filament.pharmacy_navigation.table.carousel'))
                     ->collection('pharmacyCarousel')
                     ->width(50)
                     ->height(50),

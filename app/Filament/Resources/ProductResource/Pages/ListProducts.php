@@ -17,6 +17,7 @@ class ListProducts extends ListRecords
             CreateAction::make(),
         ];
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.product_navigation.list');
