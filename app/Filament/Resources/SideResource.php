@@ -30,7 +30,10 @@ class SideResource extends Resource
     protected static ?string $navigationIcon = 'fas-person-circle-exclamation';
 
     protected static ?int $navigationSort = 5;
-
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.side_navigation.resource');
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -39,6 +42,7 @@ class SideResource extends Resource
                     ->schema([
                         TextInput::make('name')
                             ->required()
+                            ->label(__('filament.side_navigation.form.name'))
                             ->string(),
                     ])->locales(config('app.available_locales')),
             ])->columns(1);
@@ -50,6 +54,7 @@ class SideResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
+                    ->label(__('filament.side_navigation.table.name'))
                     ->sortable(),
             ])
             ->actions([

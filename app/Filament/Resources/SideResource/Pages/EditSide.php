@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class EditSide extends EditRecord
 {
@@ -31,5 +32,9 @@ class EditSide extends EditRecord
             ->success()
             ->title('Side edited')
             ->body('The Side has been edited successfully.');
+    }
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.side_navigation.edit');
     }
 }

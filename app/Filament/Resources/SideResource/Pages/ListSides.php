@@ -5,6 +5,7 @@ namespace App\Filament\Resources\SideResource\Pages;
 use App\Filament\Resources\SideResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ListSides extends ListRecords
 {
@@ -15,5 +16,9 @@ class ListSides extends ListRecords
         return [
             CreateAction::make(),
         ];
+    }
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.side_navigation.list');
     }
 }

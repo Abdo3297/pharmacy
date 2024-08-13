@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class EditIndication extends EditRecord
 {
@@ -31,5 +32,9 @@ class EditIndication extends EditRecord
             ->success()
             ->title('Indication edited')
             ->body('The Indication has been edited successfully.');
+    }
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.indication_navigation.edit');
     }
 }

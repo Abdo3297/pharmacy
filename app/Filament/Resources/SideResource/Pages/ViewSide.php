@@ -6,6 +6,7 @@ use App\Filament\Resources\SideResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ViewSide extends ViewRecord
 {
@@ -17,5 +18,9 @@ class ViewSide extends ViewRecord
             EditAction::make(),
             DeleteAction::make(),
         ];
+    }
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.side_navigation.view');
     }
 }

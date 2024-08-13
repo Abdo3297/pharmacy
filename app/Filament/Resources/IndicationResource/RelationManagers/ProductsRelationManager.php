@@ -32,47 +32,55 @@ class ProductsRelationManager extends RelationManager
         return $form
             ->schema([
                 Wizard::make([
-                    Step::make('Product Details')
+                    Step::make(__('filament.indication_navigation.relation.products.form.info'))
                         ->schema([
                             Translate::make()
                                 ->schema([
                                     TextInput::make('name')
                                         ->required()
+                                        ->label(__('filament.indication_navigation.relation.products.form.name'))
                                         ->string()
                                         ->rules(['required', 'string']),
                                     Textarea::make('description')
                                         ->required()
+                                        ->label(__('filament.indication_navigation.relation.products.form.desc'))
                                         ->string()
                                         ->rules(['required', 'string']),
                                 ])->locales(config('app.available_locales')),
 
                             SpatieMediaLibraryFileUpload::make('image')
                                 ->required()
+                                        ->label(__('filament.indication_navigation.relation.products.form.image'))
                                 ->image()
                                 ->rules(['image'])
                                 ->collection('productImages'),
 
                             TextInput::make('barcode')
                                 ->required()
+                                        ->label(__('filament.indication_navigation.relation.products.form.barcode'))
                                 ->string()
                                 ->rules(['required', 'string', 'size:10']),
                             TextInput::make('stock')
                                 ->required()
+                                        ->label(__('filament.indication_navigation.relation.products.form.stock'))
                                 ->integer()
                                 ->rules(['required', 'integer']),
                             TextInput::make('alert')
                                 ->required()
+                                        ->label(__('filament.indication_navigation.relation.products.form.alert'))
                                 ->integer()
                                 ->lt('stock')
                                 ->rules(['required', 'integer']),
                             TextInput::make('unit_price')
                                 ->required()
+                                        ->label(__('filament.indication_navigation.relation.products.form.unit_price'))
                                 ->numeric()
                                 ->minValue(0)
                                 ->prefix('$')
                                 ->rules(['required', 'numeric', 'min:0']),
                             TextInput::make('no_units')
                                 ->required()
+                                        ->label(__('filament.indication_navigation.relation.products.form.no_units'))
                                 ->integer()
                                 ->minValue(1)
                                 ->rules(['required', 'integer', 'min:1']),
@@ -86,17 +94,25 @@ class ProductsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('description'),
+                TextColumn::make('name')
+                ->label(__('filament.indication_navigation.relation.products.table.name')),
+                TextColumn::make('description')
+                    ->label(__('filament.indication_navigation.relation.products.table.desc')),
                 SpatieMediaLibraryImageColumn::make('image')
                     ->collection('productImages')
                     ->width(100)
+                    ->label(__('filament.indication_navigation.relation.products.table.image'))
                     ->height(100),
-                TextColumn::make('barcode'),
-                TextColumn::make('stock'),
-                TextColumn::make('alert'),
-                TextColumn::make('unit_price')->money('USD'),
-                TextColumn::make('no_units'),
+                TextColumn::make('barcode')
+                    ->label(__('filament.indication_navigation.relation.products.table.barcode')),
+                TextColumn::make('stock')
+                    ->label(__('filament.indication_navigation.relation.products.table.stock')),
+                TextColumn::make('alert')
+                    ->label(__('filament.indication_navigation.relation.products.table.alert')),
+                TextColumn::make('unit_price')->money('USD')
+                    ->label(__('filament.indication_navigation.relation.products.table.unit_price')),
+                TextColumn::make('no_units')
+                    ->label(__('filament.indication_navigation.relation.products.table.no_units')),
             ])
             ->headerActions([
                 AttachAction::make()

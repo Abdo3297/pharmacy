@@ -201,6 +201,96 @@ return [
             ],
         ],
     ],
+    'indication_navigation' => [
+
+        'resource' => 'Indication',
+
+        'list' => 'Indication',
+        'create' => 'Create Indication',
+        'edit' => 'Edit Indication',
+        'view' => 'Indication',
+
+        'table' => [
+            'name' => 'Name',
+            'export' => 'Export',
+        ],
+
+        'form' => [
+            'name' => 'Name',
+            'info' => 'Indication Information',
+        ],
+
+        'relation' => [
+            'products' => [
+                'form' => [
+                    'info' => 'Product Details',
+                    'name' => 'Name',
+                    'desc' => 'Description',
+                    'image' => 'Image',
+                    'barcode' => 'Bar Code',
+                    'alert' => 'Alert',
+                    'stock' => 'Stock',
+                    'unit_price' => 'Unit Price',
+                    'no_units' => 'No. Of Units'
+                ],
+                'table' => [
+                    'name' => 'Name',
+                    'desc' => 'Description',
+                    'image' => 'Image',
+                    'barcode' => 'Bar Code',
+                    'alert' => 'Alert',
+                    'stock' => 'Stock',
+                    'unit_price' => 'Unit Price',
+                    'no_units' => 'No. Of Units'
+                ],
+            ],
+        ],
+    ],
+    'side_navigation' => [
+
+        'resource' => 'Side Effects',
+
+        'list' => 'Side Effects',
+        'create' => 'Create Side Effects',
+        'edit' => 'Edit Side Effects',
+        'view' => 'Side Effects',
+
+        'table' => [
+            'name' => 'Name',
+            'export' => 'Export',
+        ],
+
+        'form' => [
+            'name' => 'Name',
+            'info' => 'Side Effect Information',
+        ],
+
+        'relation' => [
+            'products' => [
+                'form' => [
+                    'info' => 'Product Details',
+                    'name' => 'Name',
+                    'desc' => 'Description',
+                    'image' => 'Image',
+                    'barcode' => 'Bar Code',
+                    'alert' => 'Alert',
+                    'stock' => 'Stock',
+                    'unit_price' => 'Unit Price',
+                    'no_units' => 'No. Of Units'
+                ],
+                'table' => [
+                    'name' => 'Name',
+                    'desc' => 'Description',
+                    'image' => 'Image',
+                    'barcode' => 'Bar Code',
+                    'alert' => 'Alert',
+                    'stock' => 'Stock',
+                    'unit_price' => 'Unit Price',
+                    'no_units' => 'No. Of Units'
+                ],
+            ],
+        ],
+    ],
     'pharmacy_navigation' => [
         'resource' => 'Pharmacies',
         'list' => 'Pharmacies',
