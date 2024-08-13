@@ -33,6 +33,7 @@ class EditIndication extends EditRecord
             ->title('Indication edited')
             ->body('The Indication has been edited successfully.');
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.indication_navigation.edit');

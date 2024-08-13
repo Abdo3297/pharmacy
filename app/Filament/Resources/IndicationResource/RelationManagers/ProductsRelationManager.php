@@ -50,37 +50,37 @@ class ProductsRelationManager extends RelationManager
 
                             SpatieMediaLibraryFileUpload::make('image')
                                 ->required()
-                                        ->label(__('filament.indication_navigation.relation.products.form.image'))
+                                ->label(__('filament.indication_navigation.relation.products.form.image'))
                                 ->image()
                                 ->rules(['image'])
                                 ->collection('productImages'),
 
                             TextInput::make('barcode')
                                 ->required()
-                                        ->label(__('filament.indication_navigation.relation.products.form.barcode'))
+                                ->label(__('filament.indication_navigation.relation.products.form.barcode'))
                                 ->string()
                                 ->rules(['required', 'string', 'size:10']),
                             TextInput::make('stock')
                                 ->required()
-                                        ->label(__('filament.indication_navigation.relation.products.form.stock'))
+                                ->label(__('filament.indication_navigation.relation.products.form.stock'))
                                 ->integer()
                                 ->rules(['required', 'integer']),
                             TextInput::make('alert')
                                 ->required()
-                                        ->label(__('filament.indication_navigation.relation.products.form.alert'))
+                                ->label(__('filament.indication_navigation.relation.products.form.alert'))
                                 ->integer()
                                 ->lt('stock')
                                 ->rules(['required', 'integer']),
                             TextInput::make('unit_price')
                                 ->required()
-                                        ->label(__('filament.indication_navigation.relation.products.form.unit_price'))
+                                ->label(__('filament.indication_navigation.relation.products.form.unit_price'))
                                 ->numeric()
                                 ->minValue(0)
                                 ->prefix('$')
                                 ->rules(['required', 'numeric', 'min:0']),
                             TextInput::make('no_units')
                                 ->required()
-                                        ->label(__('filament.indication_navigation.relation.products.form.no_units'))
+                                ->label(__('filament.indication_navigation.relation.products.form.no_units'))
                                 ->integer()
                                 ->minValue(1)
                                 ->rules(['required', 'integer', 'min:1']),
@@ -95,7 +95,7 @@ class ProductsRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
-                ->label(__('filament.indication_navigation.relation.products.table.name')),
+                    ->label(__('filament.indication_navigation.relation.products.table.name')),
                 TextColumn::make('description')
                     ->label(__('filament.indication_navigation.relation.products.table.desc')),
                 SpatieMediaLibraryImageColumn::make('image')

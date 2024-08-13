@@ -30,10 +30,12 @@ class SideResource extends Resource
     protected static ?string $navigationIcon = 'fas-person-circle-exclamation';
 
     protected static ?int $navigationSort = 5;
+
     public static function getNavigationLabel(): string
     {
         return __('filament.side_navigation.resource');
     }
+
     public static function form(Form $form): Form
     {
         return $form

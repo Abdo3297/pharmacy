@@ -23,6 +23,7 @@ class CreateIndication extends CreateRecord
             ->title('Indication created')
             ->body('The Indication has been created successfully.');
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.indication_navigation.create');

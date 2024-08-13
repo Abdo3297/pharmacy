@@ -17,6 +17,7 @@ class ListSides extends ListRecords
             CreateAction::make(),
         ];
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.side_navigation.list');

@@ -231,7 +231,7 @@ return [
                     'alert' => 'Alert',
                     'stock' => 'Stock',
                     'unit_price' => 'Unit Price',
-                    'no_units' => 'No. Of Units'
+                    'no_units' => 'No. Of Units',
                 ],
                 'table' => [
                     'name' => 'Name',
@@ -241,7 +241,7 @@ return [
                     'alert' => 'Alert',
                     'stock' => 'Stock',
                     'unit_price' => 'Unit Price',
-                    'no_units' => 'No. Of Units'
+                    'no_units' => 'No. Of Units',
                 ],
             ],
         ],
@@ -276,7 +276,7 @@ return [
                     'alert' => 'Alert',
                     'stock' => 'Stock',
                     'unit_price' => 'Unit Price',
-                    'no_units' => 'No. Of Units'
+                    'no_units' => 'No. Of Units',
                 ],
                 'table' => [
                     'name' => 'Name',
@@ -286,7 +286,7 @@ return [
                     'alert' => 'Alert',
                     'stock' => 'Stock',
                     'unit_price' => 'Unit Price',
-                    'no_units' => 'No. Of Units'
+                    'no_units' => 'No. Of Units',
                 ],
             ],
         ],

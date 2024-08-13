@@ -19,6 +19,7 @@ class ViewSide extends ViewRecord
             DeleteAction::make(),
         ];
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.side_navigation.view');

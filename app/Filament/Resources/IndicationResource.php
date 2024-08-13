@@ -20,7 +20,6 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
-use function PHPUnit\Framework\assertFalse;
 
 class IndicationResource extends Resource
 {
@@ -29,10 +28,12 @@ class IndicationResource extends Resource
     protected static ?string $navigationIcon = 'fas-person-circle-check';
 
     protected static ?int $navigationSort = 4;
+
     public static function getNavigationLabel(): string
     {
         return __('filament.indication_navigation.resource');
     }
+
     public static function form(Form $form): Form
     {
         return $form

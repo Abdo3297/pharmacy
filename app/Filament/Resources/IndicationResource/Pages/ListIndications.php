@@ -17,6 +17,7 @@ class ListIndications extends ListRecords
             CreateAction::make(),
         ];
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.indication_navigation.list');

@@ -33,6 +33,7 @@ class EditSide extends EditRecord
             ->title('Side edited')
             ->body('The Side has been edited successfully.');
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.side_navigation.edit');

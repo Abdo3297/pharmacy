@@ -19,6 +19,7 @@ class ViewIndication extends ViewRecord
             DeleteAction::make(),
         ];
     }
+
     public function getTitle(): string|Htmlable
     {
         return __('filament.indication_navigation.view');
