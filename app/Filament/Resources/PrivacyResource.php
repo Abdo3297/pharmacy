@@ -28,6 +28,11 @@ class PrivacyResource extends Resource
 
     protected static ?int $navigationSort = 11;
 
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.privacy_navigation.resource');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -35,6 +40,7 @@ class PrivacyResource extends Resource
                 Translate::make()
                     ->schema([
                         Textarea::make('content')
+                            ->label(__('filament.privacy_navigation.form.content'))
                             ->required()
                             ->string(),
                     ])->locales(config('app.available_locales')),
@@ -46,6 +52,7 @@ class PrivacyResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('content')
+                    ->label(__('filament.privacy_navigation.table.content'))
                     ->searchable(),
             ])
             ->actions([

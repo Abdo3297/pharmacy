@@ -28,6 +28,11 @@ class TermResource extends Resource
 
     protected static ?int $navigationSort = 12;
 
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.term_navigation.resource');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -35,9 +40,11 @@ class TermResource extends Resource
                 Translate::make()
                     ->schema([
                         Textarea::make('key')
+                            ->label(__('filament.term_navigation.form.key'))
                             ->required()
                             ->string(),
                         Textarea::make('value')
+                            ->label(__('filament.term_navigation.form.value'))
                             ->required()
                             ->string(),
                     ])->locales(config('app.available_locales')),
@@ -49,8 +56,10 @@ class TermResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('key')
+                    ->label(__('filament.term_navigation.table.key'))
                     ->searchable(),
                 TextColumn::make('value')
+                    ->label(__('filament.term_navigation.table.value'))
                     ->searchable(),
             ])
             ->actions([

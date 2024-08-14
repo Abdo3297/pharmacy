@@ -310,4 +310,59 @@ return [
             'p_carousel' => 'Pharmacy Carousel',
         ],
     ],
+    'about_navigation' => [
+        'resource' => 'Abouts',
+        'list' => 'Abouts',
+        'edit' => 'Edit About',
+        'view' => 'About',
+        'table' => [
+            'content' => 'Content',
+        ],
+        'form' => [
+            'content' => 'Content',
+        ],
+    ],
+    'faq_navigation' => [
+        'resource' => 'FAQs',
+        'list' => 'FAQs',
+        'create' => 'Create FAQ',
+        'edit' => 'Edit FAQ',
+        'view' => 'FAQ',
+        'table' => [
+            'question' => 'Question',
+            'answer' => 'Answer',
+        ],
+        'form' => [
+            'question' => 'Question',
+            'answer' => 'Answer',
+        ],
+    ],
+    'privacy_navigation' => [
+        'resource' => 'Privacies',
+        'list' => 'Privacies',
+        'create' => 'Create Privacy',
+        'edit' => 'Edit Privacy',
+        'view' => 'Privacy',
+        'table' => [
+            'content' => 'Content',
+        ],
+        'form' => [
+            'content' => 'Content',
+        ],
+    ],
+    'term_navigation' => [
+        'resource' => 'Terms',
+        'list' => 'Terms',
+        'create' => 'Create Term',
+        'edit' => 'Edit Term',
+        'view' => 'Term',
+        'table' => [
+            'key' => 'Key',
+            'value' => 'Value',
+        ],
+        'form' => [
+            'key' => 'Key',
+            'value' => 'Value',
+        ],
+    ],
 ];

@@ -6,10 +6,16 @@ use App\Filament\Resources\TermResource;
 use Filament\Actions\DeleteAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class EditTerm extends EditRecord
 {
     protected static string $resource = TermResource::class;
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.term_navigation.edit');
+    }
 
     protected function getHeaderActions(): array
     {

@@ -5,10 +5,16 @@ namespace App\Filament\Resources\FaqResource\Pages;
 use App\Filament\Resources\FaqResource;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class CreateFaq extends CreateRecord
 {
     protected static string $resource = FaqResource::class;
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.faq_navigation.create');
+    }
 
     protected function getRedirectUrl(): string
     {

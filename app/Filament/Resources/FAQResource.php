@@ -30,6 +30,11 @@ class FaqResource extends Resource
 
     protected static ?int $navigationSort = 10;
 
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.faq_navigation.resource');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -37,9 +42,11 @@ class FaqResource extends Resource
                 Translate::make()
                     ->schema([
                         Textarea::make('question')
+                            ->label(__('filament.faq_navigation.form.question'))
                             ->required()
                             ->string(),
                         Textarea::make('answer')
+                            ->label(__('filament.faq_navigation.form.answer'))
                             ->required()
                             ->string(),
                     ])->locales(config('app.available_locales')),
@@ -51,8 +58,10 @@ class FaqResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('question')
+                    ->label(__('filament.faq_navigation.table.question'))
                     ->searchable(),
                 TextColumn::make('answer')
+                    ->label(__('filament.faq_navigation.table.answer'))
                     ->searchable(),
             ])
             ->actions([

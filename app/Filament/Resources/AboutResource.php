@@ -23,6 +23,11 @@ class AboutResource extends Resource
 
     protected static ?int $navigationSort = 9;
 
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.about_navigation.resource');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -30,6 +35,7 @@ class AboutResource extends Resource
                 Translate::make()
                     ->schema([
                         Textarea::make('content')
+                            ->label(__('filament.about_navigation.form.content'))
                             ->required()
                             ->string(),
                     ])->locales(config('app.available_locales')),
@@ -41,6 +47,7 @@ class AboutResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('content')
+                    ->label(__('filament.about_navigation.table.content'))
                     ->searchable(),
             ])
             ->actions([
