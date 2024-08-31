@@ -27,8 +27,7 @@ Route::middleware(['appLang'])
         Route::post('/sendOTP', 'sendOTP');
         Route::post('/checkOTP', 'checkOTP');
         Route::post('/resetPassword', 'resetPassword');
-        Route::post('/loginEmail', 'loginEmail');
-        Route::post('/loginPhone', 'loginPhone');
+        Route::post('/login', 'login');
     });
 Route::middleware(['auth:sanctum', 'appLang'])
     ->controller(AuthenticationController::class)

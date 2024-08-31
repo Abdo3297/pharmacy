@@ -66,6 +66,9 @@ class UserResource extends Resource
                 TextColumn::make('phone')
                     ->label(__('filament.user_navigation.table.phone'))
                     ->searchable(),
+                TextColumn::make('country')
+                    ->label(__('filament.user_navigation.table.country'))
+                    ->searchable(),
                 TextColumn::make('gender')
                     ->label(__('filament.user_navigation.table.gender')),
             ])

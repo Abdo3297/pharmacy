@@ -23,7 +23,7 @@ class OrderSeeder extends Seeder
                 'total_amount' => fake()->randomNumber(),
                 'payment_id' => fake()->randomNumber(8, true),
                 'payment_status' => [true, false][rand(0, 1)],
-                'payment_type' => 'stripe',
+                'payment_type' => ['stripe', 'paypal', 'paymob', 'cash'][rand(0, 3)],
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

@@ -6,8 +6,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\changePasswordRequest;
 use App\Http\Requests\Api\checkOTPRequest;
-use App\Http\Requests\Api\loginEmailRequest;
-use App\Http\Requests\Api\loginPhoneRequest;
+use App\Http\Requests\Api\loginRequest;
 use App\Http\Requests\Api\registerRequest;
 use App\Http\Requests\Api\resendOTPRequest;
 use App\Http\Requests\Api\resetPasswordRequest;
@@ -145,31 +144,7 @@ class AuthenticationController extends Controller
         );
     }
 
-    public function loginEmail(loginEmailRequest $request)
-    {
-        $data = $request->validated();
-        if (auth()->attempt($data)) {
-            $user = User::find(auth()->user()->id);
-            $token = $user->createToken('auth_token')->plainTextToken;
-            $user->token = $token;
-
-            return ResponseHelper::finalResponse(
-                'user logged in successfully',
-                UserResource::make($user),
-                true,
-                Response::HTTP_OK
-            );
-        }
-
-        return ResponseHelper::finalResponse(
-            'user credentials doesn\'t exists',
-            null,
-            true,
-            Response::HTTP_UNAUTHORIZED
-        );
-    }
-
-    public function loginPhone(loginPhoneRequest $request)
+    public function login(loginRequest $request)
     {
         $data = $request->validated();
         if (auth()->attempt($data)) {

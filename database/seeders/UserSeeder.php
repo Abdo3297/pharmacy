@@ -29,6 +29,7 @@ class UserSeeder extends Seeder
             $data[] = [
                 'name' => fake()->name(),
                 'email' => fake()->unique()->safeEmail(),
+                'country' => fake()->country(),
                 'phone' => fake()->phoneNumber(),
                 'password' => bcrypt('password'),
                 'gender' => ['male', 'female'][rand(0, 1)],
