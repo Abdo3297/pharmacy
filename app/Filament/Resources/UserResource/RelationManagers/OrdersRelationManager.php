@@ -22,14 +22,14 @@ class OrdersRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Wizard::make([
-                    Step::make(__('filament.user_navigation.relation.orders.form.info'))
+                
+                    Section::make(__('filament.user_navigation.relation.orders.form.info'))
                         ->schema([
                             Section::make()
                                 ->schema([
                                     TextInput::make('total_amount')
                                         ->label(__('filament.user_navigation.relation.orders.form.total_amount'))
-                                        ->prefix('$'),
+                                        ->prefix(config('pharmacy.currency-prefix')),
                                     TextInput::make('payment_type')
                                         ->label(__('filament.user_navigation.relation.orders.form.payment_type')),
                                     TextInput::make('payment_id')
@@ -40,7 +40,7 @@ class OrdersRelationManager extends RelationManager
                                         ->inline(),
                                 ])->columns(2),
                         ]),
-                ])->columnSpanFull(),
+                
             ]);
     }
 
@@ -50,7 +50,7 @@ class OrdersRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('total_amount')
                     ->label(__('filament.user_navigation.relation.orders.table.total_amount'))
-                    ->prefix('$'),
+                    ->prefix(config('pharmacy.currency-prefix')),
                 TextColumn::make('payment_id')
                     ->label(__('filament.user_navigation.relation.orders.table.payment_id')),
                 TextColumn::make('payment_type')

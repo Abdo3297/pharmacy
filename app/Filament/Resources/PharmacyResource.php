@@ -6,10 +6,9 @@ use App\Filament\Resources\PharmacyResource\Pages\EditPharmacy;
 use App\Filament\Resources\PharmacyResource\Pages\ListPharmacies;
 use App\Filament\Resources\PharmacyResource\Pages\ViewPharmacy;
 use App\Models\Pharmacy;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\EditAction;
@@ -36,35 +35,33 @@ class PharmacyResource extends Resource
     {
         return $form
             ->schema([
-                Wizard::make([
-                    Step::make(__('filament.pharmacy_navigation.form.p_name'))
-                        ->schema([
-                            Translate::make()
-                                ->schema([
-                                    TextInput::make('name')
-                                        ->label(__('filament.pharmacy_navigation.form.name'))
-                                        ->required()
-                                        ->string(),
-                                ])->locales(config('app.available_locales')),
-                        ]),
-                    Step::make(__('filament.pharmacy_navigation.form.p_logo'))
-                        ->schema([
-                            SpatieMediaLibraryFileUpload::make('Logo')
-                                ->label(__('filament.pharmacy_navigation.form.logo'))
-                                ->required()
-                                ->image()
-                                ->collection('pharmacyLogo'),
-                        ]),
-                    Step::make(__('filament.pharmacy_navigation.form.p_carousel'))
-                        ->schema([
-                            SpatieMediaLibraryFileUpload::make('Carousel')
-                                ->label(__('filament.pharmacy_navigation.form.carousel'))
-                                ->required()
-                                ->image()
-                                ->multiple()
-                                ->collection('pharmacyCarousel'),
-                        ]),
-                ])->columnSpanFull(),
+                Section::make(__('filament.pharmacy_navigation.form.p_name'))
+                    ->schema([
+                        Translate::make()
+                            ->schema([
+                                TextInput::make('name')
+                                    ->label(__('filament.pharmacy_navigation.form.name'))
+                                    ->required()
+                                    ->string(),
+                            ])->locales(config('app.available_locales')),
+                    ]),
+                Section::make(__('filament.pharmacy_navigation.form.p_logo'))
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('Logo')
+                            ->label(__('filament.pharmacy_navigation.form.logo'))
+                            ->required()
+                            ->image()
+                            ->collection('pharmacyLogo'),
+                    ]),
+                Section::make(__('filament.pharmacy_navigation.form.p_carousel'))
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('Carousel')
+                            ->label(__('filament.pharmacy_navigation.form.carousel'))
+                            ->required()
+                            ->image()
+                            ->multiple()
+                            ->collection('pharmacyCarousel'),
+                    ]),
             ]);
     }
 

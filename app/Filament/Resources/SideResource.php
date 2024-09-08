@@ -8,6 +8,7 @@ use App\Filament\Resources\SideResource\Pages\ListSides;
 use App\Filament\Resources\SideResource\Pages\ViewSide;
 use App\Filament\Resources\SideResource\RelationManagers\ProductsRelationManager;
 use App\Models\Side;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -40,14 +41,18 @@ class SideResource extends Resource
     {
         return $form
             ->schema([
-                Translate::make()
+                Section::make(__('filament.side_navigation.form.info'))
                     ->schema([
-                        TextInput::make('name')
-                            ->required()
-                            ->label(__('filament.side_navigation.form.name'))
-                            ->string(),
-                    ])->locales(config('app.available_locales')),
-            ])->columns(1);
+                        Translate::make()
+                            ->schema([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->label(__('filament.side_navigation.form.name'))
+                                    ->string(),
+                            ])->locales(config('app.available_locales')),
+                    ]),
+
+            ]);
     }
 
     public static function table(Table $table): Table

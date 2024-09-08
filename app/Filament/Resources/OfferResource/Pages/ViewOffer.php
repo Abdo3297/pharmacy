@@ -6,6 +6,7 @@ use App\Filament\Resources\OfferResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ViewOffer extends ViewRecord
 {
@@ -17,5 +18,10 @@ class ViewOffer extends ViewRecord
             EditAction::make(),
             DeleteAction::make(),
         ];
+    }
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.offer_navigation.view');
     }
 }

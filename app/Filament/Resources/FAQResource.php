@@ -7,6 +7,7 @@ use App\Filament\Resources\FaqResource\Pages\EditFaq;
 use App\Filament\Resources\FaqResource\Pages\ListFaqs;
 use App\Filament\Resources\FaqResource\Pages\ViewFaq;
 use App\Models\Faq;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -39,18 +40,22 @@ class FaqResource extends Resource
     {
         return $form
             ->schema([
-                Translate::make()
+                Section::make(__('filament.faq_navigation.form.info'))
                     ->schema([
-                        Textarea::make('question')
-                            ->label(__('filament.faq_navigation.form.question'))
-                            ->required()
-                            ->string(),
-                        Textarea::make('answer')
-                            ->label(__('filament.faq_navigation.form.answer'))
-                            ->required()
-                            ->string(),
-                    ])->locales(config('app.available_locales')),
-            ])->columns(1);
+                        Translate::make()
+                            ->schema([
+                                Textarea::make('question')
+                                    ->label(__('filament.faq_navigation.form.question'))
+                                    ->required()
+                                    ->string(),
+                                Textarea::make('answer')
+                                    ->label(__('filament.faq_navigation.form.answer'))
+                                    ->required()
+                                    ->string(),
+                            ])->locales(config('app.available_locales')),
+                    ]),
+
+            ]);
     }
 
     public static function table(Table $table): Table

@@ -31,8 +31,8 @@ class ProductsRelationManager extends RelationManager
                                             TextInput::make('name'),
                                         ])->locales(config('app.available_locales')),
                                     TextInput::make('quantity'),
-                                    TextInput::make('unit_price')->prefix('USD'),
-                                    TextInput::make('total_price')->prefix('USD'),
+                                    TextInput::make('unit_price')->prefix(config('pharmacy.currency-prefix')),
+                                    TextInput::make('total_price')->prefix(config('pharmacy.currency-prefix')),
                                 ]),
                         ]),
                 ])->columnSpanFull(),
@@ -46,8 +46,8 @@ class ProductsRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('quantity'),
-                TextColumn::make('unit_price')->money('USD'),
-                TextColumn::make('total_price')->money('USD'),
+                TextColumn::make('unit_price')->prefix(config('pharmacy.currency-prefix')),
+                TextColumn::make('total_price')->prefix(config('pharmacy.currency-prefix')),
             ])
             ->actions([
                 ViewAction::make(),

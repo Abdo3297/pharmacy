@@ -16,18 +16,13 @@ return [
         ],
     ],
     'user_navigation' => [
-
         'resource' => 'Users',
-
         'list' => 'Users',
-
         'view' => 'User',
-
         'widget' => [
             'orders' => 'Orders',
             'favourites' => 'Favourites',
         ],
-
         'table' => [
             'name' => 'Name',
             'email' => 'Email',
@@ -36,7 +31,6 @@ return [
             'gender' => 'Gender',
             'export' => 'Export',
         ],
-
         'form' => [
             'name' => 'Name',
             'email' => 'Email',
@@ -45,7 +39,6 @@ return [
             'gender' => 'Gender',
             'info' => 'User Information',
         ],
-
         'relation' => [
             'orders' => [
                 'form' => [
@@ -88,33 +81,49 @@ return [
         ],
     ],
     'category_navigation' => [
-
         'resource' => 'Categories',
-
         'list' => 'Categories',
-
         'create' => 'Create Category',
-
         'edit' => 'Edit Category',
-
         'view' => 'Category',
-
         'widget' => [
             'total_product_category' => 'Total Products in this Category',
         ],
-
         'table' => [
             'name' => 'Name',
             'image' => 'Image',
             'export' => 'Export',
         ],
-
         'form' => [
             'name' => 'Name',
             'image' => 'Image',
             'info' => 'Category Details',
         ],
-
+        'relation' => [
+            'products' => [
+                'form' => [
+                    'info' => 'Product Details',
+                    'name' => 'Name',
+                    'description' => 'Description',
+                    'image' => 'Image',
+                    'barcode' => 'Barcode',
+                    'stock' => 'Stock',
+                    'alert' => 'Alert',
+                    'unit_price' => 'Unit Price',
+                    'no_units' => 'No Units',
+                ],
+                'table' => [
+                    'name' => 'Name',
+                    'description' => 'Description',
+                    'image' => 'Image',
+                    'barcode' => 'Barcode',
+                    'stock' => 'Stock',
+                    'alert' => 'Alert',
+                    'unit_price' => 'Unit Price',
+                    'no_units' => 'No Units',
+                ],
+            ],
+        ],
     ],
     'product_navigation' => [
 
@@ -322,6 +331,7 @@ return [
         ],
         'form' => [
             'content' => 'Content',
+            'info' => 'About Information',
         ],
     ],
     'faq_navigation' => [
@@ -337,6 +347,7 @@ return [
         'form' => [
             'question' => 'Question',
             'answer' => 'Answer',
+            'info' => 'Faq Information',
         ],
     ],
     'privacy_navigation' => [
@@ -350,6 +361,7 @@ return [
         ],
         'form' => [
             'content' => 'Content',
+            'info' => 'Privacy Information',
         ],
     ],
     'term_navigation' => [
@@ -365,6 +377,50 @@ return [
         'form' => [
             'key' => 'Key',
             'value' => 'Value',
+            'info' => 'Term Information',
+        ],
+    ],
+    'offer_navigation' => [
+        'resource' => 'Offers',
+        'list' => 'Offers',
+        'create' => 'Create Offer',
+        'edit' => 'Edit Offer',
+        'view' => 'Offer',
+        'table' => [
+            'name' => 'Name',
+            'discount_type' => 'Discount Type',
+            'discount_value' => 'Discount Value',
+            'start_date' => 'Start Date',
+            'end_date' => 'End Date',
+        ],
+        'form' => [
+            'info' => 'Offer Information',
+            'name' => 'Name',
+            'discount_type' => 'Discount Type',
+            'discount_value' => 'Discount Value',
+            'start_date' => 'Start Date',
+            'end_date' => 'End Date',
+            'products' => 'Products',
+        ],
+    ],
+    'order_navigation' => [
+        'resource' => 'Orders',
+        'list' => 'Orders',
+        'view' => 'Order',
+        'table' => [
+            'user' => 'User',
+            'total_amount' => 'Total Amount',
+            'payment_id' => 'Payment Id',
+            'payment_status' => 'Payment Status',
+            'payment_type' => 'Payment Type',
+        ],
+        'form' => [
+            'info' => 'Order Information',
+            'user' => 'User',
+            'total_amount' => 'Total Amount',
+            'payment_id' => 'Payment Id',
+            'payment_status' => 'Payment Status',
+            'payment_type' => 'Payment Type',
         ],
     ],
 ];

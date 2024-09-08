@@ -24,8 +24,8 @@ class FavouritesRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Wizard::make([
-                    Step::make(__('filament.user_navigation.relation.favourites.form.info'))
+                
+                    Section::make(__('filament.user_navigation.relation.favourites.form.info'))
                         ->schema([
                             Section::make()
                                 ->schema([
@@ -47,12 +47,12 @@ class FavouritesRelationManager extends RelationManager
                                         ->label(__('filament.user_navigation.relation.favourites.form.alert')),
                                     TextInput::make('unit_price')
                                         ->label(__('filament.user_navigation.relation.favourites.form.unit_price'))
-                                        ->prefix('$'),
+                                        ->prefix(config('pharmacy.currency-prefix')),
                                     TextInput::make('no_units')
                                         ->label(__('filament.user_navigation.relation.favourites.form.no_units')),
                                 ]),
                         ]),
-                ])->columnSpanFull(),
+                
             ]);
     }
 
@@ -77,7 +77,7 @@ class FavouritesRelationManager extends RelationManager
                     ->label(__('filament.user_navigation.relation.favourites.table.alert')),
                 TextColumn::make('unit_price')
                     ->label(__('filament.user_navigation.relation.favourites.table.unit_price'))
-                    ->money('USD'),
+                    ->prefix(config('pharmacy.currency-prefix')),
                 TextColumn::make('no_units')
                     ->label(__('filament.user_navigation.relation.favourites.table.no_units')),
             ])

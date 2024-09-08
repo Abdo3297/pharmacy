@@ -26,6 +26,7 @@
         "laravel/tinker": "^2.9",
         "laraveldaily/laravel-invoices": "4.0",
         "leandrocfe/filament-apex-charts": "^3.1",
+        "nafezly/payments": "^2.7",
         "owenvoke/blade-fontawesome": "^2.6",
         "propaganistas/laravel-phone": "^5.3",
         "solution-forest/filament-translate-field": "^1.2",

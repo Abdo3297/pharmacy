@@ -7,6 +7,7 @@ use App\Filament\Resources\PrivacyResource\Pages\EditPrivacy;
 use App\Filament\Resources\PrivacyResource\Pages\ListPrivacies;
 use App\Filament\Resources\PrivacyResource\Pages\ViewPrivacy;
 use App\Models\Privacy;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -37,14 +38,17 @@ class PrivacyResource extends Resource
     {
         return $form
             ->schema([
-                Translate::make()
+                Section::make(__('filament.privacy_navigation.form.info'))
                     ->schema([
-                        Textarea::make('content')
-                            ->label(__('filament.privacy_navigation.form.content'))
-                            ->required()
-                            ->string(),
-                    ])->locales(config('app.available_locales')),
-            ])->columns(1);
+                        Translate::make()
+                            ->schema([
+                                Textarea::make('content')
+                                    ->label(__('filament.privacy_navigation.form.content'))
+                                    ->required()
+                                    ->string(),
+                            ])->locales(config('app.available_locales')),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table

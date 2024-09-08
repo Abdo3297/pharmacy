@@ -11,8 +11,6 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\ViewAction;
@@ -28,24 +26,37 @@ class OrderResource extends Resource
 
     protected static ?int $navigationSort = 7;
 
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.order_navigation.resource');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Wizard::make([
-                    Step::make('Order Details')
-                        ->schema([
-                            Section::make()
-                                ->schema([
-                                    Select::make('user_id')
-                                        ->relationship('user', 'name'),
-                                    TextInput::make('total_amount')->prefix('$'),
-                                    TextInput::make('payment_type'),
-                                    TextInput::make('payment_id'),
-                                    ToggleButtons::make('payment_status')->boolean()->inline(),
-                                ]),
-                        ]),
-                ])->columnSpanFull(),
+
+                Section::make(__('filament.order_navigation.form.info'))
+                    ->schema([
+                        Section::make()
+                            ->schema([
+                                Select::make('user_id')
+                                    ->label(__('filament.order_navigation.form.user'))
+                                    ->relationship('user', 'name'),
+                                TextInput::make('total_amount')
+                                    ->label(__('filament.order_navigation.form.total_amount'))
+                                    ->prefix(config('pharmacy.currency-prefix')),
+                                TextInput::make('payment_type')
+                                    ->label(__('filament.order_navigation.form.payment_type')),
+                                TextInput::make('payment_id')
+                                    ->label(__('filament.order_navigation.form.payment_id')),
+                                ToggleButtons::make('payment_status')
+                                    ->label(__('filament.order_navigation.form.payment_status'))
+                                    ->boolean()
+                                    ->inline(),
+                            ]),
+                    ]),
+
             ]);
     }
 
@@ -53,16 +64,21 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.name'),
+                TextColumn::make('user.name')
+                    ->label(__('filament.order_navigation.table.user')),
                 TextColumn::make('total_amount')
-                    ->money('USD')
+                    ->label(__('filament.order_navigation.table.total_amount'))
+                    ->prefix(config('pharmacy.currency-prefix'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('payment_id')
+                    ->label(__('filament.order_navigation.table.payment_id'))
                     ->searchable(),
                 IconColumn::make('payment_status')
+                    ->label(__('filament.order_navigation.table.payment_status'))
                     ->boolean(),
                 TextColumn::make('payment_type')
+                    ->label(__('filament.order_navigation.table.payment_type'))
                     ->searchable(),
             ])
             ->headerActions([

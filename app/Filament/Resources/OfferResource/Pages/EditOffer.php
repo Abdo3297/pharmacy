@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class EditOffer extends EditRecord
 {
@@ -31,5 +32,10 @@ class EditOffer extends EditRecord
             ->success()
             ->title('Offer edited')
             ->body('The Offer has been edited successfully.');
+    }
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('filament.offer_navigation.edit');
     }
 }

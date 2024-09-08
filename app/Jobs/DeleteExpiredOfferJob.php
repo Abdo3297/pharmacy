@@ -29,7 +29,8 @@ class DeleteExpiredOfferJob implements ShouldQueue
     {
         $offers = Offer::all();
         foreach ($offers as $offer) {
-            if (Carbon::parse($offer->end_date)->diffInMinutes(Carbon::now()) == 0) {
+            $endDate = Carbon::parse($offer->end_date);
+            if (Carbon::now()->greaterThanOrEqualTo($endDate)) {
                 $offer->delete();
             }
         }

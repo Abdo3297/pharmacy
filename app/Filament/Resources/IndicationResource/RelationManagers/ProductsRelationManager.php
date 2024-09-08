@@ -76,7 +76,7 @@ class ProductsRelationManager extends RelationManager
                                 ->label(__('filament.indication_navigation.relation.products.form.unit_price'))
                                 ->numeric()
                                 ->minValue(0)
-                                ->prefix('$')
+                                ->prefix(config('pharmacy.currency-prefix'))
                                 ->rules(['required', 'numeric', 'min:0']),
                             TextInput::make('no_units')
                                 ->required()
@@ -109,7 +109,7 @@ class ProductsRelationManager extends RelationManager
                     ->label(__('filament.indication_navigation.relation.products.table.stock')),
                 TextColumn::make('alert')
                     ->label(__('filament.indication_navigation.relation.products.table.alert')),
-                TextColumn::make('unit_price')->money('USD')
+                TextColumn::make('unit_price')->prefix(config('pharmacy.currency-prefix'))
                     ->label(__('filament.indication_navigation.relation.products.table.unit_price')),
                 TextColumn::make('no_units')
                     ->label(__('filament.indication_navigation.relation.products.table.no_units')),

@@ -16,18 +16,13 @@ return [
         ],
     ],
     'user_navigation' => [
-
         'resource' => 'المستخدمين',
-
         'list' => 'المستخدمين',
-
         'view' => 'المستخدم',
-
         'widget' => [
             'orders' => 'الطلبات',
             'favourites' => 'المنتجات المفضلة',
         ],
-
         'table' => [
             'name' => 'الإسم',
             'email' => 'الإيميل',
@@ -36,7 +31,6 @@ return [
             'gender' => 'النوع',
             'export' => 'تصدير',
         ],
-
         'form' => [
             'name' => 'الإسم',
             'email' => 'الإيميل',
@@ -45,7 +39,6 @@ return [
             'gender' => 'النوع',
             'info' => 'معلومات المستخدم',
         ],
-
         'relation' => [
             'orders' => [
                 'form' => [
@@ -88,31 +81,48 @@ return [
         ],
     ],
     'category_navigation' => [
-
         'resource' => 'الفئات',
-
         'list' => 'الفئات',
-
         'create' => 'إضافة فئة',
-
         'edit' => 'تعديل الفئة',
-
         'view' => 'الفئة',
-
         'widget' => [
             'total_product_category' => 'عدد المنتجات فى الفئة',
         ],
-
         'table' => [
             'name' => 'الإسم',
             'image' => 'الصورة',
             'export' => 'تصدير',
         ],
-
         'form' => [
             'name' => 'الاسم',
             'image' => 'الصورة',
             'info' => 'تفاصيل الفئة',
+        ],
+        'relation' => [
+            'products' => [
+                'form' => [
+                    'info' => 'تفاصيل المنتج',
+                    'name' => 'الإسم',
+                    'description' => 'الوصف',
+                    'image' => 'الصورة',
+                    'barcode' => 'الباركود',
+                    'stock' => 'الكمية المخزنة',
+                    'alert' => 'أبلغني عند',
+                    'unit_price' => 'سعر الوحدة',
+                    'no_units' => 'عدد الوحدات',
+                ],
+                'table' => [
+                    'name' => 'الإسم',
+                    'description' => 'الوصف',
+                    'image' => 'الصورة',
+                    'barcode' => 'الباركود',
+                    'stock' => 'الكمية المخزنة',
+                    'alert' => 'أبلغني عند',
+                    'unit_price' => 'سعر الوحدة',
+                    'no_units' => 'عدد الوحدات',
+                ],
+            ],
         ],
     ],
     'product_navigation' => [
@@ -321,6 +331,7 @@ return [
         ],
         'form' => [
             'content' => 'المحتوي',
+            'info' => 'معلومات المحتوي',
         ],
     ],
     'faq_navigation' => [
@@ -336,6 +347,7 @@ return [
         'form' => [
             'question' => 'السؤال',
             'answer' => 'الجواب',
+            'info' => 'معلومات الأسئلة الأكثر شيوعا',
         ],
     ],
     'privacy_navigation' => [
@@ -349,6 +361,7 @@ return [
         ],
         'form' => [
             'content' => 'المحتوي',
+            'info' => 'معلومات الخصوصية',
         ],
     ],
     'term_navigation' => [
@@ -364,6 +377,50 @@ return [
         'form' => [
             'key' => 'الحقل',
             'value' => 'القيمة',
+            'info' => 'معلومات الشروط والأحكام',
+        ],
+    ],
+    'offer_navigation' => [
+        'resource' => 'العروض',
+        'list' => 'العروض',
+        'create' => 'إنشاء عرض',
+        'edit' => 'تعديل عرض',
+        'view' => 'العرض',
+        'table' => [
+            'name' => 'الإسم',
+            'discount_type' => 'نوع الخصم',
+            'discount_value' => 'قيمة الخصم',
+            'start_date' => 'تاريخ البدء',
+            'end_date' => 'تاريخ الإنتهاء',
+        ],
+        'form' => [
+            'info' => 'معلومات العرض',
+            'name' => 'الإسم',
+            'discount_type' => 'نوع الخصم',
+            'discount_value' => 'قيمة الخصم',
+            'start_date' => 'تاريخ البدء',
+            'end_date' => 'تاريخ الإنتهاء',
+            'products' => 'المنتجات',
+        ],
+    ],
+    'order_navigation' => [
+        'resource' => 'الطلبات',
+        'list' => 'الطلبات',
+        'view' => 'الطلب',
+        'table' => [
+            'user' => 'المستخدم',
+            'total_amount' => 'المبلغ الكلي',
+            'payment_id' => 'رقم العملية',
+            'payment_status' => 'حالة العملية',
+            'payment_type' => 'نوع العملية',
+        ],
+        'form' => [
+            'info' => 'معلومات الطلب',
+            'user' => 'المستخدم',
+            'total_amount' => 'المبلغ الكلي',
+            'payment_id' => 'رقم العملية',
+            'payment_status' => 'حالة العملية',
+            'payment_type' => 'نوع العملية',
         ],
     ],
 ];

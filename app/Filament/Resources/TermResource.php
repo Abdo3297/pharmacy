@@ -7,6 +7,7 @@ use App\Filament\Resources\TermResource\Pages\EditTerm;
 use App\Filament\Resources\TermResource\Pages\ListTerms;
 use App\Filament\Resources\TermResource\Pages\ViewTerm;
 use App\Models\Term;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -37,18 +38,21 @@ class TermResource extends Resource
     {
         return $form
             ->schema([
-                Translate::make()
+                Section::make(__('filament.term_navigation.form.info'))
                     ->schema([
-                        Textarea::make('key')
-                            ->label(__('filament.term_navigation.form.key'))
-                            ->required()
-                            ->string(),
-                        Textarea::make('value')
-                            ->label(__('filament.term_navigation.form.value'))
-                            ->required()
-                            ->string(),
-                    ])->locales(config('app.available_locales')),
-            ])->columns(1);
+                        Translate::make()
+                            ->schema([
+                                Textarea::make('key')
+                                    ->label(__('filament.term_navigation.form.key'))
+                                    ->required()
+                                    ->string(),
+                                Textarea::make('value')
+                                    ->label(__('filament.term_navigation.form.value'))
+                                    ->required()
+                                    ->string(),
+                            ])->locales(config('app.available_locales')),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table

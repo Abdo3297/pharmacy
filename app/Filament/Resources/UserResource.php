@@ -11,8 +11,6 @@ use App\Filament\Resources\UserResource\Widgets\UserOrdersFavs;
 use App\Models\User;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\ViewAction;
@@ -37,18 +35,13 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Wizard::make([
-                    Step::make(__('filament.user_navigation.form.info'))
-                        ->schema([
-                            Section::make()
-                                ->schema([
-                                    TextInput::make('name')->label(__('filament.user_navigation.form.name')),
-                                    TextInput::make('email')->label(__('filament.user_navigation.form.email')),
-                                    TextInput::make('phone')->label(__('filament.user_navigation.form.phone')),
-                                    TextInput::make('gender')->label(__('filament.user_navigation.form.gender')),
-                                ])->columns(2),
-                        ]),
-                ])->columnSpanFull(),
+                Section::make(__('filament.user_navigation.form.info'))
+                    ->schema([
+                        TextInput::make('name')->label(__('filament.user_navigation.form.name')),
+                        TextInput::make('email')->label(__('filament.user_navigation.form.email')),
+                        TextInput::make('phone')->label(__('filament.user_navigation.form.phone')),
+                        TextInput::make('gender')->label(__('filament.user_navigation.form.gender')),
+                    ])->columns(2),
             ]);
     }
 

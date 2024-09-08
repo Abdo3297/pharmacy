@@ -18,12 +18,11 @@ use App\Models\Product;
 use App\Models\Side;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -54,148 +53,148 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Wizard::make([
-                    Step::make(__('filament.product_navigation.form.info'))
-                        ->schema([
-                            Translate::make()
-                                ->schema([
-                                    TextInput::make('name')
-                                        ->required()
-                                        ->label(__('filament.product_navigation.form.name'))
-                                        ->string()
-                                        ->rules(['required', 'string']),
-                                    Textarea::make('description')
-                                        ->required()
-                                        ->label(__('filament.product_navigation.form.desc'))
-                                        ->string()
-                                        ->rules(['required', 'string']),
-                                ])->locales(config('app.available_locales')),
 
-                            SpatieMediaLibraryFileUpload::make('image')
-                                ->required()
-                                ->label(__('filament.product_navigation.form.image'))
-                                ->image()
-                                ->rules(['image'])
-                                ->collection('productImages'),
+                Section::make(__('filament.product_navigation.form.info'))
+                    ->schema([
+                        Translate::make()
+                            ->schema([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->label(__('filament.product_navigation.form.name'))
+                                    ->string()
+                                    ->rules(['required', 'string']),
+                                Textarea::make('description')
+                                    ->required()
+                                    ->label(__('filament.product_navigation.form.desc'))
+                                    ->string()
+                                    ->rules(['required', 'string']),
+                            ])->locales(config('app.available_locales')),
 
-                            TextInput::make('barcode')
-                                ->label(__('filament.product_navigation.form.barcode'))
-                                ->required()
-                                ->string()
-                                ->rules(['required', 'string', 'size:10']),
-                            TextInput::make('stock')
-                                ->required()
-                                ->label(__('filament.product_navigation.form.stock'))
-                                ->integer()
-                                ->rules(['required', 'integer']),
-                            TextInput::make('alert')
-                                ->required()
-                                ->label(__('filament.product_navigation.form.alert'))
-                                ->integer()
-                                ->lt('stock')
-                                ->rules(['required', 'integer']),
-                            TextInput::make('unit_price')
-                                ->required()
-                                ->label(__('filament.product_navigation.form.unit_price'))
-                                ->numeric()
-                                ->minValue(0)
-                                ->prefix('$')
-                                ->rules(['required', 'numeric', 'min:0']),
-                            TextInput::make('no_units')
-                                ->required()
-                                ->label(__('filament.product_navigation.form.no_units'))
-                                ->integer()
-                                ->minValue(1)
-                                ->rules(['required', 'integer', 'min:1']),
-                        ])->columns(2),
-                    Step::make(__('filament.product_navigation.relation.categories.form.info'))
-                        ->schema([
-                            Select::make('categories')
-                                ->label(__('filament.product_navigation.relation.categories.form.name'))
-                                ->relationship('categories', 'name')
-                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
-                                ->multiple()
-                                ->required()
-                                ->preload()
-                                ->searchable()
-                                ->hintAction(
-                                    fn (Select $component) => Action::make('select all')
-                                        ->action(fn () => $component->state(Category::pluck('id')->toArray()))
-                                )
-                                ->createOptionForm([
-                                    TextInput::make('name')
-                                        ->required()
-                                        ->string(),
-                                    SpatieMediaLibraryFileUpload::make('image')
-                                        ->required()
-                                        ->image()
-                                        ->collection('categoryImages'),
-                                ]),
-                        ]),
-                    Step::make(__('filament.product_navigation.relation.sideffects.form.info'))
-                        ->schema([
-                            Select::make('sideEffects')
-                                ->label(__('filament.product_navigation.relation.sideffects.form.name'))
-                                ->multiple()
-                                ->preload()
-                                ->searchable()
-                                ->relationship('sideEffects', 'name')
-                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
-                                ->hintAction(
-                                    fn (Select $component) => Action::make('select all')
-                                        ->action(fn () => $component->state(Side::pluck('id')->toArray()))
-                                )
-                                ->createOptionForm([
-                                    TextInput::make('name')
-                                        ->required()
-                                        ->string()
-                                        ->rules(['required', 'string']),
-                                ]),
-                        ]),
-                    Step::make(__('filament.product_navigation.relation.indications.form.info'))
-                        ->schema([
-                            Select::make('indications')
-                                ->label(__('filament.product_navigation.relation.indications.form.name'))
-                                ->multiple()
-                                ->preload()
-                                ->searchable()
-                                ->relationship('indications', 'name')
-                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
-                                ->hintAction(
-                                    fn (Select $component) => Action::make('select all')
-                                        ->action(fn () => $component->state(Indication::pluck('id')->toArray()))
-                                )
-                                ->createOptionForm([
-                                    TextInput::make('name')
-                                        ->required()
-                                        ->string()
-                                        ->rules(['required', 'string']),
-                                ]),
-                        ]),
-                    Step::make(__('filament.product_navigation.relation.offers.form.info'))
-                        ->schema([
-                            Select::make('Offer')
-                                ->label(__('filament.product_navigation.relation.offers.form.name'))
-                                ->preload()
-                                ->searchable()
-                                ->relationship('offers', 'name')
-                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
-                                ->createOptionForm([
-                                    TextInput::make('name')
-                                        ->required()
-                                        ->string(),
-                                    Select::make('discount_type')
-                                        ->required()
-                                        ->options(DiscounType::class),
-                                    TextInput::make('discount_value')
-                                        ->required()
-                                        ->rules(['numeric', 'max:100']),
-                                    DateTimePicker::make('start_date')->required(),
-                                    DateTimePicker::make('end_date')->required()->after('start_date'),
+                        SpatieMediaLibraryFileUpload::make('image')
+                            ->required()
+                            ->label(__('filament.product_navigation.form.image'))
+                            ->image()
+                            ->rules(['image'])
+                            ->collection('productImages'),
 
-                                ]),
-                        ]),
-                ])->columnSpanFull(),
+                        TextInput::make('barcode')
+                            ->label(__('filament.product_navigation.form.barcode'))
+                            ->required()
+                            ->string()
+                            ->rules(['required', 'string', 'size:10']),
+                        TextInput::make('stock')
+                            ->required()
+                            ->label(__('filament.product_navigation.form.stock'))
+                            ->integer()
+                            ->rules(['required', 'integer']),
+                        TextInput::make('alert')
+                            ->required()
+                            ->label(__('filament.product_navigation.form.alert'))
+                            ->integer()
+                            ->lt('stock')
+                            ->rules(['required', 'integer']),
+                        TextInput::make('unit_price')
+                            ->required()
+                            ->label(__('filament.product_navigation.form.unit_price'))
+                            ->numeric()
+                            ->minValue(0)
+                            ->prefix(config('pharmacy.currency-prefix'))
+                            ->rules(['required', 'numeric', 'min:0']),
+                        TextInput::make('no_units')
+                            ->required()
+                            ->label(__('filament.product_navigation.form.no_units'))
+                            ->integer()
+                            ->minValue(1)
+                            ->rules(['required', 'integer', 'min:1']),
+                    ])->columns(2),
+                Section::make(__('filament.product_navigation.relation.categories.form.info'))
+                    ->schema([
+                        Select::make('categories')
+                            ->label(__('filament.product_navigation.relation.categories.form.name'))
+                            ->relationship('categories', 'name')
+                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                            ->multiple()
+                            ->required()
+                            ->preload()
+                            ->searchable()
+                            ->hintAction(
+                                fn (Select $component) => Action::make('select all')
+                                    ->action(fn () => $component->state(Category::pluck('id')->toArray()))
+                            )
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->string(),
+                                SpatieMediaLibraryFileUpload::make('image')
+                                    ->required()
+                                    ->image()
+                                    ->collection('categoryImages'),
+                            ]),
+                    ]),
+                Section::make(__('filament.product_navigation.relation.sideffects.form.info'))
+                    ->schema([
+                        Select::make('sideEffects')
+                            ->label(__('filament.product_navigation.relation.sideffects.form.name'))
+                            ->multiple()
+                            ->preload()
+                            ->searchable()
+                            ->relationship('sideEffects', 'name')
+                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                            ->hintAction(
+                                fn (Select $component) => Action::make('select all')
+                                    ->action(fn () => $component->state(Side::pluck('id')->toArray()))
+                            )
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->string()
+                                    ->rules(['required', 'string']),
+                            ]),
+                    ]),
+                Section::make(__('filament.product_navigation.relation.indications.form.info'))
+                    ->schema([
+                        Select::make('indications')
+                            ->label(__('filament.product_navigation.relation.indications.form.name'))
+                            ->multiple()
+                            ->preload()
+                            ->searchable()
+                            ->relationship('indications', 'name')
+                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                            ->hintAction(
+                                fn (Select $component) => Action::make('select all')
+                                    ->action(fn () => $component->state(Indication::pluck('id')->toArray()))
+                            )
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->string()
+                                    ->rules(['required', 'string']),
+                            ]),
+                    ]),
+                Section::make(__('filament.product_navigation.relation.offers.form.info'))
+                    ->schema([
+                        Select::make('Offer')
+                            ->label(__('filament.product_navigation.relation.offers.form.name'))
+                            ->preload()
+                            ->searchable()
+                            ->relationship('offers', 'name')
+                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->string(),
+                                Select::make('discount_type')
+                                    ->required()
+                                    ->options(DiscounType::class),
+                                TextInput::make('discount_value')
+                                    ->required()
+                                    ->rules(['numeric', 'max:100']),
+                                DateTimePicker::make('start_date')->required(),
+                                DateTimePicker::make('end_date')->required()->after('start_date'),
+
+                            ]),
+                    ]),
+
             ]);
     }
 
@@ -223,7 +222,7 @@ class ProductResource extends Resource
                     ->label(__('filament.product_navigation.table.alert')),
                 TextColumn::make('unit_price')
                     ->label(__('filament.product_navigation.table.unit_price'))
-                    ->money('USD')
+                    ->prefix(config('pharmacy.currency-prefix'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('no_units')

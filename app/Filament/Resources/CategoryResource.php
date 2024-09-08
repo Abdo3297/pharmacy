@@ -10,10 +10,9 @@ use App\Filament\Resources\CategoryResource\Pages\ViewCategory;
 use App\Filament\Resources\CategoryResource\RelationManagers\ProductsRelationManager;
 use App\Filament\Resources\CategoryResource\Widgets\CategoryProductNumber;
 use App\Models\Category;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -44,23 +43,23 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                Wizard::make([
-                    Step::make(__('filament.category_navigation.form.info'))
-                        ->schema([
-                            Translate::make()
-                                ->schema([
-                                    TextInput::make('name')
-                                        ->label(__('filament.category_navigation.form.name'))
-                                        ->required()
-                                        ->string(),
-                                ])->locales(config('app.available_locales')),
-                            SpatieMediaLibraryFileUpload::make('image')
-                                ->label(__('filament.category_navigation.form.image'))
-                                ->required()
-                                ->image()
-                                ->collection('categoryImages'),
-                        ]),
-                ])->columnSpanFull(),
+
+                Section::make(__('filament.category_navigation.form.info'))
+                    ->schema([
+                        Translate::make()
+                            ->schema([
+                                TextInput::make('name')
+                                    ->label(__('filament.category_navigation.form.name'))
+                                    ->required()
+                                    ->string(),
+                            ])->locales(config('app.available_locales')),
+                        SpatieMediaLibraryFileUpload::make('image')
+                            ->label(__('filament.category_navigation.form.image'))
+                            ->required()
+                            ->image()
+                            ->collection('categoryImages'),
+                    ]),
+
             ]);
     }
 

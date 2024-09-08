@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests\Api;
 
-use Illuminate\Contracts\Validation\Validator;
-
 class loginRequest extends customRequest
 {
     /**
@@ -23,29 +21,11 @@ class loginRequest extends customRequest
     {
         return [
             'email' => [
-                'nullable',
+                'required',
                 'email',
-                'string',
-            ],
-            'phone' => [
-                'nullable',
                 'string',
             ],
             'password' => ['required', 'string'],
         ];
-    }
-
-    protected function withValidator(Validator $validator)
-    {
-        $validator->after(function ($validator) {
-            if (! $this->filled('email') && ! $this->hasFile('phone')) {
-                $validator->errors()->add('email', 'Either email or phone must be provided.');
-                $validator->errors()->add('phone', 'Either email or phone must be provided.');
-            }
-            if ($this->filled('email') && $this->filled('phone')) {
-                $validator->errors()->add('email', 'only one of email or phone must be provided.');
-                $validator->errors()->add('phone', 'only one of email or phone must be provided.');
-            }
-        });
     }
 }

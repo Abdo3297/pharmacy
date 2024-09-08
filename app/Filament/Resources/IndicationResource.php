@@ -8,6 +8,7 @@ use App\Filament\Resources\IndicationResource\Pages\ListIndications;
 use App\Filament\Resources\IndicationResource\Pages\ViewIndication;
 use App\Filament\Resources\IndicationResource\RelationManagers\ProductsRelationManager;
 use App\Models\Indication;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -38,14 +39,18 @@ class IndicationResource extends Resource
     {
         return $form
             ->schema([
-                Translate::make()
+                Section::make(__('filament.indication_navigation.form.info'))
                     ->schema([
-                        TextInput::make('name')
-                            ->required()
-                            ->label(__('filament.indication_navigation.form.name'))
-                            ->string(),
-                    ])->locales(config('app.available_locales')),
-            ])->columns(1);
+                        Translate::make()
+                            ->schema([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->label(__('filament.indication_navigation.form.name'))
+                                    ->string(),
+                            ])->locales(config('app.available_locales')),
+                    ]),
+
+            ]);
     }
 
     public static function table(Table $table): Table

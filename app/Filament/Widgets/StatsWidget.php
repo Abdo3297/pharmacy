@@ -34,7 +34,7 @@ class StatsWidget extends BaseWidget
                 ->when($start, fn ($query) => $query->whereDate('created_at', '>=', $start))
                 ->when($end, fn ($query) => $query->whereDate('created_at', '<=', $end))
                 ->count()),
-            Stat::make(__('filament.main_page.card.revenu'), '$ '.Order::where('payment_status', true)
+            Stat::make(__('filament.main_page.card.revenu'), '£'.' '.Order::where('payment_status', true)
                 ->when($start, fn ($query) => $query->whereDate('created_at', '>=', $start))
                 ->when($end, fn ($query) => $query->whereDate('created_at', '<=', $end))
                 ->sum('total_amount')),

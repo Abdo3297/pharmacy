@@ -6,6 +6,7 @@ use App\Filament\Resources\AboutResource\Pages\EditAbout;
 use App\Filament\Resources\AboutResource\Pages\ListAbouts;
 use App\Filament\Resources\AboutResource\Pages\ViewAbout;
 use App\Models\About;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -32,14 +33,18 @@ class AboutResource extends Resource
     {
         return $form
             ->schema([
-                Translate::make()
+                Section::make(__('filament.about_navigation.form.info'))
                     ->schema([
-                        Textarea::make('content')
-                            ->label(__('filament.about_navigation.form.content'))
-                            ->required()
-                            ->string(),
-                    ])->locales(config('app.available_locales')),
-            ])->columns(1);
+                        Translate::make()
+                            ->schema([
+                                Textarea::make('content')
+                                    ->label(__('filament.about_navigation.form.content'))
+                                    ->required()
+                                    ->string(),
+                            ])->locales(config('app.available_locales')),
+                    ]),
+
+            ]);
     }
 
     public static function table(Table $table): Table

@@ -58,7 +58,7 @@ class ProductsRelationManager extends RelationManager
                                 ->required()
                                 ->numeric()
                                 ->minValue(0)
-                                ->prefix('$')
+                                ->prefix(config('pharmacy.currency-prefix'))
                                 ->rules(['required', 'numeric', 'min:0']),
                             TextInput::make('no_units')
                                 ->required()
@@ -84,7 +84,7 @@ class ProductsRelationManager extends RelationManager
                 TextColumn::make('barcode'),
                 TextColumn::make('stock'),
                 TextColumn::make('alert'),
-                TextColumn::make('unit_price')->money('USD'),
+                TextColumn::make('unit_price')->prefix(config('pharmacy.currency-prefix')),
                 TextColumn::make('no_units'),
             ])
             ->headerActions([
